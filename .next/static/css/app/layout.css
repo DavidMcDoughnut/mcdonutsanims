@@ -505,6 +505,9 @@ video {
 .pointer-events-none {
   pointer-events: none;
 }
+.visible {
+  visibility: visible;
+}
 .fixed {
   position: fixed;
 }
@@ -524,8 +527,17 @@ video {
 .top-0 {
   top: 0px;
 }
+.z-50 {
+  z-index: 50;
+}
 .mt-\[4vh\] {
   margin-top: 4vh;
+}
+.mt-0 {
+  margin-top: 0px;
+}
+.mt-\[2vh\] {
+  margin-top: 2vh;
 }
 .flex {
   display: flex;
@@ -542,6 +554,9 @@ video {
 .min-h-\[150vh\] {
   min-height: 150vh;
 }
+.min-h-\[200vh\] {
+  min-height: 200vh;
+}
 .w-auto {
   width: auto;
 }
@@ -550,6 +565,17 @@ video {
 }
 .w-screen {
   width: 100vw;
+}
+.origin-top {
+  transform-origin: top;
+}
+.scale-50 {
+  --tw-scale-x: .5;
+  --tw-scale-y: .5;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.transform {
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 .justify-center {
   justify-content: center;
@@ -578,8 +604,19 @@ video {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
 .duration-100 {
   transition-duration: 100ms;
+}
+.duration-1000 {
+  transition-duration: 1000ms;
+}
+.ease-in-out {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 :root {
