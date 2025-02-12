@@ -16,28 +16,41 @@ const easeOutExpo = (x: number): number => {
 
 export default function Home() {
   const [animationData, setAnimationData] = useState<any>(null);
-  const [paintData, setPaintData] = useState<any>(null);
+  const [sketchData, setSketchData] = useState<any>(null);
+  const [script2Data, setScript2Data] = useState<any>(null);
   const [error, setError] = useState<string>('');
   const [opacity, setOpacity] = useState(1);
-  const paintRef = useRef<LottieRefCurrentProps>(null);
+  const sketchRef = useRef<LottieRefCurrentProps>(null);
+  const script2Ref = useRef<LottieRefCurrentProps>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       const windowHeight = window.innerHeight;
-      // Calculate linear progress
-      const linearProgress = Math.min(1, scrollPosition / (windowHeight * 0.5));
-      // Apply easing to the progress
-      const easedProgress = easeOutExpo(linearProgress);
-      // Calculate opacity with easing
+      
+      // Calculate opacity progress (over half viewport)
+      const opacityProgress = Math.min(1, scrollPosition / (windowHeight * 0.5));
+      const easedProgress = easeOutExpo(opacityProgress);
       const newOpacity = Math.max(0, 1 - easedProgress);
       setOpacity(newOpacity);
 
-      // Update paint animation progress (keeping this linear)
-      if (paintRef.current?.animationItem) {
-        const totalFrames = paintRef.current.animationItem.totalFrames;
-        const currentFrame = Math.min(linearProgress * totalFrames, totalFrames);
-        paintRef.current.animationItem.goToAndStop(currentFrame, true);
+      // Update sketch animation progress (over full viewport)
+      if (sketchRef.current?.animationItem) {
+        const totalFrames = sketchRef.current.animationItem.totalFrames;
+        const sketchProgress = Math.min(1, scrollPosition / (windowHeight));
+        const currentFrame = Math.min(sketchProgress * totalFrames, totalFrames);
+        sketchRef.current.animationItem.goToAndStop(currentFrame, true);
+      }
+
+      // Update script2 animation progress (starting at 1/3 viewport height)
+      if (script2Ref.current?.animationItem) {
+        const totalFrames = script2Ref.current.animationItem.totalFrames;
+        // Calculate progress starting from 1/3 viewport height
+        const startScrollPoint = windowHeight / 3;
+        const adjustedScrollPosition = Math.max(0, scrollPosition - startScrollPoint);
+        const script2Progress = Math.min(1, adjustedScrollPosition / (windowHeight - startScrollPoint));
+        const currentFrame = Math.min(script2Progress * totalFrames, totalFrames);
+        script2Ref.current.animationItem.goToAndStop(currentFrame, true);
       }
     };
 
@@ -60,14 +73,23 @@ export default function Home() {
         const data = JSON.parse(text);
         setAnimationData(data);
 
-        // Load paint animation
-        const paintResponse = await fetch('/paint clean.json');
-        if (!paintResponse.ok) {
-          throw new Error(`HTTP error! status: ${paintResponse.status}`);
+        // Load sketch animation
+        const sketchResponse = await fetch('/sketch.json');
+        if (!sketchResponse.ok) {
+          throw new Error(`HTTP error! status: ${sketchResponse.status}`);
         }
-        const paintText = await paintResponse.text();
-        const paintData = JSON.parse(paintText);
-        setPaintData(paintData);
+        const sketchText = await sketchResponse.text();
+        const sketchData = JSON.parse(sketchText);
+        setSketchData(sketchData);
+
+        // Load script2 animation
+        const script2Response = await fetch('/script2.json');
+        if (!script2Response.ok) {
+          throw new Error(`HTTP error! status: ${script2Response.status}`);
+        }
+        const script2Text = await script2Response.text();
+        const script2Data = JSON.parse(script2Text);
+        setScript2Data(script2Data);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error loading animation';
         console.error('Error loading animation:', err);
@@ -79,7 +101,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="relative min-h-[150vh] w-full overflow-x-hidden">
+    <main className="relative min-h-[200vh] w-full overflow-x-hidden">
       {/* Background Image */}
       <div 
         className="fixed inset-x-0 top-0 h-screen bg-cover bg-top bg-no-repeat transition-opacity duration-100"
@@ -89,32 +111,24 @@ export default function Home() {
         }}
       />
       
-      {/* Lottie Animation */}
-      <div className="fixed w-full flex justify-center mt-[4vh]">
+      {/* Script1 Lottie Animation */}
+      <div className="fixed w-full flex justify-center mt-[2vh] transition-opacity duration-100">
         <div className="h-[20rem] w-auto">
           {error ? null : animationData && (
             <Lottie
               animationData={animationData}
               loop={false}
               autoplay={true}
-              style={{ height: '100%', width: 'auto' }}
+              style={{ 
+                height: '100%', 
+                width: 'auto',
+                opacity
+              }}
               rendererSettings={{
                 preserveAspectRatio: 'xMidYMid meet'
               }}
             />
           )}
-        </div>
-      </div>
-
-      {/* Static Image Overlay */}
-      <div className="fixed w-full flex justify-center mt-[4vh] transition-opacity duration-100">
-        <div className="h-[20rem] w-auto">
-          <img 
-            src="/script.png" 
-            alt="Script"
-            className="h-full w-auto"
-            style={{ opacity: 1 - opacity }}
-          />
         </div>
       </div>
 
@@ -127,14 +141,14 @@ export default function Home() {
         }}
       />
 
-      {/* Paint Animation Container */}
+      {/* Sketch Animation Container */}
       <div className="fixed inset-x-0 top-0 h-screen w-screen">
-        {/* Paint Lottie Animation */}
+        {/* Sketch Lottie Animation */}
         <div className="absolute inset-0 [&>div]:w-full [&>div]:h-full [&>div>svg]:w-full [&>div>svg]:h-full [&>div>svg]:object-cover">
-          {error ? null : paintData && (
+          {error ? null : sketchData && (
             <Lottie
-              lottieRef={paintRef}
-              animationData={paintData}
+              lottieRef={sketchRef}
+              animationData={sketchData}
               loop={false}
               autoplay={false}
               style={{ 
@@ -147,6 +161,28 @@ export default function Home() {
               }}
               rendererSettings={{
                 preserveAspectRatio: 'xMidYMin slice'
+              }}
+            />
+          )}
+        </div>
+      </div>
+
+      {/* Script2 Overlay (Topmost Layer) */}
+      <div className="fixed w-full flex justify-center mt-[2vh] transition-opacity duration-100 z-50">
+        <div className="h-[20rem] w-auto">
+          {error ? null : script2Data && (
+            <Lottie
+              lottieRef={script2Ref}
+              animationData={script2Data}
+              loop={false}
+              autoplay={false}
+              style={{ 
+                height: '100%', 
+                width: 'auto',
+                opacity: 1 - opacity
+              }}
+              rendererSettings={{
+                preserveAspectRatio: 'xMidYMid meet'
               }}
             />
           )}
