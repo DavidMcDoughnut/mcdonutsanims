@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import type { LottieRefCurrentProps } from 'lottie-react';
+import Image from 'next/image';
 
 // Dynamically import Lottie with SSR disabled
 const Lottie = dynamic(() => import('lottie-react'), {
@@ -20,6 +21,7 @@ export default function Home() {
   const [script2Data, setScript2Data] = useState<any>(null);
   const [error, setError] = useState<string>('');
   const [opacity, setOpacity] = useState(1);
+  const [heroBottomOpacity, setHeroBottomOpacity] = useState(0);
   const sketchRef = useRef<LottieRefCurrentProps>(null);
   const script2Ref = useRef<LottieRefCurrentProps>(null);
 
@@ -37,15 +39,25 @@ export default function Home() {
       // Update sketch animation progress (over full viewport)
       if (sketchRef.current?.animationItem) {
         const totalFrames = sketchRef.current.animationItem.totalFrames;
-        const sketchProgress = Math.min(1, scrollPosition / (windowHeight));
+        const sketchProgress = Math.min(1, scrollPosition / windowHeight);
         const currentFrame = Math.min(sketchProgress * totalFrames, totalFrames);
         sketchRef.current.animationItem.goToAndStop(currentFrame, true);
+
+        // Calculate hero bottom opacity
+        // Start fading in when we're 80% through the sketch animation
+        const fadeStartPoint = windowHeight * 0.8;
+        if (scrollPosition >= fadeStartPoint) {
+          const fadeDistance = windowHeight * 0.2; // Fade over the last 20% of the viewport
+          const fadeProgress = (scrollPosition - fadeStartPoint) / fadeDistance;
+          setHeroBottomOpacity(Math.min(1, fadeProgress));
+        } else {
+          setHeroBottomOpacity(0);
+        }
       }
 
       // Update script2 animation progress (starting at 1/3 viewport height)
       if (script2Ref.current?.animationItem) {
         const totalFrames = script2Ref.current.animationItem.totalFrames;
-        // Calculate progress starting from 1/3 viewport height
         const startScrollPoint = windowHeight / 3;
         const adjustedScrollPosition = Math.max(0, scrollPosition - startScrollPoint);
         const script2Progress = Math.min(1, adjustedScrollPosition / (windowHeight - startScrollPoint));
@@ -104,7 +116,7 @@ export default function Home() {
     <main className="relative min-h-[200vh] w-full overflow-x-hidden">
       {/* Background Image */}
       <div 
-        className="fixed inset-x-0 top-0 h-screen bg-cover bg-top bg-no-repeat transition-opacity duration-100"
+        className="fixed inset-x-0 top-0 h-screen bg-cover bg-top bg-no-repeat transition-opacity duration-100 z-0"
         style={{
           backgroundImage: 'url("/ve%20hero%20bg.png")',
           opacity
@@ -112,7 +124,7 @@ export default function Home() {
       />
       
       {/* Script1 Lottie Animation */}
-      <div className="fixed w-full flex justify-center mt-[2vh] transition-opacity duration-100">
+      <div className="fixed w-full flex justify-center mt-[2vh] transition-opacity duration-100 z-10">
         <div className="h-[20rem] w-auto">
           {error ? null : animationData && (
             <Lottie
@@ -134,7 +146,7 @@ export default function Home() {
 
       {/* Foreground Image */}
       <div 
-        className="fixed inset-x-0 top-0 h-screen bg-cover bg-top bg-no-repeat pointer-events-none transition-opacity duration-100"
+        className="fixed inset-x-0 top-0 h-screen bg-cover bg-top bg-no-repeat pointer-events-none transition-opacity duration-100 z-20"
         style={{
           backgroundImage: 'url("/ve%20fg.png")',
           opacity
@@ -142,7 +154,7 @@ export default function Home() {
       />
 
       {/* Sketch Animation Container */}
-      <div className="fixed inset-x-0 top-0 h-screen w-screen">
+      <div className="fixed inset-x-0 top-0 h-screen w-screen z-30">
         {/* Sketch Lottie Animation */}
         <div className="absolute inset-0 [&>div]:w-full [&>div]:h-full [&>div>svg]:w-full [&>div>svg]:h-full [&>div>svg]:object-cover">
           {error ? null : sketchData && (
@@ -168,7 +180,7 @@ export default function Home() {
       </div>
 
       {/* Script2 Overlay (Topmost Layer) */}
-      <div className="fixed w-full flex justify-center mt-[2vh] transition-opacity duration-100 z-50">
+      <div className="fixed w-full flex justify-center mt-[2vh] transition-opacity duration-100 z-40">
         <div className="h-[20rem] w-auto">
           {error ? null : script2Data && (
             <Lottie
@@ -186,6 +198,48 @@ export default function Home() {
               }}
             />
           )}
+        </div>
+      </div>
+
+      {/* HeroBottom Container */}
+      <div 
+        className="fixed bottom-0 left-0 right-0 h-[50vh] flex flex-col items-center justify-center gap-4 transition-opacity duration-1000 z-50"
+        style={{ opacity: heroBottomOpacity }}
+      >
+        {/* Lauren & David SVG */}
+        <div className="w-[600px] flex justify-center">
+          <Image
+            src="/lauren david.svg"
+            alt="Lauren & David"
+            width={800}
+            height={100}
+            className="text-[#4B6CFF]"
+          />
+        </div>
+
+        {/* Date */}
+        <div className="w-[800px] flex justify-center">
+          <p className="wedding-text text-4xl">
+            Juin 19-21, 2025
+          </p>
+        </div>
+
+        {/* Location */}
+        <div className="w-[800px] flex justify-center">
+          <p className="wedding-text text-xl">
+            Saint-Jean-Cap-Ferrat, Côte d'Azur, France
+          </p>
+        </div>
+
+        {/* Villa SVG */}
+        <div className="w-[600px] flex justify-center">
+          <Image
+            src="/villa.svg"
+            alt="Villa Ephrussi de Rothschild"
+            width={800}
+            height={100}
+            className="text-[#4B6CFF]"
+          />
         </div>
       </div>
     </main>
