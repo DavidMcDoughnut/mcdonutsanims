@@ -132,11 +132,10 @@ export default function Home() {
 
       {/* Intro Animation Container */}
       <div id="intro" 
-        className="relative h-screen transition-opacity duration-300"
+        className="relative h-screen"
         style={{ 
-          opacity: introOpacity,
-          position: 'fixed',
-          top: 0,
+          position: scrollVh >= 1 ? 'absolute' : 'fixed',
+          top: scrollVh >= 1 ? '100vh' : 0,
           left: 0,
           right: 0,
           pointerEvents: introOpacity === 0 ? 'none' : 'auto'
@@ -144,15 +143,19 @@ export default function Home() {
       >
         {/* Background Image */}
         <div 
-          className="fixed inset-x-0 top-0 h-screen bg-cover bg-top bg-no-repeat transition-opacity duration-100 z-0"
+          className="inset-x-0 top-0 h-screen bg-cover bg-top bg-no-repeat transition-opacity duration-100 z-0"
           style={{
             backgroundImage: 'url("/ve%20hero%20bg.png")',
-            opacity
+            opacity,
+            position: scrollVh >= 1 ? 'absolute' : 'fixed'
           }}
         />
         
         {/* Script1 Lottie Animation */}
-        <div className="fixed w-full flex justify-center mt-[2vh] transition-opacity duration-100 z-10">
+        <div className="w-full flex justify-center mt-[2vh] transition-opacity duration-100 z-10"
+          style={{
+            position: scrollVh >= 1 ? 'absolute' : 'fixed'
+          }}>
           <div className="h-[20rem] w-auto">
             {error ? null : animationData && (
               <Lottie
@@ -174,15 +177,19 @@ export default function Home() {
 
         {/* Foreground Image */}
         <div 
-          className="fixed inset-x-0 top-0 h-screen bg-cover bg-top bg-no-repeat pointer-events-none transition-opacity duration-100 z-20"
+          className="inset-x-0 top-0 h-screen bg-cover bg-top bg-no-repeat pointer-events-none transition-opacity duration-100 z-20"
           style={{
             backgroundImage: 'url("/ve%20fg.png")',
-            opacity
+            opacity,
+            position: scrollVh >= 1 ? 'absolute' : 'fixed'
           }}
         />
 
         {/* Sketch Animation Container */}
-        <div className="fixed inset-x-0 top-0 h-screen w-screen z-30">
+        <div className="inset-x-0 top-0 h-screen w-screen z-30"
+          style={{
+            position: scrollVh >= 1 ? 'absolute' : 'fixed'
+          }}>
           {/* Sketch Lottie Animation */}
           <div className="absolute inset-0 [&>div]:w-full [&>div]:h-full [&>div>svg]:w-full [&>div>svg]:h-full [&>div>svg]:object-cover">
             {error ? null : sketchData && (
@@ -208,7 +215,10 @@ export default function Home() {
         </div>
 
         {/* Script2 Overlay (Topmost Layer) */}
-        <div className="fixed w-full flex justify-center mt-[2vh] transition-opacity duration-100 z-40">
+        <div className="w-full flex justify-center mt-[2vh] transition-opacity duration-100 z-40"
+          style={{
+            position: scrollVh >= 1 ? 'absolute' : 'fixed'
+          }}>
           <div className="h-[20rem] w-auto">
             {error ? null : script2Data && (
               <Lottie
@@ -231,8 +241,11 @@ export default function Home() {
 
         {/* HeroBottom Container */}
         <div 
-          className="fixed bottom-0 left-0 right-0 h-[50vh] flex flex-col items-center justify-center gap-4 transition-opacity duration-1000 z-50"
-          style={{ opacity: heroBottomOpacity }}
+          className="bottom-0 left-0 right-0 h-[50vh] flex flex-col items-center justify-center gap-4 transition-opacity duration-1000 z-50"
+          style={{ 
+            opacity: heroBottomOpacity,
+            position: scrollVh >= 1 ? 'absolute' : 'fixed'
+          }}
         >
           {/* Lauren & David SVG */}
           <div className="w-[600px] flex justify-center">
@@ -273,7 +286,7 @@ export default function Home() {
       </div>
 
       {/* Content Sections Container - Only starts after hero animation completes */}
-      <div className="relative mt-[200vh] z-[100] bg-white">
+      <div className="relative mt-[200vh] z-[100] ">
         {/* Events Section */}
         <section id="events" className="relative min-h-screen py-24 flex flex-col items-center">
           <div className="w-[800px] max-w-full px-4 mb-16">
