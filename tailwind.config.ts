@@ -7,9 +7,15 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['var(--font-montserrat)'],
+        montserrat: ['var(--font-montserrat)'],
+      },
+    },
   },
   plugins: [],
+  safelist: ['wedding-text'],
 };
 
 export default config; 
