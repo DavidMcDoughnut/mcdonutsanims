@@ -125,6 +125,9 @@ export default function Home() {
 
   return (
     <main className="relative min-h-[200vh] w-full overflow-x-hidden">
+      {/* Site Border */}
+      <div className="fixed inset-0 border-[6px] border-[#4B6CFF] pointer-events-none z-[9999]" />
+
       {/* Debug Scroll Counter */}
       <div className="fixed top-4 right-4 bg-black/80 text-white px-3 py-2 rounded-lg font-mono text-sm z-[1000]">
         {scrollVh.toFixed(2)}vh
@@ -260,14 +263,14 @@ export default function Home() {
 
           {/* Date */}
           <div className="w-[800px] flex justify-center">
-            <p className="wedding-text text-4xl">
+            <p className="wedding-text text-4xl leading-[200%]">
               Juin 19-21, 2025
             </p>
           </div>
 
           {/* Location */}
           <div className="w-[800px] flex justify-center">
-            <p className="wedding-text text-xl">
+            <p className="wedding-text text-xl leading-[200%]">
               Saint-Jean-Cap-Ferrat, Côte d'Azur, France
             </p>
           </div>
@@ -286,86 +289,142 @@ export default function Home() {
       </div>
 
       {/* Content Sections Container - Only starts after hero animation completes */}
-      <div className="relative mt-[200vh] z-[100] ">
+      <div className="relative mt-[200vh] z-[100]">
+        {/* SVG Filter Definition */}
+        <svg className="absolute w-0 h-0">
+          <defs>
+            <filter id='roughpaper' x='0%' y='0%' width='100%' height="100%">
+              <feTurbulence type="fractalNoise" baseFrequency='0.12' result='noise' numOctaves="4" />
+              <feDiffuseLighting in='noise' lighting-color='white' surfaceScale='8'>
+                <feDistantLight azimuth='45' elevation='40' />
+              </feDiffuseLighting>
+            </filter>
+          </defs>
+        </svg>
+
+        {/* Apply the filter to a background div that covers all content */}
+        <div 
+          className="absolute inset-0 w-full h-full"
+          style={{
+            filter: 'url(#roughpaper)',
+            opacity: 0.04,
+            pointerEvents: 'none',
+            zIndex: 121,
+            minHeight: '400vh' // Make sure it covers all content sections
+          }}
+        />
+
         {/* Events Section */}
         <section id="events" className="relative min-h-screen py-24 flex flex-col items-center">
-          <div className="w-[800px] max-w-full px-4 mb-16">
+          <div className="w-full max-w-[2000px] px-4 mb-16">
             <Image
               src="/events title.svg"
               alt="Events"
-              width={800}
+              width={2000}
               height={100}
               className="w-full h-auto"
             />
           </div>
 
           {/* Event Cards */}
-          <div className="w-[1200px] max-w-full px-4 space-y-24">
+          <div className="w-full text-[#4B6CFF]">
             {/* Welcome Drinks */}
-            <div className="space-y-6">
-              <div className="relative w-full aspect-[2/1] overflow-hidden rounded-lg">
-                <Image
-                  src="/welcome drinks.png"
-                  alt="Welcome Drinks"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="text-center space-y-4">
-                <h3 className="text-[#FF89A9] text-xl">Thursday June 19</h3>
-                <h2 className="text-[#4B6CFF] text-3xl font-light">WELCOME DRINKS</h2>
-                <div className="space-y-2 text-gray-600">
-                  <p>Who: Everyone</p>
-                  <p>When: 8pm onwards</p>
-                  <p>Where: Mayssa Beach <span className="text-[#4B6CFF]">(map)</span></p>
-                  <p>Wear: Riviera casual</p>
+            <div className="w-full py-8 group">
+              <div className="w-[1200px] max-w-full px-4 mx-auto flex gap-8">
+                <a href="https://example.com/welcome-drinks" target="_blank" rel="noopener noreferrer" className="block w-1/2 cursor-pointer">
+                  <div className="relative aspect-[4/3]">
+                    <Image
+                      src="/welcome drinks.png"
+                      alt="Welcome Drinks B&W"
+                      fill
+                      className="object-contain rounded-lg"
+                    />
+                    <Image
+                      src="/welcome drinks color.png"
+                      alt="Welcome Drinks Color"
+                      fill
+                      className="object-contain rounded-lg opacity-0 transition-opacity duration-300 ease-linear group-hover:opacity-100"
+                    />
+                  </div>
+                </a>
+                <div className="w-1/2 flex flex-col justify-center space-y-6">
+                  <h3 className="text-[#FF89A9] text-xl font-extralight tracking-widest">Thursday June 19</h3>
+                  <h2 className="text-3xl font-extralight tracking-widest">WELCOME DRINKS</h2>
+                  <div className="space-y-2 tracking-wider">
+                    <p><span className="font-light">Who</span> <span className="font-bold">Everyone</span></p>
+                    <p><span className="font-light">When</span> <span className="font-bold">8pm onwards</span></p>
+                    <p><span className="font-light">Where</span> <span className="font-bold">Mayssa Beach</span> <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] ml-1">(map)</a></p>
+                    <p><span className="font-light">Wear</span> <span className="font-bold">Riviera casual</span></p>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Main Event */}
-            <div className="space-y-6">
-              <div className="relative w-full aspect-[2/1] overflow-hidden rounded-lg">
-                <Image
-                  src="/main event.png"
-                  alt="Main Event"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="text-center space-y-4">
-                <h3 className="text-[#FF89A9] text-xl">Friday June 20</h3>
-                <h2 className="text-[#4B6CFF] text-3xl font-light">MAIN EVENT</h2>
-                <div className="space-y-2 text-gray-600">
-                  <p>Who: Everyone</p>
-                  <p>When: 5pm Onwards</p>
-                  <p>Where: Villa Ephrussi de Rothschild <span className="text-[#4B6CFF]">(map)</span></p>
-                  <p>Wear: Riviera semi-formal (Not black tie)</p>
+            <div className="w-full py-8 group">
+              <div className="w-[1200px] max-w-full px-4 mx-auto flex gap-8">
+                <a href="https://example.com/main-event" target="_blank" rel="noopener noreferrer" className="block w-1/2 cursor-pointer">
+                  <div className="relative aspect-[4/3]">
+                    <Image
+                      src="/main event.png"
+                      alt="Main Event B&W"
+                      fill
+                      className="object-contain rounded-lg"
+                    />
+                    <Image
+                      src="/main event color.png"
+                      alt="Main Event Color"
+                      fill
+                      className="object-contain rounded-lg opacity-0 transition-opacity duration-300 ease-linear group-hover:opacity-100"
+                    />
+                  </div>
+                </a>
+                <div className="w-1/2 flex flex-col justify-center space-y-6">
+                  <h3 className="text-[#FF89A9] text-xl font-extralight tracking-widest">Friday June 20</h3>
+                  <h2 className="text-3xl font-extralight tracking-widest">MAIN EVENT</h2>
+                  <div className="space-y-2 tracking-wider">
+                    <p><span className="font-light">Who</span> <span className="font-bold">Everyone</span></p>
+                    <p><span className="font-light">When</span> <span className="font-bold">5pm Onwards</span></p>
+                    <p><span className="font-light">Where</span> <span className="font-bold">Villa Ephrussi de Rothschild</span> <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] ml-1">(map)</a></p>
+                    <p><span className="font-light">Wear</span> <span className="font-bold">Riviera semi-formal (Not black tie)</span></p>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* La Vie en Rosé */}
-            <div className="space-y-6">
-              <div className="relative w-full aspect-[2/1] overflow-hidden rounded-lg">
-                <Image
-                  src="/la vie en rose.png"
-                  alt="La Vie en Rosé"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="text-center space-y-4">
-                <h3 className="text-[#FF89A9] text-xl">Saturday June 21</h3>
-                <h2 className="text-[#4B6CFF] text-3xl font-light">LA VIE EN ROSÉ</h2>
-                <h3 className="text-[#4B6CFF] text-xl font-light">BEACH CLUB RECOVERY LOUNGE</h3>
-                <div className="space-y-2 text-gray-600">
-                  <p>Who: Everyone</p>
-                  <p>When: 2pm-ish Onwards</p>
-                  <p>Where: Plage de Passable <span className="text-[#4B6CFF]">(map)</span></p>
-                  <p>Wear: Maximum-chic, Hawtest, Euro-med beach attire</p>
-                  <p>What: Relaxed & casual lounge day à la plage</p>
-                  <p className="italic text-sm mt-4">If brunch + beach chic turn into vibey, sexy-sex, tropical-house, sunset dance party on the Riviera... Fantastique!</p>
+            <div className="w-full py-8 group">
+              <div className="w-[1200px] max-w-full px-4 mx-auto flex gap-8">
+                <a href="https://example.com/la-vie-en-rose" target="_blank" rel="noopener noreferrer" className="block w-1/2 cursor-pointer">
+                  <div className="relative aspect-[4/3]">
+                    <Image
+                      src="/la vie en rose.png"
+                      alt="La Vie en Rosé B&W"
+                      fill
+                      className="object-contain rounded-lg"
+                    />
+                    <Image
+                      src="/la vie en color.png"
+                      alt="La Vie en Rosé Color"
+                      fill
+                      className="object-contain rounded-lg opacity-0 transition-opacity duration-300 ease-linear group-hover:opacity-100"
+                    />
+                  </div>
+                </a>
+                <div className="w-1/2 flex flex-col justify-center space-y-6">
+                  <h3 className="text-[#FF89A9] text-xl font-extralight tracking-widest">Saturday June 21</h3>
+                  <div className="space-y-1">
+                    <h2 className="text-3xl font-extralight tracking-widest">LA VIE EN ROSÉ</h2>
+                    <h3 className="text-xl font-extralight tracking-widest">BEACH CLUB RECOVERY LOUNGE</h3>
+                  </div>
+                  <div className="space-y-2 tracking-wider">
+                    <p><span className="font-light">Who</span> <span className="font-bold">Everyone</span></p>
+                    <p><span className="font-light">When</span> <span className="font-bold">2pm-ish Onwards</span></p>
+                    <p><span className="font-light">Where</span> <span className="font-bold">Plage de Passable</span> <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] ml-1">(map)</a></p>
+                    <p><span className="font-light">Wear</span> <span className="font-bold">Maximum-chic, Hawtest, Euro-med beach attire</span></p>
+                    <p><span className="font-light">What</span> <span className="font-bold">Relaxed & casual lounge day à la plage</span></p>
+                    <p className="italic text-sm mt-4 leading-[200%]">If brunch + beach chic turn into vibey, sexy-sex, tropical-house, sunset dance party on the Riviera... Fantastique!</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -374,126 +433,153 @@ export default function Home() {
 
         {/* Stay Section */}
         <section id="stay" className="min-h-screen py-24 flex flex-col items-center">
-          <div className="w-[800px] max-w-full px-4 mb-16">
+          <div className="w-full max-w-[2000px] px-4 mb-16">
             <Image
               src="/stay title.svg"
               alt="Stay"
-              width={800}
+              width={2000}
               height={100}
               className="w-full h-auto"
             />
           </div>
 
-          <div className="w-[800px] max-w-full px-4 space-y-12">
-            <div className="text-center text-gray-600">
-              <p>Hotels & AirBnBs in Cap Ferrat are the best option, but supply is limited & costly... this is the most painful part of this location. Villefranche and Beaulieu-sur-mer are very close (5min drive) and you really can't go wrong.</p>
+          <div className="w-[800px] max-w-full px-4 space-y-16 text-[#4B6CFF]">
+            <div className="space-y-6">
+              <h2 className="text-3xl font-extralight tracking-widest">TLDR</h2>
+              <p className="leading-[200%]">Hotels & AirBnBs in Cap Ferrat are the best option, but supply is limited & costly... this is the most painful part of this location. Villefranche and Beaulieu-sur-mer are very close (5min drive) and you really can't go wrong.</p>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-12">
+              <div className="space-y-6">
+                <h3 className="text-[#4B6CFF] text-2xl font-extralight tracking-widest mb-4">HOTELS</h3>
+                <p className="leading-[200%]">Hotels in the region can be a bit… tricky… and don't do room blocks the same way as the US. The luxe hotels also block-off summer wknd room availability on their websites, even when they do have rooms available. You might have to call the hotel to get the actual room availability or search for more than 3 days.</p>
+                <p className="mt-4 leading-[200%]">The prices for the high-end hotels that target Americans/foreigners are pretty extreme, but below is our rough breakdown of the hotel market:</p>
+              </div>
               <div>
-                <h3 className="text-[#4B6CFF] text-2xl mb-2">5 STARS</h3>
-                <p className="text-gray-500 italic mb-4">Max luxe, max price... money no object</p>
-                <ul className="space-y-1 text-[#4B6CFF]">
-                  <li>• Four Seasons: The Grand Hotel du Cap-Ferrat</li>
-                  <li>• Hotel Cap-Estel</li>
+                <div className="flex items-baseline gap-4 mb-4">
+                  <h4 className="text-large font-bold tracking-widest">5 STARS</h4>
+                  <p className="leading-[200%]">Max luxe, max price... money no object</p>
+                </div>
+                <ul className="space-y-2 list-disc marker:text-[#4B6CFF] pl-8">
+                  <li className="pl-4"><a href="https://www.fourseasons.com/capferrat/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Four Seasons: The Grand Hotel du Cap-Ferrat</a></li>
+                  <li className="pl-4"><a href="https://www.capestel.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Hotel Cap-Estel</a></li>
                 </ul>
               </div>
 
               <div>
-                <h3 className="text-[#4B6CFF] text-2xl mb-2">4.5 STARS</h3>
-                <p className="text-gray-500 italic mb-4">Approachable luxury, expensive but this wedding weekend is a treat!</p>
-                <ul className="space-y-1 text-[#4B6CFF]">
-                  <li>• La Reserve de Beaulieu</li>
-                  <li>• Royal Riviera</li>
+                <div className="flex items-baseline gap-4 mb-4">
+                  <h4 className="text-large font-bold tracking-widest">4.5 STARS</h4>
+                  <p className="italic leading-[200%]">Approachable luxury... pricey but less crazy</p>
+                </div>
+                <ul className="space-y-1 list-disc marker:text-[#4B6CFF] pl-8">
+                  <li className="pl-4"><a href="https://www.lareservebeaulieu.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">La Reserve de Beaulieu</a></li>
+                  <li className="pl-4"><a href="https://www.royal-riviera.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Royal Riviera</a></li>
                 </ul>
               </div>
 
               <div>
-                <h3 className="text-[#4B6CFF] text-2xl mb-2">4 STARS</h3>
-                <p className="text-gray-500 italic mb-4">Local boutique, upscale cool experience at reasonable cost</p>
-                <ul className="space-y-1 text-[#4B6CFF]">
-                  <li>• La Villa Cap Ferrat, Boutique Hotel & Spa</li>
-                  <li>• Carlton Hotel, Beaulieu sur mer</li>
-                  <li>• Welcome Hotel, Villefranche sur mer</li>
-                  <li>• Hotel Versailles, Villefranche sur mer</li>
-                  <li>• Hotel Provençale, Villefranche sur mer</li>
+                <div className="flex items-baseline gap-4 mb-4">
+                  <h4 className="text-large font-bold tracking-widest">4 STARS</h4>
+                  <p className="italic leading-[200%]">Local boutique, upscale experience, "reasonable" cost</p>
+                </div>
+                <ul className="space-y-1 list-disc marker:text-[#4B6CFF] pl-8">
+                  <li className="pl-4"><a href="https://www.villa-capferrat.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">La Villa Cap Ferrat, Boutique Hotel & Spa</a></li>
+                  <li className="pl-4"><a href="https://www.hotel-carlton-beaulieu.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Carlton Hotel, Beaulieu sur mer</a></li>
+                  <li className="pl-4"><a href="https://www.welcomehotel.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Welcome Hotel, Villefranche sur mer</a></li>
+                  <li className="pl-4"><a href="https://www.hotelversailles.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Hotel Versailles, Villefranche sur mer</a></li>
+                  <li className="pl-4"><a href="https://www.hotel-provencale.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Hotel Provençale, Villefranche sur mer</a></li>
                 </ul>
               </div>
             </div>
 
-            <div className="text-center text-gray-600 mt-12">
-              <h3 className="text-[#4B6CFF] text-2xl mb-4">AIRBNBs</h3>
-              <p>AirBnBs are a great option for larger groups/families and there is an abundance of options. Please note that these are public beaches and beautiful marinas with gorgeous restaurants, bars and shops all within walking distance so what some of these lack in amenity offerings, is more than made up for in the neighborhoods.</p>
-              <p className="mt-4">Please note we have personally reserved a number of the Cap Ferrat AirBnB listings and are planning to help organize larger groups.</p>
+            <div className="space-y-6">
+              <h3 className="text-[#4B6CFF] text-2xl font-extralight tracking-widest mb-4">AIRBNBs</h3>
+              <p className="leading-[200%]">AirBnBs are a great option for larger groups/families and there is an abundance of options. Please note that these are public beaches and beautiful marinas with gorgeous restaurants, bars and shops all within walking distance so what some of these lack in amenity offerings, is more than made up for in the neighborhoods.</p>
+              <p className="mt-4 leading-[200%]">Please note we have personally reserved a number of the Cap Ferrat AirBnB listings and are planning to help organize larger groups.</p>
             </div>
           </div>
         </section>
 
         {/* Travel Section */}
         <section id="travel" className="min-h-screen py-24 flex flex-col items-center">
-          <div className="w-[800px] max-w-full px-4 mb-16">
+          <div className="w-full max-w-[2000px] px-4 mb-16">
             <Image
               src="/travel title.svg"
               alt="Travel"
-              width={800}
+              width={2000}
               height={100}
               className="w-full h-auto"
             />
           </div>
 
-          <div className="w-[800px] max-w-full px-4 space-y-12">
-            <div className="text-center space-y-4">
-              <h3 className="text-[#4B6CFF] text-2xl">TLDR</h3>
-              <p className="text-gray-600">Nice (NCE) Côte d'Azur Airport is where to fly. It's a ~25 min drive, clean, modern and easy.</p>
-              <p className="text-gray-600">No need to rent a car unless you want to. Everything is within ~20 min walk or quick/easy Uber.</p>
-            </div>
-
+          <div className="w-[800px] max-w-full px-4 space-y-16 text-[#4B6CFF]">
             <div className="space-y-6">
-              <h3 className="text-[#4B6CFF] text-2xl">GETTING THERE</h3>
-              <div className="space-y-4">
-                <p className="text-[#4B6CFF] font-medium">Airport Options:</p>
-                <ul className="list-disc pl-6 space-y-2 text-gray-600">
-                  <li>Nice (NCE) Côte d'Azur Airport (strongly recommended!)
-                    <p className="mt-1">• Large, international airport, 25 min drive from Cap Ferrat. Very nice, clean airport.</p>
-                  </li>
-                  <li>Marseille (MRS) Provence Airport (not ideal)
-                    <p className="mt-1">• 2 hour drive from Cap Ferrat (never been)</p>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="space-y-4">
-                <p className="text-[#4B6CFF] font-medium">From the US</p>
-                <ul className="list-disc pl-6 space-y-2 text-gray-600">
-                  <li>~8hr direct flights from from NY, Boston and DC on the major US airlines.</li>
-                  <li>Most of the east coast flights are redeye leaving 6-8pm ET, landing</li>
-                </ul>
-              </div>
-
-              <div className="space-y-4">
-                <p className="text-[#4B6CFF] font-medium">From the UK</p>
-                <ul className="list-disc pl-6 space-y-2 text-gray-600">
-                  <li>~2hr direct flights from London on BA and budget carriers</li>
-                </ul>
+              <h2 className="text-3xl font-extralight tracking-widest">TLDR</h2>
+              <div className="space-y-1">
+                <p className="leading-[200%]"><span className="font-bold">Nice (NCE) Côte d'Azur Airport</span> is where to fly. It's a ~25 min drive, clean, modern and easy</p>
+                <p className="leading-[200%]"><span className="font-bold">No need to rent a car</span> unless you want to. Everything is within ~20 min walk or quick/easy Uber</p>
               </div>
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-[#4B6CFF] text-2xl">GETTING AROUND</h3>
-              <p className="text-gray-600">Cap Ferrat itself and the greater area are both very small, so getting around is pretty easy. You don't need a car at all. FYI, some of the roads are a bit tricky/tight/windy which is relevant for both walking or rental cars.</p>
+              <h3 className="text-2xl font-extralight tracking-widest">GETTING THERE</h3>
+              <div className="space-y-4">
+                <p className="font-bold leading-[200%]">Airport Options:</p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li><a href="https://www.google.com/maps/place/Nice+C%C3%B4te+d'Azur+Airport/@43.6584014,7.2029736,14z/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF89A9]">Nice (NCE) Côte d'Azur Airport </a>
+                    <ul className="list-disc pl-6 mt-1">
+                      <li className="leading-[200%]">Large, modern intl airport, 25 min drive from Cap Ferrat</li>
+                    </ul>
+                  </li>
+                  <li><a href="https://www.google.com/maps/place/Marseille+Provence+Airport/@43.4366961,5.2133322,14z/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF89A9]">Marseille (MRS) Provence Airport</a> 
+                    <ul className="list-disc pl-6 mt-1">
+                      <li className="leading-[200%]">2 hr drive from Cap Ferrat (not ideal,never been)</li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              
 
               <div className="space-y-4">
-                <p className="text-[#4B6CFF] font-medium">Transportation options:</p>
-                <ul className="list-disc pl-6 space-y-2 text-gray-600">
-                  <li>Ubers + walking (recommended!)
-                    <p className="mt-1">• Ubers are very reliable, easy, safe and reasonably priced.</p>
-                    <p>• All of the venus are very walkable, its europe.</p>
+              <p className="font-bold leading-[200%]">Flight Options:</p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li><a href="https://www.google.com/travel/flights/search?tfs=CBwQAhopEgoyMDI1LTA2LTE4ag0IAhIJL20vMDJfMjg2cgwIAxIIL20vMGNwNncaKRIKMjAyNS0wNi0yMmoMCAMSCC9tLzBjcDZ3cg0IAhIJL20vMDJfMjg2QAFIAXABggELCP___________wGYAQE&tfu=EgYIABABGAA&hl=en" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF89A9]">From the US </a>
+                    <ul className="list-disc pl-6 mt-1">
+                      <li className="leading-[200%]">Direct flights from from NY, Boston and DC on major carriers</li>
+                      <li className="leading-[200%]">Most east coast flights are 8hr redeyes, leave 6-8pm ET, landing early AM France time</li>
+                    </ul>
                   </li>
-                  <li>Rental Car
-                    <p className="mt-1">• Definitely not needed but nice to have if you really want to explore the extended area</p>
+                  <li><a href="https://www.google.com/travel/flights/search?tfs=CBwQAhooEgoyMDI1LTA2LTE5agwIAxIIL20vMDRqcGxyDAgDEggvbS8wY3A2dxooEgoyMDI1LTA2LTIyagwIAxIIL20vMGNwNndyDAgDEggvbS8wNGpwbEABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABABGAA&hl=en" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF89A9]">From the UK </a>
+                    <ul className="list-disc pl-6 mt-1">
+                      <li className="leading-[200%]">Direct ~2hr flights from London on B, Air France & budget carriers</li>
+                    </ul>
                   </li>
-                  <li>Shuttle
-                    <p className="mt-1">• We'll provide shuttle service on Friday for main event to/from most locations</p>
+                </ul>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <h3 className="text-2xl font-extralight tracking-widest">GETTING AROUND</h3>
+              <p className="leading-[200%]">Cap Ferrat itself and the greater area are both very small, so getting around is pretty easy. You don't need a car at all. FYI, some of the roads are a bit tricky/tight/windy which is relevant for both walking or rental cars.</p>
+
+              <div className="space-y-4">
+                <p className="font-bold leading-[200%]">Transportation options:</p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li><span className="font-bold">Ubers + walking</span>
+                    <ul className="list-disc pl-6 mt-1">
+                      <li className="leading-[200%]">Ubers are very reliable, easy, safe and reasonably priced.</li>
+                      <li className="leading-[200%]">All of the venues are very walkable, its europe.</li>
+                    </ul>
+                  </li>
+                  <li><span className="font-bold">Rental Cars</span>
+                    <ul className="list-disc pl-6 mt-1">
+                      <li className="leading-[200%]">Definitely not needed but nice to have if you really want to explore the extended area</li>
+                    </ul>
+                  </li>
+                  <li><span className="font-bold">Shuttles</span>
+                    <ul className="list-disc pl-6 mt-1">
+                      <li className="leading-[200%]">We'll provide shuttle service on Friday for main event to/from most locations</li>
+                    </ul>
                   </li>
                 </ul>
               </div>
@@ -501,60 +587,67 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Area Section */}
-        <section id="area" className="min-h-screen py-24 flex flex-col items-center">
-          <div className="w-[800px] max-w-full px-4 mb-16">
-            <Image
-              src="/area title.svg"
-              alt="Area"
-              width={800}
-              height={100}
-              className="w-full h-auto"
-            />
-          </div>
 
-          <div className="w-[800px] max-w-full px-4 flex justify-center">
-            <p className="text-[#4B6CFF] text-2xl">COMING SOON</p>
-          </div>
-        </section>
 
         {/* FAQ Section */}
         <section id="faq" className="min-h-screen py-24 flex flex-col items-center">
-          <div className="w-[800px] max-w-full px-4 mb-16">
+          <div className="w-full max-w-[2000px] px-4 mb-16">
             <Image
               src="/faq title.svg"
               alt="FAQ"
-              width={800}
+              width={2000}
               height={100}
               className="w-full h-auto"
             />
           </div>
 
-          <div className="w-[800px] max-w-full px-4 space-y-12">
+          <div className="w-[800px] max-w-full px-4 space-y-12 text-[#4B6CFF]">
             <div className="space-y-6">
-              <h3 className="text-[#4B6CFF] text-2xl">DRESS CODE</h3>
-              <div className="text-gray-600 space-y-4">
-                <p>More details to come, but directionally you can't go wrong with Riviera Chic: light, airy & elegant linens & pastels.</p>
-                <p>The temperature is usually in the 70's and 80's. (Definitely no black tie)</p>
+              <h3 className="text-2xl font-extralight tracking-widest">DRESS CODE</h3>
+              <div className="space-y-4">
+                <p className="leading-[200%]">More details to come, but directionally you can't go wrong with Riviera Chic: light, airy & elegant linens & pastels.</p>
+                <p className="leading-[200%]">The temperature is usually in the 70's and 80's. (Definitely no black tie)</p>
               </div>
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-[#4B6CFF] text-2xl">CHILDCARE</h3>
-              <div className="text-gray-600">
-                <p>For anyone planning to bring their children to France and may be looking for local childcare options, we have been recommended English-speaking Silly Billy's English speaking babysitters in France . Please make enquiries directly.</p>
+              <h3 className="text-2xl font-extralight tracking-widest">CHILDCARE</h3>
+              <div>
+                <p className="leading-[200%]">For anyone planning to bring their children to France and may be looking for local childcare options, we have been recommended English-speaking Silly Billy's English speaking babysitters in France . Please make enquiries directly.</p>
               </div>
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-[#4B6CFF] text-2xl">GIFTS</h3>
-              <div className="text-gray-600 space-y-4">
-                <p>We are extremely grateful anyone would make the journey to celebrate with us in France and we do not take for granted the large time/effort/cost commitment. Your presence is the greatest present.</p>
-                <p>In lieu of gifts, we simply ask that you contribute generously to the European economy during your stay (and/or donate to your favorite charity).</p>
+              <h3 className="text-2xl font-extralight tracking-widest">GIFTS</h3>
+              <div className="space-y-4">
+                <p className="leading-[200%]">We are extremely grateful anyone would make the journey to celebrate with us in France and we do not take for granted the large time/effort/cost commitment. Your presence is the greatest present.</p>
+                <p className="leading-[200%]">In lieu of gifts, we simply ask that you contribute generously to the European economy during your stay (and/or donate to your favorite charity).</p>
               </div>
             </div>
           </div>
         </section>
+
+
+        {/* Area Section */}
+        <section id="area" className="min-h-screen py-24 flex flex-col items-center">
+          <div className="w-full max-w-[2000px] px-4 mb-16">
+            <Image
+              src="/area title.svg"
+              alt="Area"
+              width={2000}
+              height={100}
+              className="w-full h-auto"
+            />
+          </div>
+
+          <div className="w-[800px] max-w-full px-4 text-[#4B6CFF]">
+            <p className="text-2xl leading-[200%]">COMING SOON</p>
+          </div>
+        </section>
+
+
+
+
       </div>
     </main>
   );
