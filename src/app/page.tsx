@@ -244,16 +244,19 @@ export default function Home() {
 
         {/* HeroBottom Container */}
         <div 
-          className="bottom-0 left-0 right-0 h-[50vh] flex flex-col items-center justify-center gap-4 transition-opacity duration-1000 z-50"
+          className="bottom-0 left-0 right-0 h-[50vh] flex flex-col items-center justify-center gap-2 z-50"
           style={{ 
-            opacity: heroBottomOpacity,
             position: scrollVh >= 1 ? 'absolute' : 'fixed'
           }}
         >
           {/* Lauren & David SVG */}
-          <div className="w-[600px] flex justify-center">
+          <div className="w-[600px] flex justify-center mt 1vh [transition:transform_500ms_ease-out]"
+            style={{
+              opacity: Math.max(0, Math.min(1, (scrollVh - 0.6) / (1 - 0.8))),
+              transform: `translateY(${Math.max(0, 60 * (1 - (scrollVh - 0.6) / (1 - 0.8)))}px)`
+            }}>
             <Image
-              src="/lauren david.svg"
+              src="/lauren david hero.svg"
               alt="Lauren & David"
               width={800}
               height={100}
@@ -262,35 +265,49 @@ export default function Home() {
           </div>
 
           {/* Date */}
-          <div className="w-[800px] flex justify-center">
+          <div className="w-[800px] flex justify-center [transition:transform_500ms_ease-out]"
+            style={{
+              opacity: Math.max(0, Math.min(1, (scrollVh - 0.64) / (1 - 0.8))),
+              transform: `translateY(${Math.max(0, 60 * (1 - (scrollVh - 0.64) / (1 - 0.8)))}px)`
+            }}>
             <p className="wedding-text text-4xl leading-[200%]">
               Juin 19-21, 2025
             </p>
           </div>
 
-          {/* Location */}
-          <div className="w-[800px] flex justify-center">
-            <p className="wedding-text text-xl leading-[200%]">
-              Saint-Jean-Cap-Ferrat, Côte d'Azur, France
-            </p>
-          </div>
-
           {/* Villa SVG */}
-          <div className="w-[600px] flex justify-center">
+          <div className="w-[600px] flex justify-center [transition:transform_500ms_ease-out]"
+            style={{
+              opacity: Math.max(0, Math.min(1, (scrollVh - 0.72) / (1 - 0.8))),
+              transform: `translateY(${Math.max(0, 60 * (1 - (scrollVh - 0.72) / (1 - 0.8)))}px)`
+            }}>
             <Image
-              src="/villa.svg"
+              src="/villa hero.svg"
               alt="Villa Ephrussi de Rothschild"
               width={800}
               height={100}
               className="text-[#4B6CFF]"
             />
           </div>
+
+          {/* Location */}
+          <div className="w-[800px] flex justify-center [transition:transform_500ms_ease-out]"
+            style={{
+              opacity: Math.max(0, Math.min(1, (scrollVh - 0.76) / (1 - 0.8))),
+              transform: `translateY(${Math.max(0, 60 * (1 - (scrollVh - 0.76) / (1 - 0.8)))}px)`
+            }}>
+            <p className="wedding-text text-xl leading-[200%]">
+              Saint-Jean-Cap-Ferrat, Côte d'Azur, France
+            </p>
+          </div>
+
+
         </div>
       </div>
 
       {/* Content Sections Container - Only starts after hero animation completes */}
       <div className="relative mt-[200vh] z-[100]">
-        {/* SVG Filter Definition */}
+        {/* SVG Filter Definition
         <svg className="absolute w-0 h-0">
           <defs>
             <filter id='roughpaper' x='0%' y='0%' width='100%' height="100%">
@@ -301,6 +318,7 @@ export default function Home() {
             </filter>
           </defs>
         </svg>
+        */}
 
         {/* Apply the filter to a background div that covers all content */}
         <div 
@@ -331,7 +349,7 @@ export default function Home() {
             {/* Welcome Drinks */}
             <div className="w-full py-8 group">
               <div className="w-[1200px] max-w-full px-4 mx-auto flex gap-8">
-                <a href="https://example.com/welcome-drinks" target="_blank" rel="noopener noreferrer" className="block w-1/2 cursor-pointer">
+                <a href="https://www.mayssabeach.fr/en/restaurant" target="_blank" rel="noopener noreferrer" className="block w-1/2 cursor-pointer">
                   <div className="relative aspect-[4/3]">
                     <Image
                       src="/welcome drinks.png"
@@ -350,11 +368,26 @@ export default function Home() {
                 <div className="w-1/2 flex flex-col justify-center space-y-6">
                   <h3 className="text-[#FF89A9] text-xl font-extralight tracking-widest">Thursday June 19</h3>
                   <h2 className="text-3xl font-extralight tracking-widest">WELCOME DRINKS</h2>
-                  <div className="space-y-2 tracking-wider">
-                    <p><span className="font-light">Who</span> <span className="font-bold">Everyone</span></p>
-                    <p><span className="font-light">When</span> <span className="font-bold">8pm onwards</span></p>
-                    <p><span className="font-light">Where</span> <span className="font-bold">Mayssa Beach</span> <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] ml-1">(map)</a></p>
-                    <p><span className="font-light">Wear</span> <span className="font-bold">Riviera casual</span></p>
+                  <div className="grid grid-cols-[72px_1fr] gap-x-2 gap-y-2 tracking-wider">
+                    {/* <div className="contents">
+                      <span className="font-light">Who</span>
+                      <span className="font-bold">Everyone</span>
+                    </div> */}
+                    <div className="contents">
+                      <span className="font-light">When</span>
+                      <span className="font-bold">8pm onwards</span>
+                    </div>
+                    <div className="contents">
+                      <span className="font-light">Where</span>
+                      <div>
+                        <a href="https://www.mayssabeach.fr/en/restaurant" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] font-bold">Mayssa Beach</a>
+                        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] ml-1">(map)</a>
+                      </div>
+                    </div>
+                    <div className="contents">
+                      <span className="font-light">Wear</span>
+                      <span className="font-bold">Riviera casual</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -363,7 +396,7 @@ export default function Home() {
             {/* Main Event */}
             <div className="w-full py-8 group">
               <div className="w-[1200px] max-w-full px-4 mx-auto flex gap-8">
-                <a href="https://example.com/main-event" target="_blank" rel="noopener noreferrer" className="block w-1/2 cursor-pointer">
+                <a href="https://www.villa-ephrussi.com/en" target="_blank" rel="noopener noreferrer" className="block w-1/2 cursor-pointer">
                   <div className="relative aspect-[4/3]">
                     <Image
                       src="/main event.png"
@@ -382,11 +415,27 @@ export default function Home() {
                 <div className="w-1/2 flex flex-col justify-center space-y-6">
                   <h3 className="text-[#FF89A9] text-xl font-extralight tracking-widest">Friday June 20</h3>
                   <h2 className="text-3xl font-extralight tracking-widest">MAIN EVENT</h2>
-                  <div className="space-y-2 tracking-wider">
-                    <p><span className="font-light">Who</span> <span className="font-bold">Everyone</span></p>
-                    <p><span className="font-light">When</span> <span className="font-bold">5pm Onwards</span></p>
-                    <p><span className="font-light">Where</span> <span className="font-bold">Villa Ephrussi de Rothschild</span> <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] ml-1">(map)</a></p>
-                    <p><span className="font-light">Wear</span> <span className="font-bold">Riviera semi-formal (Not black tie)</span></p>
+                  <div className="grid grid-cols-[72px_1fr] gap-x-4 gap-y-2 tracking-wider">
+                    {/* <div className="contents">
+                      <span className="font-light">Who</span>
+                      <span className="font-bold">Everyone</span>
+                    </div> */}
+                    <div className="contents">
+                      <span className="font-light">When</span>
+                      <span className="font-bold">5pm Onwards</span>
+                    </div>
+                    <div className="contents">
+                      <span className="font-light">Where</span>
+                      <div>
+                        <a href="https://www.villa-ephrussi.com/en" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] font-bold">Villa Ephrussi de Rothschild</a>
+                        <span className="font-regular text-[#4B6CFF] leading-[100%]">&nbsp;&nbsp;|&nbsp;</span>
+                        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] ml-1">map</a>
+                      </div>
+                    </div>
+                    <div className="contents">
+                      <span className="font-light">Wear</span>
+                      <span className="font-bold">Riviera semi-formal (Not black tie)</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -395,7 +444,7 @@ export default function Home() {
             {/* La Vie en Rosé */}
             <div className="w-full py-8 group">
               <div className="w-[1200px] max-w-full px-4 mx-auto flex gap-8">
-                <a href="https://example.com/la-vie-en-rose" target="_blank" rel="noopener noreferrer" className="block w-1/2 cursor-pointer">
+                <a href="https://www.plage-de-passable.fr/" target="_blank" rel="noopener noreferrer" className="block w-1/2 cursor-pointer">
                   <div className="relative aspect-[4/3]">
                     <Image
                       src="/la vie en rose.png"
@@ -417,13 +466,31 @@ export default function Home() {
                     <h2 className="text-3xl font-extralight tracking-widest">LA VIE EN ROSÉ</h2>
                     <h3 className="text-xl font-extralight tracking-widest">BEACH CLUB RECOVERY LOUNGE</h3>
                   </div>
-                  <div className="space-y-2 tracking-wider">
-                    <p><span className="font-light">Who</span> <span className="font-bold">Everyone</span></p>
-                    <p><span className="font-light">When</span> <span className="font-bold">2pm-ish Onwards</span></p>
-                    <p><span className="font-light">Where</span> <span className="font-bold">Plage de Passable</span> <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] ml-1">(map)</a></p>
-                    <p><span className="font-light">Wear</span> <span className="font-bold">Maximum-chic, Hawtest, Euro-med beach attire</span></p>
-                    <p><span className="font-light">What</span> <span className="font-bold">Relaxed & casual lounge day à la plage</span></p>
-                    <p className="italic text-sm mt-4 leading-[200%]">If brunch + beach chic turn into vibey, sexy-sex, tropical-house, sunset dance party on the Riviera... Fantastique!</p>
+                  <div className="grid grid-cols-[72px_1fr] gap-x-4 gap-y-2 tracking-wider">
+                    {/* <div className="contents">
+                      <span className="font-light">Who</span>
+                      <span className="font-bold">Everyone</span>
+                    </div> */}
+                    <div className="contents">
+                      <span className="font-light">When</span>
+                      <span className="font-bold">2pm-ish Onwards</span>
+                    </div>
+                    <div className="contents">
+                      <span className="font-light">Where</span>
+                      <div>
+                        <a href="https://www.plage-de-passable.fr/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] font-bold">Plage de Passable</a>
+                        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] ml-1">(map)</a>
+                      </div>
+                    </div>
+                    <div className="contents">
+                      <span className="font-light">Wear</span>
+                      <span className="font-bold">Maximum-chic, Hawtest, Euro-med beach attire</span>
+                    </div>
+                    <div className="contents">
+                      <span className="font-light">What</span>
+                      <span className="font-bold">Relaxed & casual lounge day à la plage*</span>
+                    </div>
+                    <div className="col-span-2 italic text-sm mt-4 leading-[160%]">*If brunch + beach chic turn into vibey, sexy-sex, tropical-house, sunset dance party on the Riviera... Fantastique!</div>
                   </div>
                 </div>
               </div>
@@ -456,33 +523,33 @@ export default function Home() {
                 <p className="mt-4 leading-[200%]">The prices for the high-end hotels that target Americans/foreigners are pretty extreme, but below is our rough breakdown of the hotel market:</p>
               </div>
               <div>
-                <div className="flex items-baseline gap-4 mb-4">
+                <div className="flex items-baseline gap-2 mb-4">
                   <h4 className="text-large font-bold tracking-widest">5 STARS</h4>
-                  <p className="leading-[200%]">Max luxe, max price... money no object</p>
+                  <p className="leading-[200%] italic text-sm">Max luxe, max price... money no object</p>
                 </div>
-                <ul className="space-y-2 list-disc marker:text-[#4B6CFF] pl-8">
+                <ul className="space-y-2 list-disc marker:text-[#4B6CFF] pl-8 font-bold">
                   <li className="pl-4"><a href="https://www.fourseasons.com/capferrat/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Four Seasons: The Grand Hotel du Cap-Ferrat</a></li>
                   <li className="pl-4"><a href="https://www.capestel.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Hotel Cap-Estel</a></li>
                 </ul>
               </div>
 
               <div>
-                <div className="flex items-baseline gap-4 mb-4">
+                <div className="flex items-baseline gap-2 mb-4">
                   <h4 className="text-large font-bold tracking-widest">4.5 STARS</h4>
-                  <p className="italic leading-[200%]">Approachable luxury... pricey but less crazy</p>
+                  <p className="italic text-sm leading-[200%]">Approachable luxury... pricey but less crazy</p>
                 </div>
-                <ul className="space-y-1 list-disc marker:text-[#4B6CFF] pl-8">
+                <ul className="space-y-1 list-disc marker:text-[#4B6CFF] pl-8 font-bold">
                   <li className="pl-4"><a href="https://www.lareservebeaulieu.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">La Reserve de Beaulieu</a></li>
                   <li className="pl-4"><a href="https://www.royal-riviera.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Royal Riviera</a></li>
                 </ul>
               </div>
 
               <div>
-                <div className="flex items-baseline gap-4 mb-4">
+                <div className="flex items-baseline gap-2 mb-4">
                   <h4 className="text-large font-bold tracking-widest">4 STARS</h4>
-                  <p className="italic leading-[200%]">Local boutique, upscale experience, "reasonable" cost</p>
+                  <p className="italic leading-[200%] text-sm">Local boutique, upscale experience, "reasonable" cost</p>
                 </div>
-                <ul className="space-y-1 list-disc marker:text-[#4B6CFF] pl-8">
+                <ul className="space-y-1 list-disc marker:text-[#4B6CFF] pl-8 font-bold">
                   <li className="pl-4"><a href="https://www.villa-capferrat.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">La Villa Cap Ferrat, Boutique Hotel & Spa</a></li>
                   <li className="pl-4"><a href="https://www.hotel-carlton-beaulieu.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Carlton Hotel, Beaulieu sur mer</a></li>
                   <li className="pl-4"><a href="https://www.welcomehotel.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Welcome Hotel, Villefranche sur mer</a></li>
