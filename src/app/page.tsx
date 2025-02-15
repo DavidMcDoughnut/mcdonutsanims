@@ -4,6 +4,9 @@ import dynamic from 'next/dynamic';
 import type { LottieRefCurrentProps } from 'lottie-react';
 import Image from 'next/image';
 
+// Add AnimationItem type for proper Lottie typing
+import type { AnimationItem } from 'lottie-web';
+
 // Dynamically import Lottie with SSR disabled
 const Lottie = dynamic(() => import('lottie-react'), {
   ssr: false,
@@ -17,63 +20,25 @@ const easeOutExpo = (x: number): number => {
 
 export default function Home() {
   const [animationData, setAnimationData] = useState<any>(null);
-  const [sketchData, setSketchData] = useState<any>(null);
-  const [script2Data, setScript2Data] = useState<any>(null);
   const [error, setError] = useState<string>('');
-  const [opacity, setOpacity] = useState(1);
-  const [heroBottomOpacity, setHeroBottomOpacity] = useState(0);
-  const [introOpacity, setIntroOpacity] = useState(1);
   const [scrollVh, setScrollVh] = useState(0);
-  const sketchRef = useRef<LottieRefCurrentProps>(null);
-  const script2Ref = useRef<LottieRefCurrentProps>(null);
+  const lottieRef = useRef<LottieRefCurrentProps>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       const windowHeight = window.innerHeight;
-      
-      // Update scroll progress in vh units
-      setScrollVh(scrollPosition / windowHeight);
+      const newScrollVh = scrollPosition / windowHeight;
+      setScrollVh(newScrollVh);
 
-      // Calculate opacity progress (over half viewport)
-      const opacityProgress = Math.min(1, scrollPosition / (windowHeight * 0.5));
-      const easedProgress = easeOutExpo(opacityProgress);
-      const newOpacity = Math.max(0, 1 - easedProgress);
-      setOpacity(newOpacity);
-
-      // Calculate intro section opacity (between 100vh and 150vh)
-      const introFadeStart = windowHeight; // Start fading at 100vh
-      const introFadeEnd = windowHeight * 1.5; // Complete fade by 150vh
-      const introProgress = Math.max(0, Math.min(1, (scrollPosition - introFadeStart) / (introFadeEnd - introFadeStart)));
-      setIntroOpacity(1 - introProgress);
-
-      // Update sketch animation progress (over full viewport)
-      if (sketchRef.current?.animationItem) {
-        const totalFrames = sketchRef.current.animationItem.totalFrames;
-        const sketchProgress = Math.min(1, scrollPosition / windowHeight);
-        const currentFrame = Math.min(sketchProgress * totalFrames, totalFrames);
-        sketchRef.current.animationItem.goToAndStop(currentFrame, true);
-
-        // Calculate hero bottom opacity
-        // Start fading in when we're 80% through the sketch animation
-        const fadeStartPoint = windowHeight * 0.8;
-        if (scrollPosition >= fadeStartPoint) {
-          const fadeDistance = windowHeight * 0.2; // Fade over the last 20% of the viewport
-          const fadeProgress = (scrollPosition - fadeStartPoint) / fadeDistance;
-          setHeroBottomOpacity(Math.min(1, fadeProgress));
-        } else {
-          setHeroBottomOpacity(0);
-        }
-      }
-
-      // Update script2 animation progress (starting at 1/3 viewport height)
-      if (script2Ref.current?.animationItem) {
-        const totalFrames = script2Ref.current.animationItem.totalFrames;
-        const startScrollPoint = windowHeight / 3;
-        const adjustedScrollPosition = Math.max(0, scrollPosition - startScrollPoint);
-        const script2Progress = Math.min(1, adjustedScrollPosition / (windowHeight - startScrollPoint));
-        const currentFrame = Math.min(script2Progress * totalFrames, totalFrames);
-        script2Ref.current.animationItem.goToAndStop(currentFrame, true);
+      // Control Lottie animation progress based on scroll
+      if (lottieRef.current?.animationItem) {
+        // Calculate progress (0 to 1) between 0.01vh and 1.00vh
+        const progress = Math.max(0, Math.min(1, (newScrollVh - 0.01) / 0.99));
+        // Use requestAnimationFrame for smooth performance
+        requestAnimationFrame(() => {
+          lottieRef.current?.animationItem?.goToAndStop(progress * lottieRef.current.animationItem.totalFrames, true);
+        });
       }
     };
 
@@ -82,10 +47,9 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const loadAnimations = async () => {
+    const loadAnimation = async () => {
       try {
-        // Load main animation
-        const response = await fetch('/script.json');
+        const response = await fetch('/animfull.json');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -95,24 +59,6 @@ export default function Home() {
         }
         const data = JSON.parse(text);
         setAnimationData(data);
-
-        // Load sketch animation
-        const sketchResponse = await fetch('/sketch.json');
-        if (!sketchResponse.ok) {
-          throw new Error(`HTTP error! status: ${sketchResponse.status}`);
-        }
-        const sketchText = await sketchResponse.text();
-        const sketchData = JSON.parse(sketchText);
-        setSketchData(sketchData);
-
-        // Load script2 animation
-        const script2Response = await fetch('/script2.json');
-        if (!script2Response.ok) {
-          throw new Error(`HTTP error! status: ${script2Response.status}`);
-        }
-        const script2Text = await script2Response.text();
-        const script2Data = JSON.parse(script2Text);
-        setScript2Data(script2Data);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error loading animation';
         console.error('Error loading animation:', err);
@@ -120,7 +66,7 @@ export default function Home() {
       }
     };
     
-    loadAnimations();
+    loadAnimation();
   }, []);
 
   return (
@@ -137,123 +83,63 @@ export default function Home() {
       <div id="intro" 
         className="relative h-screen"
         style={{ 
-          position: scrollVh >= 1 ? 'absolute' : 'fixed',
-          top: scrollVh >= 1 ? '100vh' : 0,
+          position: scrollVh >= 1.3 ? 'absolute' : 'fixed',
+          top: scrollVh >= 1.3 ? '130vh' : 0,
           left: 0,
           right: 0,
-          pointerEvents: introOpacity === 0 ? 'none' : 'auto'
+          transform: 'translate3d(0,0,0)', // Hardware acceleration
+          willChange: 'transform' // Optimization hint
         }}
       >
         {/* Background Image */}
         <div 
-          className="inset-x-0 top-0 h-screen bg-cover bg-top bg-no-repeat transition-opacity duration-100 z-0"
+          className="absolute inset-x-0 top-0 h-screen bg-cover bg-top bg-no-repeat z-0"
           style={{
             backgroundImage: 'url("/ve%20hero%20bg.png")',
-            opacity,
-            position: scrollVh >= 1 ? 'absolute' : 'fixed'
-          }}
-        />
-        
-        {/* Script1 Lottie Animation */}
-        <div className="w-full flex justify-center mt-[2vh] transition-opacity duration-100 z-10"
-          style={{
-            position: scrollVh >= 1 ? 'absolute' : 'fixed'
-          }}>
-          <div className="h-[20rem] w-auto">
-            {error ? null : animationData && (
-              <Lottie
-                animationData={animationData}
-                loop={false}
-                autoplay={true}
-                style={{ 
-                  height: '100%', 
-                  width: 'auto',
-                  opacity
-                }}
-                rendererSettings={{
-                  preserveAspectRatio: 'xMidYMid meet'
-                }}
-              />
-            )}
-          </div>
-        </div>
-
-        {/* Foreground Image */}
-        <div 
-          className="inset-x-0 top-0 h-screen bg-cover bg-top bg-no-repeat pointer-events-none transition-opacity duration-100 z-20"
-          style={{
-            backgroundImage: 'url("/ve%20fg.png")',
-            opacity,
-            position: scrollVh >= 1 ? 'absolute' : 'fixed'
+            position: scrollVh >= 1.3 ? 'absolute' : 'fixed',
+            opacity: Math.max(0, Math.min(1, 1 - ((scrollVh - 0.4) / 0.2))) // Transition from 100% to 0% between 0.4vh and 0.6vh
           }}
         />
 
-        {/* Sketch Animation Container */}
-        <div className="inset-x-0 top-0 h-screen w-screen z-30"
-          style={{
-            position: scrollVh >= 1 ? 'absolute' : 'fixed'
-          }}>
-          {/* Sketch Lottie Animation */}
-          <div className="absolute inset-0 [&>div]:w-full [&>div]:h-full [&>div>svg]:w-full [&>div>svg]:h-full [&>div>svg]:object-cover">
-            {error ? null : sketchData && (
-              <Lottie
-                lottieRef={sketchRef}
-                animationData={sketchData}
-                loop={false}
-                autoplay={false}
-                style={{ 
-                  width: '100vw',
-                  height: '100vh',
-                  objectFit: 'cover',
-                  position: 'absolute',
-                  top: 0,
-                  left: 0
-                }}
-                rendererSettings={{
-                  preserveAspectRatio: 'xMidYMin slice'
-                }}
-              />
-            )}
-          </div>
-        </div>
-
-        {/* Script2 Overlay (Topmost Layer) */}
-        <div className="w-full flex justify-center mt-[2vh] transition-opacity duration-100 z-40"
-          style={{
-            position: scrollVh >= 1 ? 'absolute' : 'fixed'
-          }}>
-          <div className="h-[20rem] w-auto">
-            {error ? null : script2Data && (
-              <Lottie
-                lottieRef={script2Ref}
-                animationData={script2Data}
-                loop={false}
-                autoplay={false}
-                style={{ 
-                  height: '100%', 
-                  width: 'auto',
-                  opacity: 1 - opacity
-                }}
-                rendererSettings={{
-                  preserveAspectRatio: 'xMidYMid meet'
-                }}
-              />
-            )}
-          </div>
+        {/* Single Lottie Animation */}
+        <div className="absolute inset-0 [&>div]:w-full [&>div]:h-full [&>div>svg]:w-full [&>div>svg]:h-full [&>div>svg]:object-cover z-10">
+          {error ? null : animationData && (
+            <Lottie
+              lottieRef={lottieRef}
+              animationData={animationData}
+              loop={false}
+              autoplay={false}
+              style={{ 
+                width: '100vw',
+                height: '100vh',
+                objectFit: 'cover',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                transform: 'translate3d(0,0,0)', // Hardware acceleration
+                backfaceVisibility: 'hidden' // Additional optimization
+              }}
+              rendererSettings={{
+                preserveAspectRatio: 'xMidYMin slice',
+                progressiveLoad: true, // Load animation progressively
+                hideOnTransparent: true // Optimization
+              }}
+            />
+          )}
         </div>
 
         {/* HeroBottom Container */}
         <div 
           className="bottom-0 left-0 right-0 h-[50vh] flex flex-col items-center justify-center gap-2 z-50"
           style={{ 
-            position: scrollVh >= 1 ? 'absolute' : 'fixed'
+            position: scrollVh >= 1.3 ? 'absolute' : 'fixed'
           }}
         >
           {/* Lauren & David SVG */}
           <div className="w-[600px] flex justify-center mt 1vh [transition:transform_500ms_ease-out]"
             style={{
-              opacity: Math.max(0, Math.min(1, (scrollVh - 0.6) / (1 - 0.8))),
-              transform: `translateY(${Math.max(0, 60 * (1 - (scrollVh - 0.6) / (1 - 0.8)))}px)`
+              opacity: Math.max(0, Math.min(1, (scrollVh - 0.9) / (1 - 0.9))),
+              transform: `translateY(${Math.max(0, 30 * (1 - (scrollVh - 0.9) / (1 - 0.9)))}px)`
             }}>
             <Image
               src="/lauren david hero.svg"
@@ -267,8 +153,8 @@ export default function Home() {
           {/* Date */}
           <div className="w-[800px] flex justify-center [transition:transform_500ms_ease-out]"
             style={{
-              opacity: Math.max(0, Math.min(1, (scrollVh - 0.64) / (1 - 0.8))),
-              transform: `translateY(${Math.max(0, 60 * (1 - (scrollVh - 0.64) / (1 - 0.8)))}px)`
+              opacity: Math.max(0, Math.min(1, (scrollVh - 0.94) / (1 - 0.9))),
+              transform: `translateY(${Math.max(0, 30 * (1 - (scrollVh - 0.94) / (1 - 0.9)))}px)`
             }}>
             <p className="wedding-text text-4xl leading-[200%]">
               Juin 19-21, 2025
@@ -278,8 +164,8 @@ export default function Home() {
           {/* Villa SVG */}
           <div className="w-[600px] flex justify-center [transition:transform_500ms_ease-out]"
             style={{
-              opacity: Math.max(0, Math.min(1, (scrollVh - 0.72) / (1 - 0.8))),
-              transform: `translateY(${Math.max(0, 60 * (1 - (scrollVh - 0.72) / (1 - 0.8)))}px)`
+              opacity: Math.max(0, Math.min(1, (scrollVh - 0.98) / (1 - 0.9))),
+              transform: `translateY(${Math.max(0, 30 * (1 - (scrollVh - 0.98) / (1 - 0.9)))}px)`
             }}>
             <Image
               src="/villa hero.svg"
@@ -293,20 +179,18 @@ export default function Home() {
           {/* Location */}
           <div className="w-[800px] flex justify-center [transition:transform_500ms_ease-out]"
             style={{
-              opacity: Math.max(0, Math.min(1, (scrollVh - 0.76) / (1 - 0.8))),
-              transform: `translateY(${Math.max(0, 60 * (1 - (scrollVh - 0.76) / (1 - 0.8)))}px)`
+              opacity: Math.max(0, Math.min(1, (scrollVh - 1.02) / (1 - 0.9))),
+              transform: `translateY(${Math.max(0, 30 * (1 - (scrollVh - 1.02) / (1 - 0.9)))}px)`
             }}>
             <p className="wedding-text text-xl leading-[200%]">
               Saint-Jean-Cap-Ferrat, Côte d'Azur, France
             </p>
           </div>
-
-
         </div>
       </div>
 
       {/* Content Sections Container - Only starts after hero animation completes */}
-      <div className="relative mt-[200vh] z-[100]">
+      <div className="relative mt-[220vh] z-[100]">
         {/* SVG Filter Definition
         <svg className="absolute w-0 h-0">
           <defs>
