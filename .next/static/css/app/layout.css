@@ -1455,6 +1455,12 @@ video {
 .ml-2 {
   margin-left: 0.5rem;
 }
+.mt-\[220vh\] {
+  margin-top: 220vh;
+}
+.mt-\[210vh\] {
+  margin-top: 210vh;
+}
 .block {
   display: block;
 }
@@ -1494,11 +1500,17 @@ video {
 .h-\[40vh\] {
   height: 40vh;
 }
+.h-\[30vh\] {
+  height: 30vh;
+}
 .min-h-\[200vh\] {
   min-height: 200vh;
 }
 .min-h-screen {
   min-height: 100vh;
+}
+.min-h-\[220vh\] {
+  min-height: 220vh;
 }
 .w-0 {
   width: 0px;
