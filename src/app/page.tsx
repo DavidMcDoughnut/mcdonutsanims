@@ -18,11 +18,57 @@ const easeOutExpo = (x: number): number => {
   return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
 };
 
+// Browser detection hook
+const useIsChromeDesktop = () => {
+  const [isChrome, setIsChrome] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Check if browser is Chrome
+    const isChromeBrowser = 
+      typeof window !== 'undefined' && 
+      (navigator.userAgent.indexOf("Chrome") != -1) &&
+      (navigator.userAgent.indexOf("Edge") === -1) && // Exclude Edge
+      (navigator.userAgent.indexOf("Opera") === -1); // Exclude Opera
+
+    // Check if device is mobile
+    const isMobileDevice = 
+      typeof window !== 'undefined' && 
+      (navigator.userAgent.match(/Android/i) ||
+       navigator.userAgent.match(/webOS/i) ||
+       navigator.userAgent.match(/iPhone/i) ||
+       navigator.userAgent.match(/iPad/i) ||
+       navigator.userAgent.match(/iPod/i) ||
+       navigator.userAgent.match(/BlackBerry/i) ||
+       navigator.userAgent.match(/Windows Phone/i));
+
+    setIsChrome(isChromeBrowser);
+    setIsMobile(!!isMobileDevice);
+  }, []);
+
+  return !isMobile && isChrome;
+};
+
 export default function Home() {
   const [animationData, setAnimationData] = useState<any>(null);
   const [error, setError] = useState<string>('');
   const [scrollVh, setScrollVh] = useState(0);
+  const [videoEnded, setVideoEnded] = useState(false);
   const lottieRef = useRef<LottieRefCurrentProps>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const isChrome = useIsChromeDesktop();
+
+  // Prevent scrolling until video ends
+  useEffect(() => {
+    if (!isChrome && !videoEnded) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isChrome, videoEnded]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,7 +78,7 @@ export default function Home() {
       setScrollVh(newScrollVh);
 
       // Control Lottie animation progress based on scroll
-      if (lottieRef.current?.animationItem) {
+      if (isChrome && lottieRef.current?.animationItem) {
         // Calculate progress (0 to 1) between 0.01vh and 1.00vh
         const progress = Math.max(0, Math.min(1, (newScrollVh - 0.01) / 0.99));
         // Use requestAnimationFrame for smooth performance
@@ -44,30 +90,32 @@ export default function Home() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isChrome]);
 
   useEffect(() => {
-    const loadAnimation = async () => {
-      try {
-        const response = await fetch('/animfull.json');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+    if (isChrome) {
+      const loadAnimation = async () => {
+        try {
+          const response = await fetch('/animfull.json');
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const text = await response.text();
+          if (text.startsWith('PK')) {
+            throw new Error('The Lottie file appears to be in ZIP format. Please export it as a plain JSON file from your animation tool.');
+          }
+          const data = JSON.parse(text);
+          setAnimationData(data);
+        } catch (err) {
+          const errorMessage = err instanceof Error ? err.message : 'Unknown error loading animation';
+          console.error('Error loading animation:', err);
+          setError(errorMessage);
         }
-        const text = await response.text();
-        if (text.startsWith('PK')) {
-          throw new Error('The Lottie file appears to be in ZIP format. Please export it as a plain JSON file from your animation tool.');
-        }
-        const data = JSON.parse(text);
-        setAnimationData(data);
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Unknown error loading animation';
-        console.error('Error loading animation:', err);
-        setError(errorMessage);
-      }
-    };
-    
-    loadAnimation();
-  }, []);
+      };
+      
+      loadAnimation();
+    }
+  }, [isChrome]);
 
   return (
     <main className="relative min-h-[200vh] w-full overflow-x-hidden">
@@ -79,118 +127,142 @@ export default function Home() {
         {scrollVh.toFixed(2)}vh
       </div>
 
-      {/* Intro Animation Container */}
-      <div id="intro" 
-        className="relative h-screen"
-        style={{ 
-          position: scrollVh >= 1.3 ? 'absolute' : 'fixed',
-          top: scrollVh >= 1.3 ? '130vh' : 0,
-          left: 0,
-          right: 0,
-          transform: 'translate3d(0,0,0)', // Hardware acceleration
-          willChange: 'transform' // Optimization hint
-        }}
-      >
-        {/* Background Image */}
-        <div 
-          className="absolute inset-x-0 top-0 h-screen bg-cover bg-top bg-no-repeat z-0"
-          style={{
-            backgroundImage: 'url("/ve%20hero%20bg.png")',
-            position: scrollVh >= 1.3 ? 'absolute' : 'fixed',
-            opacity: Math.max(0, Math.min(1, 1 - ((scrollVh - 0.4) / 0.2))) // Transition from 100% to 0% between 0.4vh and 0.6vh
-          }}
-        />
-
-        {/* Single Lottie Animation */}
-        <div className="absolute inset-0 [&>div]:w-full [&>div]:h-full [&>div>svg]:w-full [&>div>svg]:h-full [&>div>svg]:object-cover z-10">
-          {error ? null : animationData && (
-            <Lottie
-              lottieRef={lottieRef}
-              animationData={animationData}
-              loop={false}
-              autoplay={false}
-              style={{ 
-                width: '100vw',
-                height: '100vh',
-                objectFit: 'cover',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                transform: 'translate3d(0,0,0)', // Hardware acceleration
-                backfaceVisibility: 'hidden' // Additional optimization
-              }}
-              rendererSettings={{
-                preserveAspectRatio: 'xMidYMin slice',
-                progressiveLoad: true, // Load animation progressively
-                hideOnTransparent: true // Optimization
-              }}
-            />
-          )}
-        </div>
-
-        {/* HeroBottom Container */}
-        <div 
-          className="bottom-0 left-0 right-0 h-[50vh] flex flex-col items-center justify-center gap-2 z-50"
+      {isChrome ? (
+        // Chrome Desktop: Lottie Animation Version
+        <div id="intro" 
+          className="relative h-screen"
           style={{ 
-            position: scrollVh >= 1.3 ? 'absolute' : 'fixed'
+            position: scrollVh >= 1.3 ? 'absolute' : 'fixed',
+            top: scrollVh >= 1.3 ? '130vh' : 0,
+            left: 0,
+            right: 0,
+            transform: 'translate3d(0,0,0)',
+            willChange: 'transform'
           }}
         >
-          {/* Lauren & David SVG */}
-          <div className="w-[600px] flex justify-center mt 1vh [transition:transform_500ms_ease-out]"
+          {/* Background Image */}
+          <div 
+            className="absolute inset-x-0 top-0 h-screen bg-cover bg-top bg-no-repeat z-0"
             style={{
-              opacity: Math.max(0, Math.min(1, (scrollVh - 0.9) / (1 - 0.9))),
-              transform: `translateY(${Math.max(0, 30 * (1 - (scrollVh - 0.9) / (1 - 0.9)))}px)`
-            }}>
-            <Image
-              src="/lauren david hero.svg"
-              alt="Lauren & David"
-              width={800}
-              height={100}
-              className="text-[#4B6CFF]"
-            />
+              backgroundImage: 'url("/ve%20hero%20bg.png")',
+              position: scrollVh >= 1.3 ? 'absolute' : 'fixed',
+              opacity: Math.max(0, Math.min(1, 1 - ((scrollVh - 0.4) / 0.2))) // Transition from 100% to 0% between 0.4vh and 0.6vh
+            }}
+          />
+
+          {/* Single Lottie Animation */}
+          <div className="absolute inset-0 [&>div]:w-full [&>div]:h-full [&>div>svg]:w-full [&>div>svg]:h-full [&>div>svg]:object-cover z-10">
+            {error ? null : animationData && (
+              <Lottie
+                lottieRef={lottieRef}
+                animationData={animationData}
+                loop={false}
+                autoplay={false}
+                style={{ 
+                  width: '100vw',
+                  height: '100vh',
+                  objectFit: 'cover',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  transform: 'translate3d(0,0,0)', // Hardware acceleration
+                  backfaceVisibility: 'hidden' // Additional optimization
+                }}
+                rendererSettings={{
+                  preserveAspectRatio: 'xMidYMin slice',
+                  progressiveLoad: true, // Load animation progressively
+                  hideOnTransparent: true // Optimization
+                }}
+              />
+            )}
           </div>
 
-          {/* Date */}
-          <div className="w-[800px] flex justify-center [transition:transform_500ms_ease-out]"
-            style={{
-              opacity: Math.max(0, Math.min(1, (scrollVh - 0.94) / (1 - 0.9))),
-              transform: `translateY(${Math.max(0, 30 * (1 - (scrollVh - 0.94) / (1 - 0.9)))}px)`
-            }}>
-            <p className="wedding-text text-4xl leading-[200%]">
-              Juin 19-21, 2025
-            </p>
-          </div>
+          {/* HeroBottom Container */}
+          <div 
+            className="bottom-0 left-0 right-0 h-[50vh] flex flex-col items-center justify-center gap-2 z-50"
+            style={{ 
+              position: scrollVh >= 1.3 ? 'absolute' : 'fixed'
+            }}
+          >
+            {/* Lauren & David SVG */}
+            <div className="w-[600px] flex justify-center mt 1vh [transition:transform_500ms_ease-out]"
+              style={{
+                opacity: Math.max(0, Math.min(1, (scrollVh - 0.9) / (1 - 0.9))),
+                transform: `translateY(${Math.max(0, 30 * (1 - (scrollVh - 0.9) / (1 - 0.9)))}px)`
+              }}>
+              <Image
+                src="/lauren david hero.svg"
+                alt="Lauren & David"
+                width={800}
+                height={100}
+                className="text-[#4B6CFF]"
+              />
+            </div>
 
-          {/* Villa SVG */}
-          <div className="w-[600px] flex justify-center [transition:transform_500ms_ease-out]"
-            style={{
-              opacity: Math.max(0, Math.min(1, (scrollVh - 0.98) / (1 - 0.9))),
-              transform: `translateY(${Math.max(0, 30 * (1 - (scrollVh - 0.98) / (1 - 0.9)))}px)`
-            }}>
-            <Image
-              src="/villa hero.svg"
-              alt="Villa Ephrussi de Rothschild"
-              width={800}
-              height={100}
-              className="text-[#4B6CFF]"
-            />
-          </div>
+            {/* Date */}
+            <div className="w-[800px] flex justify-center [transition:transform_500ms_ease-out]"
+              style={{
+                opacity: Math.max(0, Math.min(1, (scrollVh - 0.94) / (1 - 0.9))),
+                transform: `translateY(${Math.max(0, 30 * (1 - (scrollVh - 0.94) / (1 - 0.9)))}px)`
+              }}>
+              <p className="wedding-text text-4xl leading-[200%]">
+                Juin 19-21, 2025
+              </p>
+            </div>
 
-          {/* Location */}
-          <div className="w-[800px] flex justify-center [transition:transform_500ms_ease-out]"
-            style={{
-              opacity: Math.max(0, Math.min(1, (scrollVh - 1.02) / (1 - 0.9))),
-              transform: `translateY(${Math.max(0, 30 * (1 - (scrollVh - 1.02) / (1 - 0.9)))}px)`
-            }}>
-            <p className="wedding-text text-xl leading-[200%]">
-              Saint-Jean-Cap-Ferrat, Côte d'Azur, France
-            </p>
+            {/* Villa SVG */}
+            <div className="w-[600px] flex justify-center [transition:transform_500ms_ease-out]"
+              style={{
+                opacity: Math.max(0, Math.min(1, (scrollVh - 0.98) / (1 - 0.9))),
+                transform: `translateY(${Math.max(0, 30 * (1 - (scrollVh - 0.98) / (1 - 0.9)))}px)`
+              }}>
+              <Image
+                src="/villa hero.svg"
+                alt="Villa Ephrussi de Rothschild"
+                width={800}
+                height={100}
+                className="text-[#4B6CFF]"
+              />
+            </div>
+
+            {/* Location */}
+            <div className="w-[800px] flex justify-center [transition:transform_500ms_ease-out]"
+              style={{
+                opacity: Math.max(0, Math.min(1, (scrollVh - 1.02) / (1 - 0.9))),
+                transform: `translateY(${Math.max(0, 30 * (1 - (scrollVh - 1.02) / (1 - 0.9)))}px)`
+              }}>
+              <p className="wedding-text text-xl leading-[200%]">
+                Saint-Jean-Cap-Ferrat, Côte d'Azur, France
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        // Non-Chrome or Mobile: Video Version
+        <div id="intro-video" 
+          className="relative h-screen"
+          style={{ 
+            position: videoEnded ? 'absolute' : 'fixed',
+            top: videoEnded ? '130vh' : 0,
+            left: 0,
+            right: 0,
+          }}
+        >
+          <video
+            ref={videoRef}
+            className="w-screen h-screen object-cover"
+            autoPlay
+            playsInline
+            muted
+            onEnded={() => setVideoEnded(true)}
+          >
+            <source src="/animvid .75x 40f.mp4" type="video/mp4" />
+          </video>
+        </div>
+      )}
 
       {/* Content Sections Container - Only starts after hero animation completes */}
-      <div className="relative mt-[220vh] z-[100]">
+      <div className="relative z-[100]" style={{ marginTop: isChrome ? '220vh' : '100vh' }}>
         {/* SVG Filter Definition
         <svg className="absolute w-0 h-0">
           <defs>
