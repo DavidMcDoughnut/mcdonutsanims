@@ -30,6 +30,7 @@ export default function Home() {
   const lottieRef = useRef<LottieRefCurrentProps>(null);
   const lastPlayedFrame = useRef<number>(0);
   const lastScrollPosition = useRef(0);
+  const hasReachedThirtyPercent = useRef(false);
 
   // Add event listener for animation frame updates and handle initial autoplay
   useEffect(() => {
@@ -39,9 +40,17 @@ export default function Home() {
         const totalFrames = lottieRef.current?.animationItem?.totalFrames || 0;
         lastPlayedFrame.current = currentFrame;
 
-        // If we've reached 30% of the animation during autoplay, pause it
-        if ((currentFrame / totalFrames) >= 0.3 && !hasScrolled) {
+        // Only pause at 30% if we haven't scrolled yet
+        if (!hasReachedThirtyPercent.current && (currentFrame / totalFrames) >= 0.3 && !hasScrolled) {
           lottieRef.current?.animationItem?.pause();
+          hasReachedThirtyPercent.current = true;
+          setInitialAnimationComplete(true);
+        }
+
+        // If user starts scrolling before 30%, pause autoplay and let scroll take over
+        if (hasScrolled && !hasReachedThirtyPercent.current) {
+          lottieRef.current?.animationItem?.pause();
+          hasReachedThirtyPercent.current = true;
           setInitialAnimationComplete(true);
         }
       };
@@ -89,7 +98,6 @@ export default function Home() {
       // Handle animation control based on scroll
       if (lottieRef.current?.animationItem) {
         const totalFrames = lottieRef.current.animationItem.totalFrames;
-        const isScrollingUp = scrollPosition < lastScrollPosition.current;
         lastScrollPosition.current = scrollPosition;
 
         // If we've played through once, map scroll to full animation range
@@ -103,16 +111,17 @@ export default function Home() {
 
         // Initial scroll behavior remains the same until we've played through once
         if (scrollPosition === 0) {
-          const progress = 0;
+          const currentProgress = hasReachedThirtyPercent.current ? 0.3 : 0;
           requestAnimationFrame(() => {
-            lottieRef.current?.animationItem?.goToAndStop(progress * totalFrames, true);
+            lottieRef.current?.animationItem?.goToAndStop(currentProgress * totalFrames, true);
           });
           return;
         }
 
-        // Calculate progress starting from 30% when scroll begins
+        // Calculate progress starting from current position when scroll begins
         const scrollProgress = Math.max(0, Math.min(1, (newScrollVh - 0.01) / 0.99));
-        const finalProgress = 0.3 + (scrollProgress * 0.7);
+        const currentPosition = hasReachedThirtyPercent.current ? 0.3 : 0;
+        const finalProgress = currentPosition + (scrollProgress * (1 - currentPosition));
 
         // If we reach 100%, mark that we've played through once
         if (finalProgress >= 1) {
@@ -132,7 +141,7 @@ export default function Home() {
   useEffect(() => {
     const loadAnimation = async () => {
       try {
-        const response = await fetch('/animvid.json');
+        const response = await fetch('/anim4k.json');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -154,9 +163,6 @@ export default function Home() {
 
   return (
     <main className="relative min-h-[200vh] w-full overflow-x-hidden">
-      {/* Site Border */}
-      <div className="fixed inset-0 border-[2px] sm:border-[6px] border-[#4B6CFF] pointer-events-none z-[9999]" />
-
       {/* Debug Scroll Counter */}
       <div className="fixed top-4 right-4 bg-black/80 text-white px-3 py-2 rounded-lg font-mono text-sm z-[1000]">
         {scrollVh.toFixed(2)}vh
@@ -171,10 +177,60 @@ export default function Home() {
             top: scrollVh >= 1.3 ? '130vh' : 0,
             left: 0,
             right: 0,
-            transform: 'translate3d(0,0,0)', // Hardware acceleration
-            willChange: 'transform' // Optimization hint
+            transform: 'translate3d(0,0,0)',
+            willChange: 'transform'
           }}
         >
+          {/* Static Background Image - Fallback and Initial Load */}
+          <div className="absolute inset-0 [&>div]:w-full [&>div]:h-full z-[1]">
+            <Image
+              src="/vebg-static.png"
+              alt="Background"
+              fill
+              priority
+              className="object-cover object-top"
+              style={{ 
+                transform: 'translate3d(0,0,0)',
+                backfaceVisibility: 'hidden'
+              }}
+            />
+          </div>
+
+          {/* Chrome Border */}
+          <div 
+            id="chrome-border-div"
+            className="fixed border-[2px] sm:border-[4px] border-[#4B6CFF] pointer-events-none z-[9999] transition-transform  ease-out rounded-[12px] sm:rounded-[24px]"
+            style={{
+              top: '50%',
+              left: '50%',
+              width: 'calc(100% - 16px)',
+              height: 'calc(100% - 16px)',
+              transform: `translate(-50%, -50%) scale(${1 + (0.05 * Math.max(0, Math.min(1, 1 - ((scrollVh - 0.26) / 0.1))))})`,
+              transformOrigin: 'center center'
+            }}
+          />
+
+          {/* New Palm Animation Container */}
+          <div 
+            className="fixed h-[600px] w-full z-[20]"
+            style={{
+              top: '50%',
+              transform: 'translateY(-50%)',
+            }}
+          >
+            <div className="relative h-full w-full">
+              <div className="absolute right-0 h-[600px] aspect-square">
+                <Image
+                  src="/palmrt.png"
+                  alt="Palm Right"
+                  fill
+                  className="object-contain object-right"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
+
           {/* Background Image */}
           <div 
             className="absolute inset-x-0 top-0 h-screen bg-cover bg-top bg-no-repeat z-0"
@@ -279,17 +335,77 @@ export default function Home() {
         <div id="safari-intro"
           className="relative h-screen"
           style={{ 
-            position: 'relative', // Remove scroll-based position changes
-            transform: 'translate3d(0,0,0)', // Keep hardware acceleration
-            willChange: 'transform' // Keep optimization hint
+            position: 'relative',
+            transform: 'translate3d(0,0,0)',
+            willChange: 'transform'
           }}
         >
-          {/* Background Image */}
+          {/* Safari Border */}
           <div 
-            className="absolute inset-x-0 top-0 h-screen bg-cover bg-top bg-no-repeat z-0"
+            id="safari-border-div"
+            className="fixed border-[2px] sm:border-[4px] border-[#4B6CFF] pointer-events-none z-[9999] transition-transform duration-[1000ms] ease-out delay-[2000ms] rounded-[12px] sm:rounded-[24px]"
             style={{
-              backgroundImage: 'url("/final%20frame.png")',
-              position: 'absolute'
+              top: '50%',
+              left: '50%',
+              width: 'calc(100% - 16px)',
+              height: 'calc(100% - 16px)',
+              transform: pageLoaded 
+                ? 'translate(-50%, -50%) scale(1)' 
+                : 'translate(-50%, -50%) scale(1.05)',
+              transformOrigin: 'center center'
+            }}
+          />
+
+          {/* Background Video */}
+          <video 
+            className="absolute inset-x-0 top-0 h-screen w-full object-cover object-top z-0"
+            playsInline
+            muted
+            ref={(videoElement) => {
+              if (videoElement && !videoElement.hasAttribute('data-init')) {
+                videoElement.setAttribute('data-init', 'true');
+                videoElement.addEventListener('loadedmetadata', () => {
+                  videoElement.playbackRate = 1.5;
+                  videoElement.play();
+                });
+                videoElement.addEventListener('ended', () => {
+                  videoElement.currentTime = videoElement.duration;
+                });
+              }
+            }}
+          >
+            <source src="/animvid-1x30f.webm" type="video/webm" />
+          </video>
+
+          {/* Top Gradient Overlay */}
+          <div 
+            className="absolute top-0 left-0 right-0 h-[100px] z-10"
+            style={{
+              background: 'linear-gradient(to top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)'
+            }}
+          />
+
+          {/* Bottom Gradient Overlay */}
+          <div 
+            className="absolute bottom-0 left-0 right-0 h-[100px] z-10"
+            style={{
+              background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)'
+            }}
+          />
+
+          {/* Left Gradient Overlay */}
+          <div 
+            className="absolute top-0 left-0 bottom-0 w-[100px] z-10"
+            style={{
+              background: 'linear-gradient(to left, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)'
+            }}
+          />
+
+          {/* Right Gradient Overlay */}
+          <div 
+            className="absolute top-0 right-0 bottom-0 w-[100px] z-10"
+            style={{
+              background: 'linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)'
             }}
           />
 
@@ -299,7 +415,7 @@ export default function Home() {
           >
             {/* Lauren & David SVG */}
             <div 
-              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center mt-1vh transition-all duration-1000 ease-out ${
+              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center mt-1vh transition-all duration-1000 ease-out delay-[6000ms] ${
                 pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
@@ -314,7 +430,7 @@ export default function Home() {
 
             {/* Date */}
             <div 
-              className={`w-[90vw] sm:w-[80vw] md:w-[800px] flex justify-center transition-all duration-1000 ease-out delay-[200ms] ${
+              className={`w-[90vw] sm:w-[80vw] md:w-[800px] flex justify-center transition-all duration-1000 ease-out delay-[6200ms] ${
                 pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
@@ -325,7 +441,7 @@ export default function Home() {
 
             {/* Villa SVG */}
             <div 
-              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center transition-all duration-1000 ease-out delay-[400ms] ${
+              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center transition-all duration-1000 ease-out delay-[6400ms] ${
                 pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
@@ -340,7 +456,7 @@ export default function Home() {
 
             {/* Location */}
             <div 
-              className={`w-[90vw] sm:w-[80vw] md:w-[800px] flex justify-center transition-all duration-1000 ease-out delay-[600ms] ${
+              className={`w-[90vw] sm:w-[80vw] md:w-[800px] flex justify-center transition-all duration-1000 ease-out delay-[6600ms] ${
                 pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
