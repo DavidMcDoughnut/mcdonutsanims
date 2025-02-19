@@ -27,21 +27,37 @@ export default function Home() {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [initialAnimationComplete, setInitialAnimationComplete] = useState(false);
   const [hasPlayedThroughOnce, setHasPlayedThroughOnce] = useState(false);
+  const [isAnimationReady, setIsAnimationReady] = useState(false);
   const lottieRef = useRef<LottieRefCurrentProps>(null);
   const lastPlayedFrame = useRef<number>(0);
   const lastScrollPosition = useRef(0);
   const hasReachedThirtyPercent = useRef(false);
+  const animationLoadAttempted = useRef(false);
 
   // Add event listener for animation frame updates and handle initial autoplay
   useEffect(() => {
-    if (lottieRef.current?.animationItem && !initialAnimationComplete) {
+    if (lottieRef.current?.animationItem && !initialAnimationComplete && isAnimationReady) {
+      // console.log('[Debug] Animation setup - initial state:', {
+      //   hasScrolled,
+      //   initialAnimationComplete,
+      //   hasReachedThirtyPercent: hasReachedThirtyPercent.current,
+      //   isAnimationReady
+      // });
+
       const handleFrame = () => {
         const currentFrame = lottieRef.current?.animationItem?.currentFrame || 0;
         const totalFrames = lottieRef.current?.animationItem?.totalFrames || 0;
         lastPlayedFrame.current = currentFrame;
+        const progress = currentFrame / totalFrames;
+
+        // Log every 10% for debugging
+        // if (Math.floor(progress * 10) > Math.floor((lastPlayedFrame.current / totalFrames) * 10)) {
+        //   console.log(`[Debug] Animation progress: ${(progress * 100).toFixed(1)}%`);
+        // }
 
         // Only pause at 30% if we haven't scrolled yet
         if (!hasReachedThirtyPercent.current && (currentFrame / totalFrames) >= 0.3 && !hasScrolled) {
+          // console.log('[Debug] Pausing at 30% - No scroll detected');
           lottieRef.current?.animationItem?.pause();
           hasReachedThirtyPercent.current = true;
           setInitialAnimationComplete(true);
@@ -49,6 +65,7 @@ export default function Home() {
 
         // If user starts scrolling before 30%, pause autoplay and let scroll take over
         if (hasScrolled && !hasReachedThirtyPercent.current) {
+          // console.log('[Debug] User scrolled before 30% - Pausing autoplay');
           lottieRef.current?.animationItem?.pause();
           hasReachedThirtyPercent.current = true;
           setInitialAnimationComplete(true);
@@ -56,12 +73,14 @@ export default function Home() {
       };
       
       lottieRef.current.animationItem.addEventListener('enterFrame', handleFrame);
+      // console.log('[Debug] Frame listener attached');
       
       return () => {
+        // console.log('[Debug] Cleaning up frame listener');
         lottieRef.current?.animationItem?.removeEventListener('enterFrame', handleFrame);
       };
     }
-  }, [initialAnimationComplete, hasScrolled, lottieRef.current?.animationItem]);
+  }, [initialAnimationComplete, hasScrolled, lottieRef.current?.animationItem, isAnimationReady]);
 
   useEffect(() => {
     // Set pageLoaded to true after a delay
@@ -140,7 +159,16 @@ export default function Home() {
 
   useEffect(() => {
     const loadAnimation = async () => {
+      // Prevent double loading
+      if (animationLoadAttempted.current) {
+        // console.log('[Debug] Animation load already attempted, skipping');
+        return;
+      }
+      
+      animationLoadAttempted.current = true;
+      
       try {
+        // console.log('[Debug] Starting animation data load');
         const response = await fetch('/anim4k.json');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -150,10 +178,16 @@ export default function Home() {
           throw new Error('The Lottie file appears to be in ZIP format. Please export it as a plain JSON file from your animation tool.');
         }
         const data = JSON.parse(text);
+        // console.log('[Debug] Animation data loaded successfully');
         setAnimationData(data);
+        // Wait for next frame to ensure animation data is processed
+        requestAnimationFrame(() => {
+          setIsAnimationReady(true);
+          // console.log('[Debug] Animation ready for playback');
+        });
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error loading animation';
-        console.error('Error loading animation:', err);
+        console.error('[Debug] Error loading animation:', err);
         setError(errorMessage);
       }
     };
@@ -161,12 +195,56 @@ export default function Home() {
     loadAnimation();
   }, []);
 
+  // Modify the Lottie component to respect animation ready state
+  const renderLottieAnimation = () => {
+    if (!animationData) return null;
+    
+    return (
+      <Lottie
+        lottieRef={lottieRef}
+        animationData={animationData}
+        loop={false}
+        autoplay={!initialAnimationComplete && isAnimationReady}
+        style={{ 
+          width: '100vw',
+          height: '100vh',
+          objectFit: 'cover',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          transform: 'translate3d(0,0,0)',
+          backfaceVisibility: 'hidden'
+        }}
+        rendererSettings={{
+          preserveAspectRatio: 'xMidYMin slice',
+          progressiveLoad: true,
+          hideOnTransparent: true
+        }}
+      />
+    );
+  };
+
+  // Comment out debug logging effects
+  // useEffect(() => {
+  //   if (hasScrolled) {
+  //     console.log('[Debug] Scroll state changed - hasScrolled:', hasScrolled);
+  //   }
+  // }, [hasScrolled]);
+
+  // useEffect(() => {
+  //   console.log('[Debug] Animation completion state changed:', {
+  //     initialAnimationComplete,
+  //     hasPlayedThroughOnce
+  //   });
+  // }, [initialAnimationComplete, hasPlayedThroughOnce]);
+
   return (
     <main className="relative min-h-[200vh] w-full overflow-x-hidden">
-      {/* Debug Scroll Counter */}
+      {/* Debug Scroll Counter - Temporarily Hidden
       <div className="fixed top-4 right-4 bg-black/80 text-white px-3 py-2 rounded-lg font-mono text-sm z-[1000]">
         {scrollVh.toFixed(2)}vh
       </div>
+      */}
 
       {/* Chrome Intro Animation Container */}
       {isChrome && (
@@ -245,29 +323,7 @@ export default function Home() {
 
           {/* Single Lottie Animation */}
           <div className="absolute inset-0 [&>div]:w-full [&>div]:h-full [&>div>svg]:w-full [&>div>svg]:h-full [&>div>svg]:object-cover z-10">
-            {error ? null : animationData && (
-              <Lottie
-                lottieRef={lottieRef}
-                animationData={animationData}
-                loop={false}
-                autoplay={!initialAnimationComplete}
-                style={{ 
-                  width: '100vw',
-                  height: '100vh',
-                  objectFit: 'cover',
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  transform: 'translate3d(0,0,0)', // Hardware acceleration
-                  backfaceVisibility: 'hidden' // Additional optimization
-                }}
-                rendererSettings={{
-                  preserveAspectRatio: 'xMidYMin slice',
-                  progressiveLoad: true,
-                  hideOnTransparent: true
-                }}
-              />
-            )}
+            {error ? null : renderLottieAnimation()}
           </div>
 
           {/* HeroBottom Container */}
@@ -380,35 +436,11 @@ export default function Home() {
             <source src="/anim4k-vid.webm" type="video/webm" />
           </video>
 
-          {/* Top Gradient Overlay */}
-          <div 
-            className="absolute top-0 left-0 right-0 h-[100px] z-10"
-            style={{
-              background: 'linear-gradient(to top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)'
-            }}
-          />
-
           {/* Bottom Gradient Overlay */}
           <div 
             className="absolute bottom-0 left-0 right-0 h-[100px] z-10"
             style={{
               background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)'
-            }}
-          />
-
-          {/* Left Gradient Overlay */}
-          <div 
-            className="absolute top-0 left-0 bottom-0 w-[100px] z-10"
-            style={{
-              background: 'linear-gradient(to left, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)'
-            }}
-          />
-
-          {/* Right Gradient Overlay */}
-          <div 
-            className="absolute top-0 right-0 bottom-0 w-[100px] z-10"
-            style={{
-              background: 'linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)'
             }}
           />
 
@@ -418,7 +450,7 @@ export default function Home() {
           >
             {/* Lauren & David SVG */}
             <div 
-              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center mt-1vh transition-all duration-1000 ease-out delay-[6000ms] ${
+              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center mt-1 transition-all duration-1000 ease-out delay-[6000ms] ${
                 pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
