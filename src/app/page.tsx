@@ -380,11 +380,35 @@ export default function Home() {
             <source src="/anim4k-vid.webm" type="video/webm" />
           </video>
 
+          {/* Top Gradient Overlay */}
+          <div 
+            className="absolute top-0 left-0 right-0 h-[100px] z-10"
+            style={{
+              background: 'linear-gradient(to top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)'
+            }}
+          />
+
           {/* Bottom Gradient Overlay */}
           <div 
             className="absolute bottom-0 left-0 right-0 h-[100px] z-10"
             style={{
               background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)'
+            }}
+          />
+
+          {/* Left Gradient Overlay */}
+          <div 
+            className="absolute top-0 left-0 bottom-0 w-[100px] z-10"
+            style={{
+              background: 'linear-gradient(to left, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)'
+            }}
+          />
+
+          {/* Right Gradient Overlay */}
+          <div 
+            className="absolute top-0 right-0 bottom-0 w-[100px] z-10"
+            style={{
+              background: 'linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)'
             }}
           />
 
@@ -394,7 +418,7 @@ export default function Home() {
           >
             {/* Lauren & David SVG */}
             <div 
-              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center mt-8 transition-all duration-1000 ease-out delay-[6000ms] ${
+              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center mt-1vh transition-all duration-1000 ease-out delay-[6000ms] ${
                 pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
