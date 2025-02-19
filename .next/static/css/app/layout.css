@@ -1422,6 +1422,12 @@ video {
 .mt-\[220vh\] {
   margin-top: 220vh;
 }
+.mt-2 {
+  margin-top: 0.5rem;
+}
+.mt-8 {
+  margin-top: 2rem;
+}
 .block {
   display: block;
 }
@@ -1463,6 +1469,9 @@ video {
 }
 .h-screen {
   height: 100vh;
+}
+.h-\[90vh\] {
+  height: 90vh;
 }
 .min-h-\[200vh\] {
   min-height: 200vh;

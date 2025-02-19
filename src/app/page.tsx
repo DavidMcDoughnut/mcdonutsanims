@@ -206,11 +206,12 @@ export default function Home() {
               width: 'calc(100% - 16px)',
               height: 'calc(100% - 16px)',
               transform: `translate(-50%, -50%) scale(${1 + (0.05 * Math.max(0, Math.min(1, 1 - ((scrollVh - 0.26) / 0.1))))})`,
-              transformOrigin: 'center center'
+              transformOrigin: 'center center',
+              opacity: 0              
             }}
           />
 
-          {/* New Palm Animation Container */}
+          {/* New Palm Animation Container - TEMPORARILY HIDDEN
           <div 
             className="fixed h-[600px] w-full z-[20]"
             style={{
@@ -230,6 +231,7 @@ export default function Home() {
               </div>
             </div>
           </div>
+          */}
 
           {/* Background Image */}
           <div 
@@ -352,7 +354,8 @@ export default function Home() {
               transform: pageLoaded 
                 ? 'translate(-50%, -50%) scale(1)' 
                 : 'translate(-50%, -50%) scale(1.05)',
-              transformOrigin: 'center center'
+              transformOrigin: 'center center',
+              opacity: 0
             }}
           />
 
@@ -374,16 +377,8 @@ export default function Home() {
               }
             }}
           >
-            <source src="/animvid-1x30f.webm" type="video/webm" />
+            <source src="/anim4k-vid.webm" type="video/webm" />
           </video>
-
-          {/* Top Gradient Overlay */}
-          <div 
-            className="absolute top-0 left-0 right-0 h-[100px] z-10"
-            style={{
-              background: 'linear-gradient(to top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)'
-            }}
-          />
 
           {/* Bottom Gradient Overlay */}
           <div 
@@ -393,29 +388,13 @@ export default function Home() {
             }}
           />
 
-          {/* Left Gradient Overlay */}
-          <div 
-            className="absolute top-0 left-0 bottom-0 w-[100px] z-10"
-            style={{
-              background: 'linear-gradient(to left, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)'
-            }}
-          />
-
-          {/* Right Gradient Overlay */}
-          <div 
-            className="absolute top-0 right-0 bottom-0 w-[100px] z-10"
-            style={{
-              background: 'linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)'
-            }}
-          />
-
           {/* HeroBottom Container */}
           <div 
             className="absolute bottom-0 left-0 right-0 h-[50vh] flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-4 z-50"
           >
             {/* Lauren & David SVG */}
             <div 
-              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center mt-1vh transition-all duration-1000 ease-out delay-[6000ms] ${
+              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center mt-8 transition-all duration-1000 ease-out delay-[6000ms] ${
                 pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
