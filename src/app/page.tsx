@@ -381,7 +381,14 @@ export default function Home() {
                 transform: `translateY(${Math.max(0, 30 * (1 - (scrollVh - 1.02) / (1 - 0.9)))}px)`
               }}>
               <p className="wedding-text text-base sm:text-lg md:text-xl leading-[200%] text-center">
-                Saint-Jean-Cap-Ferrat, Côte d'Azur, France
+                <span className="md:hidden">
+                  Saint-Jean-Cap-Ferrat
+                  <br />
+                  Côte d'Azur, France
+                </span>
+                <span className="hidden md:inline">
+                  Saint-Jean-Cap-Ferrat, Côte d'Azur, France
+                </span>
               </p>
             </div>
           </div>
@@ -446,11 +453,11 @@ export default function Home() {
 
           {/* HeroBottom Container */}
           <div 
-            className="absolute bottom-0 left-0 right-0 h-[50vh] flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-4 z-50"
+            className="absolute bottom-0 left-0 right-0 h-[54vh] sm:h-[50vh] md:h-[46vh] flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-4 z-50"
           >
             {/* Lauren & David SVG */}
             <div 
-              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center mt-1 transition-all duration-1000 ease-out delay-[6000ms] ${
+              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center mt-0 transition-all duration-1000 ease-out delay-[6000ms] ${
                 pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
@@ -496,9 +503,14 @@ export default function Home() {
               }`}
             >
               <p className="wedding-text text-base sm:text-lg md:text-xl leading-[200%] text-center">
-                Saint-Jean-Cap-Ferrat
-                <br />
-                Côte d'Azur, France
+                <span className="md:hidden">
+                  Saint-Jean-Cap-Ferrat
+                  <br />
+                  Côte d'Azur, France
+                </span>
+                <span className="hidden md:inline">
+                  Saint-Jean-Cap-Ferrat, Côte d'Azur, France
+                </span>
               </p>
             </div>
           </div>
@@ -533,8 +545,8 @@ export default function Home() {
         />
 
         {/* Events Section */}
-        <section id="events" className="relative min-h-screen py-24 flex flex-col items-center">
-          <div className="w-full max-w-[2000px] px-4 mb-16 relative overflow-visible">
+        <section id="events" className="relative min-h-screen py-2 sm:py-16 flex flex-col items-center">
+          <div className="w-full max-w-[2000px] px-4 mb-4 mt-8 sm:mb-16 sm:mt-24 relative overflow-visible">
             <div className="relative left-1/2 -translate-x-1/2 w-[200%] md:w-full">
               <Image
                 src="/events title.svg"
@@ -549,7 +561,7 @@ export default function Home() {
           {/* Event Cards */}
           <div className="w-full text-[#4B6CFF]">
             {/* Welcome Drinks */}
-            <div className="w-full py-8 group">
+            <div className="w-full py-2 group">
               <div className="w-[1200px] max-w-full px-4 mx-auto flex flex-col-reverse md:flex-row gap-1 md:gap-8">
                 <a href="https://www.mayssabeach.fr/en/restaurant" target="_blank" rel="noopener noreferrer" className="block w-full md:w-1/2 cursor-pointer">
                   <div className="relative aspect-[4/3]">
@@ -567,10 +579,10 @@ export default function Home() {
                     />
                   </div>
                 </a>
-                <div className="w-full md:w-1/2 flex flex-col justify-center space-y-6">
+                <div className="w-full md:w-1/2 flex flex-col justify-center space-y-2 md:space-y-6">
                   <h3 className="text-[#FF89A9] text-lg sm:text-xl font-extralight tracking-widest">Thursday June 19</h3>
                   <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest">WELCOME DRINKS</h2>
-                  <div className="grid grid-cols-[72px_1fr] gap-x-2 gap-y-2 tracking-wider text-sm sm:text-base">
+                  <div className="grid grid-cols-[52px_1fr] sm:grid-cols-[72px_1fr] gap-x-2 sm:gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base">
                     <div className="contents">
                       <span className="font-light">When</span>
                       <span className="font-bold">8pm onwards</span>
@@ -592,7 +604,7 @@ export default function Home() {
             </div>
 
             {/* Main Event */}
-            <div className="w-full py-8 group">
+            <div className="w-full py-2 group">
               <div className="w-[1200px] max-w-full px-4 mx-auto flex flex-col-reverse md:flex-row gap-1 md:gap-8">
                 <a href="https://www.villa-ephrussi.com/en" target="_blank" rel="noopener noreferrer" className="block w-full md:w-1/2 cursor-pointer">
                   <div className="relative aspect-[4/3]">
@@ -610,10 +622,10 @@ export default function Home() {
                     />
                   </div>
                 </a>
-                <div className="w-full md:w-1/2 flex flex-col justify-center space-y-6">
+                <div className="w-full md:w-1/2 flex flex-col justify-center space-y-2 md:space-y-6">
                   <h3 className="text-[#FF89A9] text-lg sm:text-xl font-extralight tracking-widest">Friday June 20</h3>
                   <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest">MAIN EVENT</h2>
-                  <div className="grid grid-cols-[72px_1fr] gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base">
+                  <div className="grid grid-cols-[52px_1fr] sm:grid-cols-[72px_1fr] gap-x-2 sm:gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base">
                     <div className="contents">
                       <span className="font-light">When</span>
                       <span className="font-bold">5pm Onwards</span>
@@ -622,8 +634,7 @@ export default function Home() {
                       <span className="font-light">Where</span>
                       <div>
                         <a href="https://www.villa-ephrussi.com/en" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] font-bold">Villa Ephrussi de Rothschild</a>
-                        <span className="font-regular text-[#4B6CFF] leading-[100%]">&nbsp;&nbsp;|&nbsp;</span>
-                        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] ml-1">map</a>
+                        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] ml-1">(map)</a>
                       </div>
                     </div>
                     <div className="contents">
@@ -636,7 +647,7 @@ export default function Home() {
             </div>
 
             {/* La Vie en Rosé */}
-            <div className="w-full py-8 group">
+            <div className="w-full py-2 group">
               <div className="w-[1200px] max-w-full px-4 mx-auto flex flex-col-reverse md:flex-row gap-1 md:gap-8">
                 <a href="https://www.plage-de-passable.fr/" target="_blank" rel="noopener noreferrer" className="block w-full md:w-1/2 cursor-pointer">
                   <div className="relative aspect-[4/3]">
@@ -654,13 +665,13 @@ export default function Home() {
                     />
                   </div>
                 </a>
-                <div className="w-full md:w-1/2 flex flex-col justify-center space-y-6">
+                <div className="w-full md:w-1/2 flex flex-col justify-center space-y-2 md:space-y-6">
                   <h3 className="text-[#FF89A9] text-lg sm:text-xl font-extralight tracking-widest">Saturday June 21</h3>
                   <div className="space-y-1">
                     <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest">LA VIE EN ROSÉ</h2>
                     <h3 className="text-lg sm:text-xl font-extralight tracking-widest">BEACH CLUB RECOVERY LOUNGE</h3>
                   </div>
-                  <div className="grid grid-cols-[72px_1fr] gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base">
+                  <div className="grid grid-cols-[52px_1fr] sm:grid-cols-[72px_1fr] gap-x-2 sm:gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base">
                     <div className="contents">
                       <span className="font-light">When</span>
                       <span className="font-bold">2pm-ish Onwards</span>
@@ -674,11 +685,11 @@ export default function Home() {
                     </div>
                     <div className="contents">
                       <span className="font-light">Wear</span>
-                      <span className="font-bold">Maximum-chic, Hawtest, Euro-med beach attire</span>
+                      <span className="font-bold">Max-chic, Euro-Trendy beach outfit</span>
                     </div>
                     <div className="contents">
                       <span className="font-light">What</span>
-                      <span className="font-bold">Relaxed & casual lounge day à la plage*</span>
+                      <span className="font-bold">Relaxed, casual lounge à la plage*</span>
                     </div>
                     <div className="col-span-2 italic text-xs sm:text-sm mt-4 leading-[160%]">*If brunch + beach chic turn into vibey, sexy-sax, tropical-house, sunset dance party on the Riviera... Fantastique!</div>
                   </div>
@@ -689,8 +700,8 @@ export default function Home() {
         </section>
 
         {/* Stay Section */}
-        <section id="stay" className="min-h-screen py-16 sm:py-24 flex flex-col items-center">
-          <div className="w-full max-w-[2000px] px-4 mb-12 sm:mb-16 relative overflow-visible">
+        <section id="stay" className="min-h-screen py-2 sm:py-16 flex flex-col items-center">
+          <div className="w-full max-w-[2000px] px-4 mb-4 sm:mb-16 relative overflow-visible">
             <div className="relative left-1/2 -translate-x-1/2 w-[200%] md:w-full">
               <Image
                 src="/stay title.svg"
@@ -715,53 +726,53 @@ export default function Home() {
                 <p className="mt-4 text-sm sm:text-base leading-[200%]">The prices for the high-end hotels that target Americans/foreigners are pretty extreme, but below is our rough breakdown of the hotel market:</p>
               </div>
               <div>
-                <div className="flex items-baseline gap-2 mb-4">
+                <div className="flex flex-col md:flex-row md:items-baseline md:gap-2 mb-4">
                   <h4 className="text-large font-bold tracking-widest">5 STARS</h4>
-                  <p className="leading-[200%] italic text-sm">Max luxe, max price... money no object</p>
+                  <p className="italic leading-[200%] text-sm">Max luxe, max price... money no object</p>
                 </div>
-                <ul className="space-y-2 list-disc marker:text-[#4B6CFF] pl-8 font-bold">
-                  <li className="pl-4"><a href="https://www.fourseasons.com/capferrat/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Four Seasons: The Grand Hotel du Cap-Ferrat</a></li>
-                  <li className="pl-4"><a href="https://www.capestel.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Hotel Cap-Estel</a></li>
+                <ul className="space-y-2 list-disc md:pl-8 pl-4 marker:text-[#4B6CFF] font-bold text-sm md:text-base">
+                  <li className="pl-2 md:pl-4"><a href="https://www.fourseasons.com/capferrat/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Four Seasons: The Grand Hotel du Cap-Ferrat</a></li>
+                  <li className="pl-2 md:pl-4"><a href="https://www.capestel.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Hotel Cap-Estel</a></li>
                 </ul>
               </div>
 
               <div>
-                <div className="flex items-baseline gap-2 mb-4">
+                <div className="flex flex-col md:flex-row md:items-baseline md:gap-2 mb-4">
                   <h4 className="text-large font-bold tracking-widest">4.5 STARS</h4>
                   <p className="italic text-sm leading-[200%]">Approachable luxury... pricey but less crazy</p>
                 </div>
-                <ul className="space-y-1 list-disc marker:text-[#4B6CFF] pl-8 font-bold">
-                  <li className="pl-4"><a href="https://www.lareservebeaulieu.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">La Reserve de Beaulieu</a></li>
-                  <li className="pl-4"><a href="https://www.royal-riviera.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Royal Riviera</a></li>
+                <ul className="space-y-1 list-disc md:pl-8 pl-4 marker:text-[#4B6CFF] font-bold text-sm md:text-base">
+                  <li className="pl-2 md:pl-4"><a href="https://www.lareservebeaulieu.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">La Reserve de Beaulieu</a></li>
+                  <li className="pl-2 md:pl-4"><a href="https://www.royal-riviera.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Royal Riviera</a></li>
                 </ul>
               </div>
 
               <div>
-                <div className="flex items-baseline gap-2 mb-4">
+                <div className="flex flex-col md:flex-row md:items-baseline md:gap-2 mb-4">
                   <h4 className="text-large font-bold tracking-widest">4 STARS</h4>
-                  <p className="italic leading-[200%] text-sm">Local boutique, upscale experience, "reasonable" cost</p>
+                  <p className="italic leading-[200%] text-sm">Local boutique, upscale, more reasonable</p>
                 </div>
-                <ul className="space-y-1 list-disc marker:text-[#4B6CFF] pl-8 font-bold">
-                  <li className="pl-4"><a href="https://www.villa-capferrat.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">La Villa Cap Ferrat, Boutique Hotel & Spa</a></li>
-                  <li className="pl-4"><a href="https://www.hotel-carlton-beaulieu.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Carlton Hotel, Beaulieu sur mer</a></li>
-                  <li className="pl-4"><a href="https://www.welcomehotel.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Welcome Hotel, Villefranche sur mer</a></li>
-                  <li className="pl-4"><a href="https://www.hotelversailles.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Hotel Versailles, Villefranche sur mer</a></li>
-                  <li className="pl-4"><a href="https://www.hotel-provencale.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Hotel Provençale, Villefranche sur mer</a></li>
+                <ul className="space-y-1 list-disc md:pl-8 pl-4 marker:text-[#4B6CFF] font-bold text-sm md:text-base">
+                  <li className="pl-2 md:pl-4"><a href="https://www.villa-capferrat.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">La Villa Cap Ferrat, Boutique Hotel & Spa</a></li>
+                  <li className="pl-2 md:pl-4"><a href="https://www.hotel-carlton-beaulieu.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Carlton Hotel, Beaulieu sur mer</a></li>
+                  <li className="pl-2 md:pl-4"><a href="https://www.welcomehotel.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Welcome Hotel, Villefranche sur mer</a></li>
+                  <li className="pl-2 md:pl-4"><a href="https://www.hotelversailles.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Hotel Versailles, Villefranche sur mer</a></li>
+                  <li className="pl-2 md:pl-4"><a href="https://www.hotel-provencale.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Hotel Provençale, Villefranche sur mer</a></li>
                 </ul>
               </div>
             </div>
 
             <div className="space-y-6">
               <h3 className="text-[#4B6CFF] text-2xl font-extralight tracking-widest mb-4">AIRBNBs</h3>
-              <p className="leading-[200%]">AirBnBs are a great option for larger groups/families and there is an abundance of options. Please note that these are public beaches and beautiful marinas with gorgeous restaurants, bars and shops all within walking distance so what some of these lack in amenity offerings, is more than made up for in the neighborhoods.</p>
-              <p className="mt-4 leading-[200%]">Please note we have personally reserved a number of the Cap Ferrat AirBnB listings and are planning to help organize larger groups.</p>
+              <p className="text-sm sm:text-base leading-[200%]">AirBnBs are a great option for larger groups/families and there is an abundance of options. Please note that these are public beaches and beautiful marinas with gorgeous restaurants, bars and shops all within walking distance so what some of these lack in amenity offerings, is more than made up for in the neighborhoods.</p>
+              <p className="text-sm sm:text-base leading-[200%] mt-4">Please note we have personally reserved a number of the Cap Ferrat AirBnB listings and are planning to help organize larger groups.</p>
             </div>
           </div>
         </section>
 
         {/* Travel Section */}
-        <section id="travel" className="min-h-screen py-16 sm:py-24 flex flex-col items-center">
-          <div className="w-full max-w-[2000px] px-4 mb-12 sm:mb-16 relative overflow-visible">
+        <section id="travel" className="min-h-screen py-2 sm:py-8 flex flex-col items-center">
+          <div className="w-full max-w-[2000px] px-4 mb-4 sm:mb-16 relative overflow-visible">
             <div className="relative left-1/2 -translate-x-1/2 w-[200%] md:w-full">
               <Image
                 src="/travel title.svg"
@@ -783,36 +794,35 @@ export default function Home() {
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-2xl font-extralight tracking-widest">GETTING THERE</h3>
+              <h3 className="text-xl sm:text-2xl font-extralight tracking-widest">GETTING THERE</h3>
               <div className="space-y-4">
-                <p className="font-bold leading-[200%]">Airport Options:</p>
+                <p className="text-sm sm:text-base font-bold leading-[200%]">Airport Options:</p>
                 <ul className="list-disc pl-6 space-y-2">
                   <li><a href="https://www.google.com/maps/place/Nice+C%C3%B4te+d'Azur+Airport/@43.6584014,7.2029736,14z/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF89A9]">Nice (NCE) Côte d'Azur Airport </a>
                     <ul className="list-disc pl-6 mt-1">
-                      <li className="leading-[200%]">Large, modern intl airport, 25 min drive from Cap Ferrat</li>
+                      <li className="text-sm sm:text-base leading-[200%]">Large, modern intl airport, 25 min drive from Cap Ferrat</li>
                     </ul>
                   </li>
                   <li><a href="https://www.google.com/maps/place/Marseille+Provence+Airport/@43.4366961,5.2133322,14z/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF89A9]">Marseille (MRS) Provence Airport</a> 
                     <ul className="list-disc pl-6 mt-1">
-                      <li className="leading-[200%]">2 hr drive from Cap Ferrat (not ideal,never been)</li>
+                      <li className="text-sm sm:text-base leading-[200%]">2 hr drive from Cap Ferrat (not ideal,never been)</li>
                     </ul>
                   </li>
                 </ul>
               </div>
               
-
               <div className="space-y-4">
-              <p className="font-bold leading-[200%]">Flight Options:</p>
+                <p className="text-sm sm:text-base font-bold leading-[200%]">Flight Options:</p>
                 <ul className="list-disc pl-6 space-y-2">
                   <li><a href="https://www.google.com/travel/flights/search?tfs=CBwQAhopEgoyMDI1LTA2LTE4ag0IAhIJL20vMDJfMjg2cgwIAxIIL20vMGNwNncaKRIKMjAyNS0wNi0yMmoMCAMSCC9tLzBjcDZ3cg0IAhIJL20vMDJfMjg2QAFIAXABggELCP___________wGYAQE&tfu=EgYIABABGAA&hl=en" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF89A9]">From the US </a>
                     <ul className="list-disc pl-6 mt-1">
-                      <li className="leading-[200%]">Direct flights from from NY, Boston and DC on major carriers</li>
-                      <li className="leading-[200%]">Most east coast flights are 8hr redeyes, leave 6-8pm ET, landing early AM France time</li>
+                      <li className="text-sm sm:text-base leading-[200%]">Direct flights from from NY, Boston and DC on major carriers</li>
+                      <li className="text-sm sm:text-base leading-[200%]">Most east coast flights are 8hr redeyes, leave 6-8pm ET, landing early AM France time</li>
                     </ul>
                   </li>
                   <li><a href="https://www.google.com/travel/flights/search?tfs=CBwQAhooEgoyMDI1LTA2LTE5agwIAxIIL20vMDRqcGxyDAgDEggvbS8wY3A2dxooEgoyMDI1LTA2LTIyagwIAxIIL20vMGNwNndyDAgDEggvbS8wNGpwbEABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABABGAA&hl=en" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF89A9]">From the UK </a>
                     <ul className="list-disc pl-6 mt-1">
-                      <li className="leading-[200%]">Direct ~2hr flights from London on B, Air France & budget carriers</li>
+                      <li className="text-sm sm:text-base leading-[200%]">Direct ~2hr flights from London on B, Air France & budget carriers</li>
                     </ul>
                   </li>
                 </ul>
@@ -821,25 +831,25 @@ export default function Home() {
 
             <div className="space-y-6">
               <h3 className="text-2xl font-extralight tracking-widest">GETTING AROUND</h3>
-              <p className="leading-[200%]">Cap Ferrat itself and the greater area are both very small, so getting around is pretty easy. You don't need a car at all. FYI, some of the roads are a bit tricky/tight/windy which is relevant for both walking or rental cars.</p>
+              <p className="text-sm sm:text-base leading-[200%]">Cap Ferrat itself and the greater area are both very small, so getting around is pretty easy. You don't need a car at all. FYI, some of the roads are a bit tricky/tight/windy which is relevant for both walking or rental cars.</p>
 
               <div className="space-y-4">
-                <p className="font-bold leading-[200%]">Transportation options:</p>
+                <p className="text-sm sm:text-base font-bold leading-[200%]">Transportation options:</p>
                 <ul className="list-disc pl-6 space-y-2">
                   <li><span className="font-bold">Ubers + walking</span>
                     <ul className="list-disc pl-6 mt-1">
-                      <li className="leading-[200%]">Ubers are very reliable, easy, safe and reasonably priced.</li>
-                      <li className="leading-[200%]">All of the venues are very walkable, its europe.</li>
+                      <li className="text-sm sm:text-base leading-[200%]">Ubers are very reliable, easy, safe and reasonably priced.</li>
+                      <li className="text-sm sm:text-base leading-[200%]">All of the venues are very walkable, its europe.</li>
                     </ul>
                   </li>
                   <li><span className="font-bold">Rental Cars</span>
                     <ul className="list-disc pl-6 mt-1">
-                      <li className="leading-[200%]">Definitely not needed but nice to have if you really want to explore the extended area</li>
+                      <li className="text-sm sm:text-base leading-[200%]">Definitely not needed but nice to have if you really want to explore the extended area</li>
                     </ul>
                   </li>
                   <li><span className="font-bold">Shuttles</span>
                     <ul className="list-disc pl-6 mt-1">
-                      <li className="leading-[200%]">We'll provide shuttle service on Friday for main event to/from most locations</li>
+                      <li className="text-sm sm:text-base leading-[200%]">We'll provide shuttle service on Friday for main event to/from most locations</li>
                     </ul>
                   </li>
                 </ul>
@@ -848,11 +858,9 @@ export default function Home() {
           </div>
         </section>
 
-
-
         {/* FAQ Section */}
-        <section id="faq" className="min-h-screen py-16 sm:py-24 flex flex-col items-center">
-          <div className="w-full max-w-[2000px] px-4 mb-12 sm:mb-16 relative overflow-visible">
+        <section id="faq" className="min-h-screen py-2 sm:py-16 flex flex-col items-center">
+          <div className="w-full max-w-[2000px] px-4 mb-4 sm:mb-16 relative overflow-visible">
             <div className="relative left-1/2 -translate-x-1/2 w-[200%] md:w-full">
               <Image
                 src="/faq title.svg"
@@ -874,26 +882,25 @@ export default function Home() {
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-2xl font-extralight tracking-widest">CHILDCARE</h3>
-              <div>
-                <p className="leading-[200%]">For anyone planning to bring their children to France and may be looking for local childcare options, we have been recommended English-speaking Silly Billy's English speaking babysitters in France . Please make enquiries directly.</p>
+              <h3 className="text-xl sm:text-2xl font-extralight tracking-widest">CHILDCARE</h3>
+              <div className="space-y-4">
+                <p className="text-sm sm:text-base leading-[200%]">For anyone planning to bring their children to France and may be looking for local childcare options, we have been recommended English-speaking Silly Billy's English speaking babysitters in France . Please make enquiries directly.</p>
               </div>
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-2xl font-extralight tracking-widest">GIFTS</h3>
+              <h3 className="text-xl sm:text-2xl font-extralight tracking-widest">GIFTS</h3>
               <div className="space-y-4">
-                <p className="leading-[200%]">We are extremely grateful anyone would make the journey to celebrate with us in France and we do not take for granted the large time/effort/cost commitment. Your presence is the greatest present.</p>
-                <p className="leading-[200%]">In lieu of gifts, we simply ask that you contribute generously to the European economy during your stay (and/or donate to your favorite charity).</p>
+                <p className="text-sm sm:text-base leading-[200%]">We are extremely grateful anyone would make the journey to celebrate with us in France and we do not take for granted the large time/effort/cost commitment. Your presence is the greatest present.</p>
+                <p className="text-sm sm:text-base leading-[200%]">In lieu of gifts, we simply ask that you contribute generously to the European economy during your stay (and/or donate to your favorite charity).</p>
               </div>
             </div>
           </div>
         </section>
 
-
         {/* Area Section */}
         <section id="area" className="min-h-screen py-24 flex flex-col items-center">
-          <div className="w-full max-w-[2000px] px-4 mb-16 relative overflow-visible">
+          <div className="w-full max-w-[2000px] px-4 mb-4 sm:mb-16 relative overflow-visible">
             <div className="relative left-1/2 -translate-x-1/2 w-[200%] md:w-full">
               <Image
                 src="/area title.svg"
@@ -909,10 +916,6 @@ export default function Home() {
             <p className="text-2xl leading-[200%]">COMING SOON</p>
           </div>
         </section>
-
-
-
-
       </div>
     </main>
   );

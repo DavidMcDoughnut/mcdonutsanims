@@ -11,8 +11,26 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: 'L + D',
-  description: 'A beautiful wedding celebration',
+  title: 'Lauren & David',
+  description: 'Lauren & David Wedding - Juin 19-21, 2025 - Saint-Jean-Cap-Ferrat',
+  icons: {
+    icon: [
+      {
+        url: '/favicon.ico',
+        sizes: 'any',
+      },
+      {
+        url: '/icon.png',
+        type: 'image/png',
+        sizes: '32x32',
+      },
+    ],
+    apple: {
+      url: '/apple-touch-icon.png',
+      type: 'image/png',
+      sizes: '180x180',
+    },
+  },
 };
 
 export default function RootLayout({
