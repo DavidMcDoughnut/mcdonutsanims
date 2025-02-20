@@ -36,3 +36,6 @@ next-env.d.ts
 
 # backup files
 repo-backup.git/
+
+# personal notes
+notes.md
