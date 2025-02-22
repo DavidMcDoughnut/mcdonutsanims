@@ -13,6 +13,28 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: 'Lauren & David',
   description: 'Lauren & David Wedding - Juin 19-21, 2025 - Saint-Jean-Cap-Ferrat',
+  openGraph: {
+    title: 'Lauren & David',
+    description: 'Lauren & David Wedding - Juin 19-21, 2025 - Saint-Jean-Cap-Ferrat',
+    url: 'https://laurendavid.wedding',
+    siteName: 'Lauren & David Wedding',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Lauren & David Wedding',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Lauren & David',
+    description: 'Lauren & David Wedding - Juin 19-21, 2025 - Saint-Jean-Cap-Ferrat',
+    images: ['/og-image.jpg'],
+  },
   icons: {
     icon: [
       {
