@@ -546,14 +546,22 @@ export default function Home() {
 
         {/* Events Section */}
         <section id="events" className="relative min-h-screen py-2 sm:py-16 flex flex-col items-center">
+          {/* Events Section Title */}
           <div className="w-full max-w-[2000px] px-4 mb-4 mt-8 sm:mb-16 sm:mt-24 relative overflow-visible">
             <div className="relative left-1/2 -translate-x-1/2 w-[200%] md:w-full">
               <Image
-                src="/events title.svg"
+                src="/events title mobile.png"
                 alt="Events"
                 width={2000}
                 height={100}
-                className="w-full h-auto"
+                className="w-full h-auto md:hidden"
+              />
+              <Image
+                src="/events title.png"
+                alt="Events"
+                width={2000}
+                height={100}
+                className="w-full h-auto hidden md:block"
               />
             </div>
           </div>
@@ -701,14 +709,22 @@ export default function Home() {
 
         {/* Stay Section */}
         <section id="stay" className="min-h-screen py-2 sm:py-16 flex flex-col items-center">
+          {/* Stay Section Title */}
           <div className="w-full max-w-[2000px] px-4 mb-4 sm:mb-16 relative overflow-visible">
             <div className="relative left-1/2 -translate-x-1/2 w-[200%] md:w-full">
               <Image
-                src="/stay title.svg"
+                src="/stay title mobile.png"
                 alt="Stay"
                 width={2000}
                 height={100}
-                className="w-full h-auto"
+                className="w-full h-auto md:hidden"
+              />
+              <Image
+                src="/stay title.png"
+                alt="Stay"
+                width={2000}
+                height={100}
+                className="w-full h-auto hidden md:block"
               />
             </div>
           </div>
@@ -764,7 +780,7 @@ export default function Home() {
 
             <div className="space-y-6">
               <h3 className="text-[#4B6CFF] text-2xl font-extralight tracking-widest mb-4">AIRBNBs</h3>
-              <p className="text-sm sm:text-base leading-[200%]">AirBnBs are a great option for larger groups/families and there is an abundance of options. Please note that these are public beaches and beautiful marinas with gorgeous restaurants, bars and shops all within walking distance so what some of these lack in amenity offerings, is more than made up for in the neighborhoods.</p>
+              <p className="text-sm sm:text-base leading-[200%]">AirBnBs are a great option for larger groups/families and there is an abundance of options. Please note that these are public beaches and beautiful marinas with gorgeous restaurants, bars and shops all within walking distance so what some of these lack in amenity offerings, is more made up for in the neighborhoods.</p>
               <p className="text-sm sm:text-base leading-[200%] mt-4">Please note we have personally reserved a number of the Cap Ferrat AirBnB listings and are planning to help organize larger groups.</p>
             </div>
           </div>
@@ -772,14 +788,22 @@ export default function Home() {
 
         {/* Travel Section */}
         <section id="travel" className="min-h-screen py-2 sm:py-8 flex flex-col items-center">
+          {/* Travel Section Title */}
           <div className="w-full max-w-[2000px] px-4 mb-4 sm:mb-16 relative overflow-visible">
             <div className="relative left-1/2 -translate-x-1/2 w-[200%] md:w-full">
               <Image
-                src="/travel title.svg"
+                src="/travel title mobile.png"
                 alt="Travel"
                 width={2000}
                 height={100}
-                className="w-full h-auto"
+                className="w-full h-auto md:hidden"
+              />
+              <Image
+                src="/travel title.png"
+                alt="Travel"
+                width={2000}
+                height={100}
+                className="w-full h-auto hidden md:block"
               />
             </div>
           </div>
@@ -860,14 +884,22 @@ export default function Home() {
 
         {/* FAQ Section */}
         <section id="faq" className="min-h-screen py-2 sm:py-16 flex flex-col items-center">
+          {/* FAQ Section Title */}
           <div className="w-full max-w-[2000px] px-4 mb-4 sm:mb-16 relative overflow-visible">
             <div className="relative left-1/2 -translate-x-1/2 w-[200%] md:w-full">
               <Image
-                src="/faq title.svg"
+                src="/faq title mobile.png"
                 alt="FAQ"
                 width={2000}
                 height={100}
-                className="w-full h-auto"
+                className="w-full h-auto md:hidden"
+              />
+              <Image
+                src="/faq title.png"
+                alt="FAQ"
+                width={2000}
+                height={100}
+                className="w-full h-auto hidden md:block"
               />
             </div>
           </div>
@@ -900,14 +932,22 @@ export default function Home() {
 
         {/* Area Section */}
         <section id="area" className="min-h-screen py-24 flex flex-col items-center">
+          {/* Area Section Title */}
           <div className="w-full max-w-[2000px] px-4 mb-4 sm:mb-16 relative overflow-visible">
             <div className="relative left-1/2 -translate-x-1/2 w-[200%] md:w-full">
               <Image
-                src="/area title.svg"
+                src="/area title mobile.png"
                 alt="Area"
                 width={2000}
                 height={100}
-                className="w-full h-auto"
+                className="w-full h-auto md:hidden"
+              />
+              <Image
+                src="/area title.png"
+                alt="Area"
+                width={2000}
+                height={100}
+                className="w-full h-auto hidden md:block"
               />
             </div>
           </div>
