@@ -518,8 +518,8 @@ export default function Home() {
       )}
 
       {/* Content Sections Container - Only starts after hero animation completes */}
-      <div className={`relative ${isChrome ? 'mt-[220vh]' : 'mt-[0vh]'} z-[100]`}>
-        {/* SVG Filter Definition
+      <div className={`relative ${isChrome ? 'mt-[220vh]' : 'mt-[0vh]'} z-[200]`}>
+        {/* SVG Filter Definition*/}
         <svg className="absolute w-0 h-0">
           <defs>
             <filter id='roughpaper' x='0%' y='0%' width='100%' height="100%">
@@ -530,7 +530,7 @@ export default function Home() {
             </filter>
           </defs>
         </svg>
-        */}
+        
 
         {/* Apply the filter to a background div that covers all content */}
         <div 
@@ -539,7 +539,7 @@ export default function Home() {
             filter: 'url(#roughpaper)',
             opacity: 0.04,
             pointerEvents: 'none',
-            zIndex: 121,
+            zIndex: 200,
             minHeight: '400vh' // Make sure it covers all content sections
           }}
         />
@@ -547,8 +547,8 @@ export default function Home() {
         {/* Events Section */}
         <section id="events" className="relative min-h-screen py-2 sm:py-16 flex flex-col items-center">
           {/* Events Section Title */}
-          <div className="w-full max-w-[2000px] px-4 mb-4 mt-8 sm:mb-16 sm:mt-24 relative overflow-visible">
-            <div className="relative left-1/2 -translate-x-1/2 w-[200%] md:w-full">
+          <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-4 mt-8 sm:mb-16 sm:mt-24 relative overflow-visible">
+            <div className="relative w-full">
               <Image
                 src="/events title mobile.png"
                 alt="Events"
@@ -570,7 +570,7 @@ export default function Home() {
           <div className="w-full text-[#4B6CFF]">
             {/* Welcome Drinks */}
             <div className="w-full py-2 group">
-              <div className="w-[1200px] max-w-full px-4 mx-auto flex flex-col-reverse md:flex-row gap-1 md:gap-8">
+              <div className="w-[1200px] max-w-full px-5 sm:px-4 mx-auto flex flex-col-reverse md:flex-row gap-1 md:gap-8">
                 <a href="https://www.mayssabeach.fr/en/restaurant" target="_blank" rel="noopener noreferrer" className="block w-full md:w-1/2 cursor-pointer">
                   <div className="relative aspect-[4/3]">
                     <Image
@@ -613,7 +613,7 @@ export default function Home() {
 
             {/* Main Event */}
             <div className="w-full py-2 group">
-              <div className="w-[1200px] max-w-full px-4 mx-auto flex flex-col-reverse md:flex-row gap-1 md:gap-8">
+              <div className="w-[1200px] max-w-full px-5 sm:px-4 mx-auto flex flex-col-reverse md:flex-row gap-1 md:gap-8">
                 <a href="https://www.villa-ephrussi.com/en" target="_blank" rel="noopener noreferrer" className="block w-full md:w-1/2 cursor-pointer">
                   <div className="relative aspect-[4/3]">
                     <Image
@@ -656,7 +656,7 @@ export default function Home() {
 
             {/* La Vie en Rosé */}
             <div className="w-full py-2 group">
-              <div className="w-[1200px] max-w-full px-4 mx-auto flex flex-col-reverse md:flex-row gap-1 md:gap-8">
+              <div className="w-[1200px] max-w-full px-5 sm:px-4 mx-auto flex flex-col-reverse md:flex-row gap-1 md:gap-8">
                 <a href="https://www.plage-de-passable.fr/" target="_blank" rel="noopener noreferrer" className="block w-full md:w-1/2 cursor-pointer">
                   <div className="relative aspect-[4/3]">
                     <Image
@@ -710,8 +710,8 @@ export default function Home() {
         {/* Stay Section */}
         <section id="stay" className="min-h-screen py-2 sm:py-16 flex flex-col items-center">
           {/* Stay Section Title */}
-          <div className="w-full max-w-[2000px] px-4 mb-4 sm:mb-16 relative overflow-visible">
-            <div className="relative left-1/2 -translate-x-1/2 w-[200%] md:w-full">
+          <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-4 sm:mb-16 relative overflow-visible">
+            <div className="relative w-full">
               <Image
                 src="/stay title mobile.png"
                 alt="Stay"
@@ -729,7 +729,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="w-[800px] max-w-full px-4 space-y-12 sm:space-y-16 text-[#4B6CFF]">
+          <div className="w-[800px] max-w-full px-5 sm:px-4 space-y-12 sm:space-y-16 text-[#4B6CFF]">
             <div className="space-y-4 sm:space-y-6">
               <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest">TLDR</h2>
               <p className="text-sm sm:text-base leading-[200%]">Hotels & AirBnBs in Cap Ferrat are the best option, but supply is limited & costly... this is the most painful part of this location. Villefranche and Beaulieu-sur-mer are very close (5min drive) and you really can't go wrong.</p>
@@ -787,10 +787,10 @@ export default function Home() {
         </section>
 
         {/* Travel Section */}
-        <section id="travel" className="min-h-screen py-2 sm:py-8 flex flex-col items-center">
+        <section id="travel" className="min-h-screen py-12 sm:py-8 flex flex-col items-center">
           {/* Travel Section Title */}
-          <div className="w-full max-w-[2000px] px-4 mb-4 sm:mb-16 relative overflow-visible">
-            <div className="relative left-1/2 -translate-x-1/2 w-[200%] md:w-full">
+          <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-12 sm:mb-16 relative overflow-visible">
+            <div className="relative w-full">
               <Image
                 src="/travel title mobile.png"
                 alt="Travel"
@@ -808,7 +808,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="w-[800px] max-w-full px-4 space-y-12 sm:space-y-16 text-[#4B6CFF]">
+          <div className="w-[800px] max-w-full px-5 sm:px-4 space-y-12 sm:space-y-16 text-[#4B6CFF]">
             <div className="space-y-4 sm:space-y-6">
               <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest">TLDR</h2>
               <div className="space-y-1">
@@ -883,10 +883,10 @@ export default function Home() {
         </section>
 
         {/* FAQ Section */}
-        <section id="faq" className="min-h-screen py-2 sm:py-16 flex flex-col items-center">
+        <section id="faq" className="min-h-screen py-12 sm:py-16 flex flex-col items-center">
           {/* FAQ Section Title */}
-          <div className="w-full max-w-[2000px] px-4 mb-4 sm:mb-16 relative overflow-visible">
-            <div className="relative left-1/2 -translate-x-1/2 w-[200%] md:w-full">
+          <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-12 sm:mb-16 relative overflow-visible">
+            <div className="relative w-full">
               <Image
                 src="/faq title mobile.png"
                 alt="FAQ"
@@ -904,7 +904,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="w-[800px] max-w-full px-4 space-y-8 sm:space-y-12 text-[#4B6CFF]">
+          <div className="w-[800px] max-w-full px-5 sm:px-4 space-y-8 sm:space-y-12 text-[#4B6CFF]">
             <div className="space-y-4 sm:space-y-6">
               <h3 className="text-xl sm:text-2xl font-extralight tracking-widest">DRESS CODE</h3>
               <div className="space-y-4">
@@ -931,10 +931,10 @@ export default function Home() {
         </section>
 
         {/* Area Section */}
-        <section id="area" className="min-h-screen py-24 flex flex-col items-center">
+        <section id="area" className="min-h-screen py-12 sm:py-16 flex flex-col items-center">
           {/* Area Section Title */}
-          <div className="w-full max-w-[2000px] px-4 mb-4 sm:mb-16 relative overflow-visible">
-            <div className="relative left-1/2 -translate-x-1/2 w-[200%] md:w-full">
+          <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-12 sm:mb-16 relative overflow-visible">
+            <div className="relative w-full">
               <Image
                 src="/area title mobile.png"
                 alt="Area"
@@ -952,7 +952,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="w-[800px] max-w-full px-4 text-[#4B6CFF]">
+          <div className="w-[800px] max-w-full px-5 sm:px-4 text-[#4B6CFF]">
             <p className="text-2xl leading-[200%]">COMING SOON</p>
           </div>
         </section>
