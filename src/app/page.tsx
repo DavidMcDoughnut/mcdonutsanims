@@ -266,12 +266,10 @@ export default function Home() {
       <div className="fixed inset-0 pointer-events-none z-[9999]">
         {/* White Border Mask - Creates the masking effect */}
         <div 
-          className="absolute border-[32px] sm:border-[48px] border-white rounded-[44px] sm:rounded-[72px] transition-transform duration-[1000ms] ease-out"
+          className="absolute border-[32px] sm:border-[48px] border-white rounded-[44px] sm:rounded-[72px] transition-transform duration-[1000ms] ease-out w-[calc(100%-16px+64px)] h-[calc(100%-16px+64px)] sm:w-[calc(100%-16px+80px)] sm:h-[calc(100%-16px+80px)]"
           style={{
             top: '50%',
             left: '50%',
-            width: 'calc(100% - 16px + 80px)',
-            height: 'calc(100% - 16px + 80px)',
             transform: pageLoaded 
               ? 'translate(-50%, -50%) scale(1)' 
               : 'translate(-50%, -50%) scale(1.05)',
@@ -281,12 +279,10 @@ export default function Home() {
         
         {/* Blue Border - Main visual border */}
         <div 
-          className="absolute border-[2px] sm:border-[4px] border-[#4B6CFF] rounded-[12px] sm:rounded-[24px] transition-transform duration-[1000ms] ease-out"
+          className="absolute border-[2px] sm:border-[4px] border-[#4B6CFF] rounded-[12px] sm:rounded-[24px] transition-transform duration-[1000ms] ease-out w-[calc(100%-16px)] h-[calc(100%-16px)] sm:w-[calc(100%-32px)] sm:h-[calc(100%-32px)]"
           style={{
             top: '50%',
             left: '50%',
-            width: 'calc(100% - 32px)',
-            height: 'calc(100% - 32px)',
             transform: pageLoaded 
               ? 'translate(-50%, -50%) scale(1)' 
               : 'translate(-50%, -50%) scale(1.05)',
@@ -938,6 +934,20 @@ export default function Home() {
             <p className="text-2xl leading-[200%]">COMING SOON</p>
           </div>
         </section>
+
+        {/* Footer Image */}
+        <div className="w-full relative">
+          <div className="w-full relative">
+            <Image
+              src="/ld sheep txt.png"
+              alt="Footer Decoration"
+              width={2000}
+              height={667}
+              className="w-full h-auto"
+              priority={false}
+            />
+          </div>
+        </div>
       </div>
     </main>
   );
