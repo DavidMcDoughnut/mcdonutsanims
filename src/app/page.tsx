@@ -266,7 +266,7 @@ export default function Home() {
       <div className="fixed inset-0 pointer-events-none z-[9999]">
         {/* White Border Mask - Creates the masking effect */}
         <div 
-          className="absolute border-[32px] sm:border-[48px] border-white rounded-[44px] sm:rounded-[72px] transition-transform duration-[1000ms] ease-out w-[calc(100%-16px+64px)] h-[calc(100%-16px+64px)] sm:w-[calc(100%-16px+80px)] sm:h-[calc(100%-16px+80px)]"
+          className="absolute border-[32px] sm:border-[48px] border-white rounded-[44px] sm:rounded-[72px] transition-transform duration-[1000ms] ease-out w-[calc(100%-16px+64px)] h-[calc(100%-24px+64px)] sm:w-[calc(100%-16px+80px)] sm:h-[calc(100%-16px+80px)]"
           style={{
             top: '50%',
             left: '50%',
@@ -279,7 +279,7 @@ export default function Home() {
         
         {/* Blue Border - Main visual border */}
         <div 
-          className="absolute border-[2px] sm:border-[4px] border-[#4B6CFF] rounded-[12px] sm:rounded-[24px] transition-transform duration-[1000ms] ease-out w-[calc(100%-16px)] h-[calc(100%-16px)] sm:w-[calc(100%-32px)] sm:h-[calc(100%-32px)]"
+          className="absolute border-[2px] sm:border-[4px] border-[#4B6CFF] rounded-[12px] sm:rounded-[24px] transition-transform duration-[1000ms] ease-out w-[calc(100%-16px)] h-[calc(100%-24px)] sm:w-[calc(100%-32px)] sm:h-[calc(100%-32px)]"
           style={{
             top: '50%',
             left: '50%',
@@ -911,7 +911,7 @@ export default function Home() {
         {/* Area Section */}
         <section id="area" className="min-h-screen py-12 sm:py-16 flex flex-col items-center">
           {/* Area Section Title */}
-          <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-12 sm:mb-16 relative overflow-visible">
+          <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-0 sm:mb-0 relative overflow-visible">
             <div className="relative w-full">
               <Image
                 src="/area title mobile.png"
