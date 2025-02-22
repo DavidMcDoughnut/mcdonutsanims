@@ -240,11 +240,61 @@ export default function Home() {
 
   return (
     <main className="relative min-h-[200vh] w-full overflow-x-hidden">
-      {/* Debug Scroll Counter - Temporarily Hidden
-      <div className="fixed top-4 right-4 bg-black/80 text-white px-3 py-2 rounded-lg font-mono text-sm z-[1000]">
-        {scrollVh.toFixed(2)}vh
+      {/* SVG Filter Definition - Moved to top level */}
+      <svg className="fixed w-0 h-0 z-[9999]">
+        <defs>
+          <filter id='roughpaper' x='0%' y='0%' width='100%' height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency='0.12' result='noise' numOctaves="4" />
+            <feDiffuseLighting in='noise' lighting-color='white' surfaceScale='8'>
+              <feDistantLight azimuth='45' elevation='40' />
+            </feDiffuseLighting>
+          </filter>
+        </defs>
+      </svg>
+
+      {/* Paper texture overlay for intro section */}
+      <div 
+        className="fixed inset-0 w-full h-full pointer-events-none"
+        style={{
+          filter: 'url(#roughpaper)',
+          opacity: 0.04,
+          zIndex: 100
+        }}
+      />
+
+      {/* Fixed Border Container */}
+      <div className="fixed inset-0 pointer-events-none z-[9999]">
+        {/* White Border Mask - Creates the masking effect */}
+        <div 
+          className="absolute border-[32px] sm:border-[48px] border-white rounded-[44px] sm:rounded-[72px] transition-transform duration-[1000ms] ease-out"
+          style={{
+            top: '50%',
+            left: '50%',
+            width: 'calc(100% - 16px + 80px)',
+            height: 'calc(100% - 16px + 80px)',
+            transform: pageLoaded 
+              ? 'translate(-50%, -50%) scale(1)' 
+              : 'translate(-50%, -50%) scale(1.05)',
+            transformOrigin: 'center center'
+          }}
+        />
+        
+        {/* Blue Border - Main visual border */}
+        <div 
+          className="absolute border-[2px] sm:border-[4px] border-[#4B6CFF] rounded-[12px] sm:rounded-[24px] transition-transform duration-[1000ms] ease-out"
+          style={{
+            top: '50%',
+            left: '50%',
+            width: 'calc(100% - 32px)',
+            height: 'calc(100% - 32px)',
+            transform: pageLoaded 
+              ? 'translate(-50%, -50%) scale(1)' 
+              : 'translate(-50%, -50%) scale(1.05)',
+            transformOrigin: 'center center',
+            boxShadow: '0 0 16px 0 rgba(0,0,0, .6)'
+          }}
+        />
       </div>
-      */}
 
       {/* Chrome Intro Animation Container */}
       {isChrome && (
@@ -273,46 +323,6 @@ export default function Home() {
               }}
             />
           </div>
-
-          {/* Chrome Border */}
-          <div 
-            id="chrome-border-div"
-            className="fixed border-[2px] sm:border-[4px] border-[#4B6CFF] pointer-events-none z-[9999] transition-all ease-out rounded-[12px] sm:rounded-[24px]"
-            style={{
-              top: '50%',
-              left: '50%',
-              width: 'calc(100% - 16px)',
-              height: 'calc(100% - 16px)',
-              transform: scrollVh >= 1.3 
-                ? 'translate(-50%, -150vh)' 
-                : `translate(-50%, -50%) scale(${1 + (0.05 * Math.max(0, Math.min(1, 1 - ((scrollVh - 0.26) / 0.1))))})`,
-              transformOrigin: 'center center',
-              opacity: scrollVh >= 1.3 ? 0 : 100,
-              transitionDuration: scrollVh >= 1.3 ? '500ms' : '0ms'
-            }}
-          />
-
-          {/* New Palm Animation Container - TEMPORARILY HIDDEN
-          <div 
-            className="fixed h-[600px] w-full z-[20]"
-            style={{
-              top: '50%',
-              transform: 'translateY(-50%)',
-            }}
-          >
-            <div className="relative h-full w-full">
-              <div className="absolute right-0 h-[600px] aspect-square">
-                <Image
-                  src="/palmrt.png"
-                  alt="Palm Right"
-                  fill
-                  className="object-contain object-right"
-                  priority
-                />
-              </div>
-            </div>
-          </div>
-          */}
 
           {/* Background Image */}
           <div 
@@ -408,25 +418,6 @@ export default function Home() {
             willChange: 'transform'
           }}
         >
-          {/* Safari Border */}
-          <div 
-            id="safari-border-div"
-            className="fixed border-[2px] sm:border-[4px] border-[#4B6CFF] pointer-events-none z-[9999] transition-all ease-out rounded-[12px] sm:rounded-[24px]"
-            style={{
-              top: '50%',
-              left: '50%',
-              width: 'calc(100% - 16px)',
-              height: 'calc(100% - 16px)',
-              transform: pageLoaded 
-                ? 'translate(-50%, -50%) scale(1)' 
-                : 'translate(-50%, -50%) scale(1.05)',
-              transformOrigin: 'center center',
-              opacity: 100,
-              transitionDuration: '1000ms',
-              transitionDelay: '2000ms'
-            }}
-          />
-
           {/* Background Video */}
           <video 
             className="absolute inset-x-0 top-0 h-screen w-full object-cover object-top z-0"
@@ -524,31 +515,17 @@ export default function Home() {
 
       {/* Content Sections Container - Only starts after hero animation completes */}
       <div className={`relative ${isChrome ? 'mt-[220vh]' : 'mt-[0vh]'} z-[200]`}>
-        {/* SVG Filter Definition*/}
-        <svg className="absolute w-0 h-0">
-          <defs>
-            <filter id='roughpaper' x='0%' y='0%' width='100%' height="100%">
-              <feTurbulence type="fractalNoise" baseFrequency='0.12' result='noise' numOctaves="4" />
-              <feDiffuseLighting in='noise' lighting-color='white' surfaceScale='8'>
-                <feDistantLight azimuth='45' elevation='40' />
-              </feDiffuseLighting>
-            </filter>
-          </defs>
-        </svg>
-        
-
-        {/* Apply the filter to a background div that covers all content */}
+        {/* Paper texture overlay for content sections
         <div 
-          className="absolute inset-0 w-full h-full"
+          className="absolute inset-0 w-full h-full pointer-events-none"
           style={{
             filter: 'url(#roughpaper)',
             opacity: 0.04,
-            pointerEvents: 'none',
             zIndex: 200,
-            minHeight: '400vh' // Make sure it covers all content sections
+            minHeight: '400vh'
           }}
         />
-
+ */}
         {/* Events Section */}
         <section id="events" className="relative min-h-screen py-2 sm:py-16 flex flex-col items-center">
           {/* Events Section Title */}
