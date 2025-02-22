@@ -277,15 +277,18 @@ export default function Home() {
           {/* Chrome Border */}
           <div 
             id="chrome-border-div"
-            className="fixed border-[2px] sm:border-[4px] border-[#4B6CFF] pointer-events-none z-[9999] transition-transform  ease-out rounded-[12px] sm:rounded-[24px]"
+            className="fixed border-[2px] sm:border-[4px] border-[#4B6CFF] pointer-events-none z-[9999] transition-all ease-out rounded-[12px] sm:rounded-[24px]"
             style={{
               top: '50%',
               left: '50%',
               width: 'calc(100% - 16px)',
               height: 'calc(100% - 16px)',
-              transform: `translate(-50%, -50%) scale(${1 + (0.05 * Math.max(0, Math.min(1, 1 - ((scrollVh - 0.26) / 0.1))))})`,
+              transform: scrollVh >= 1.3 
+                ? 'translate(-50%, -150vh)' 
+                : `translate(-50%, -50%) scale(${1 + (0.05 * Math.max(0, Math.min(1, 1 - ((scrollVh - 0.26) / 0.1))))})`,
               transformOrigin: 'center center',
-              opacity: 0              
+              opacity: scrollVh >= 1.3 ? 0 : 100,
+              transitionDuration: scrollVh >= 1.3 ? '500ms' : '0ms'
             }}
           />
 
@@ -408,7 +411,7 @@ export default function Home() {
           {/* Safari Border */}
           <div 
             id="safari-border-div"
-            className="fixed border-[2px] sm:border-[4px] border-[#4B6CFF] pointer-events-none z-[9999] transition-transform duration-[1000ms] ease-out delay-[2000ms] rounded-[12px] sm:rounded-[24px]"
+            className="fixed border-[2px] sm:border-[4px] border-[#4B6CFF] pointer-events-none z-[9999] transition-all ease-out rounded-[12px] sm:rounded-[24px]"
             style={{
               top: '50%',
               left: '50%',
@@ -418,7 +421,9 @@ export default function Home() {
                 ? 'translate(-50%, -50%) scale(1)' 
                 : 'translate(-50%, -50%) scale(1.05)',
               transformOrigin: 'center center',
-              opacity: 0
+              opacity: 100,
+              transitionDuration: '1000ms',
+              transitionDelay: '2000ms'
             }}
           />
 
