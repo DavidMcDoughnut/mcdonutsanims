@@ -884,7 +884,7 @@ export default function Home() {
 
           <div className="w-[800px] max-w-full px-5 sm:px-4 space-y-8 sm:space-y-12 text-[#4B6CFF]">
             <div className="space-y-4 sm:space-y-6">
-              <h3 className="text-xl sm:text-2xl font-extralight tracking-widest">DRESS CODE</h3>
+              <h3 className="text-xl sm:text-2xl font-extralight tracking-widest">DRESS CODE?</h3>
               <div className="space-y-4">
                 <p className="text-sm sm:text-base leading-[200%]">More details to come, but directionally you can't go wrong with Riviera Chic: light, airy & elegant linens & pastels.</p>
                 <p className="text-sm sm:text-base leading-[200%]">The temperature is usually in the 70's and 80's. (Definitely no black tie)</p>
@@ -892,19 +892,27 @@ export default function Home() {
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-xl sm:text-2xl font-extralight tracking-widest">CHILDCARE</h3>
+              <h3 className="text-xl sm:text-2xl font-extralight tracking-widest">CHILDCARE?</h3>
               <div className="space-y-4">
-                <p className="text-sm sm:text-base leading-[200%]">For anyone planning to bring their children to France and may be looking for local childcare options, we have been recommended English-speaking Silly Billy's English speaking babysitters in France . Please make enquiries directly.</p>
+                <p className="text-sm sm:text-base leading-[200%]">For anyone planning to bring their children to France and may be looking for local childcare options, we have been recommended English-speaking Silly Billy's English speaking babysitters in France. The hotels all also provide top-class childcare services. While the main event is for adults, we can potentially provide nanny services suring the main event and beach club day if needed, please let us know.</p>
               </div>
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-xl sm:text-2xl font-extralight tracking-widest">GIFTS</h3>
+              <h3 className="text-xl sm:text-2xl font-extralight tracking-widest">GIFTS?</h3>
               <div className="space-y-4">
                 <p className="text-sm sm:text-base leading-[200%]">We are extremely grateful anyone would make the journey to celebrate with us in France and we do not take for granted the large time/effort/cost commitment. Your presence is the greatest present.</p>
                 <p className="text-sm sm:text-base leading-[200%]">In lieu of gifts, we simply ask that you contribute generously to the European economy during your stay (and/or donate to your favorite charity).</p>
               </div>
             </div>
+
+            {/* Playlist Section */}
+            {/* <div className="space-y-6">
+              <h3 className="text-xl sm:text-2xl font-extralight tracking-widest">PLAYLIST?</h3>
+              <div className="space-y-4">
+                <p className="text-sm sm:text-base leading-[200%]">Say no more, start vibing.</p>
+              </div>
+            </div> */}
           </div>
         </section>
 
