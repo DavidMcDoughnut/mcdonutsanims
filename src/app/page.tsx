@@ -749,6 +749,338 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Area Section */}
+        <section id="area" className="min-h-screen py-12 sm:py-16 flex flex-col items-center">
+          {/* Area Section Title */}
+          <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-4 sm:mb-16 relative overflow-visible">
+            <div className="relative w-full">
+              <Image
+                src="/area title mobile.png"
+                alt="Area"
+                width={2000}
+                height={100}
+                className="w-full h-auto md:hidden"
+              />
+              <Image
+                src="/area title.png"
+                alt="Area"
+                width={2000}
+                height={100}
+                className="w-full h-auto hidden md:block"
+              />
+            </div>
+          </div>
+
+          <div className="w-full max-w-[1200px] px-5 sm:px-4 text-[#4B6CFF]">
+          <div className="space-y-4 sm:space-y-6 mb-12 sm:mb-16">
+              <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest">TLDR</h2>
+              <p className="text-sm sm:text-base leading-[200%]">We've put together an interactive map of the area to give people context on the location. Hopefully this helps with booking and/or planning to explore the area before, during or after the wedding.</p>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-light tracking-wide mb-4 sm:mb-8">Cap Ferrat Local Area</h3>
+            
+            {/* Interactive Map Component */}
+            <div className="w-full mb-2 sm:mb-2">
+              {/* Filter Buttons Row */}
+              <div className="w-full flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-4 sm:gap-2">
+                {/* Left side text buttons */}
+                <div className="flex gap-2">
+                  <button 
+                    className={`px-2 sm:px-6 py-1 sm:py-2 rounded-xl text-sm sm:text-base md:text-lg border-[1px] sm:border-2 transition-all duration-200 ${
+                      mapLayers.events 
+                        ? 'border-[#FF7700] text-[#FF7700] hover:opacity-50 bg-[#FF7700] bg-opacity-10' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                    }`}
+                    onClick={() => toggleLayer('events')}
+                  >
+                    Events
+                  </button>
+                  <button 
+                    className={`px-2 sm:px-6 py-1 sm:py-2 rounded-xl text-sm sm:text-base md:text-lg border-[1px] sm:border-2 transition-all duration-200 ${
+                      mapLayers.hotels 
+                        ? 'border-[#4B6CFF] text-[#4B6CFF] hover:opacity-50 bg-[#4B6CFF] bg-opacity-10' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                    }`}
+                    onClick={() => toggleLayer('hotels')}
+                  >
+                    Hotels
+                  </button>
+                  <button 
+                    className={`px-2 sm:px-6 py-1 sm:py-2 rounded-xl text-sm sm:text-base md:text-lg border-[1px] sm:border-2 transition-all duration-200 ${
+                      mapLayers.walkTime 
+                        ? 'border-[#FF7DC5] text-[#FF7DC5] hover:opacity-50 bg-[#FF7DC5] bg-opacity-10' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                    }`}
+                    onClick={() => toggleLayer('walkTime')}
+                  >
+                    Walk Time
+                  </button>
+                </div>
+                
+                {/* Right side icon buttons */}
+                <div className="flex gap-2">
+                  <button 
+                    className={`w-12 h-12 flex items-center justify-center rounded-xl border-[1px] sm:border-2 transition-all duration-200 ${
+                      mapLayers.paintMap 
+                        ? 'border-[#00B4AC] text-[#00B4AC] hover:opacity-50' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                    }`}
+                    onClick={() => toggleLayer('paintMap')}
+                  >
+                    <div className="relative w-full h-full">
+                      <Image
+                        src="/paint btn.png"
+                        alt="Paint Map Toggle"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  </button>
+                  <button 
+                    className={`w-12 h-12 flex items-center justify-center rounded-xl border-[1px] sm:border-2 transition-all duration-200 ${
+                      mapLayers.googleMap 
+                        ? 'border-[#00B4AC] text-[#00B4AC] hover:opacity-50' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                    }`}
+                    onClick={() => toggleLayer('googleMap')}
+                  >
+                    <div className="relative w-full h-full">
+                      <Image
+                        src="/goog btn.png"
+                        alt="Google Map Toggle"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Map Layers Container */}
+              <div className="relative w-full">
+                <div className="relative w-full">
+                  {/* Walk Layer - Top (z-index: 50) */}
+                  <Image
+                    src="/cf walk layer.png"
+                    alt="Walk Times"
+                    width={1200}
+                    height={675}
+                    loading="lazy"
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[50] ${
+                      mapLayers.walkTime ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                  
+                  {/* Hotel Layer (z-index: 40) */}
+                  <Image
+                    src="/cf hotel layer.png"
+                    alt="Hotels"
+                    width={1200}
+                    height={675}
+                    loading="lazy"
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[40] ${
+                      mapLayers.hotels ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                  
+                  {/* Event Layer (z-index: 30) */}
+                  <Image
+                    src="/cf event layer.png"
+                    alt="Events"
+                    width={1200}
+                    height={675}
+                    loading="lazy"
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[30] ${
+                      mapLayers.events ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                  
+                  {/* Paint Map Layer (z-index: 20) */}
+                  <Image
+                    src="/cf paint map.png"
+                    alt="Painted Map"
+                    width={1200}
+                    height={675}
+                    loading="lazy"
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[20] ${
+                      mapLayers.paintMap ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                  
+                  {/* Google Layer - Bottom (z-index: 10) */}
+                  <Image
+                    src="/cf goog map.png"
+                    alt="Google Map"
+                    width={1200}
+                    height={675}
+                    loading="lazy"
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 relative z-[10] ${
+                      mapLayers.googleMap ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Riviera Map Component */}
+            <div className="w-full mb-8">
+              <div className="relative">
+                {/* Map Layers Container */}
+                <div className="relative w-full">
+                  <div className="relative w-full">
+                    {/* Reference Layer - Top (z-index: 50) */}
+                    <Image
+                      src="/riv ref layer.png"
+                      alt="Reference Layer"
+                      width={1200}
+                      height={800}
+                      loading="lazy"
+                      className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[50] ${
+                        rivieraLayers.reference ? 'opacity-100' : 'opacity-0'
+                      }`}
+                      sizes="(max-width: 1200px) 100vw, 1200px"
+                    />
+                    
+                    {/* Drive Layer (z-index: 40) */}
+                    <Image
+                      src="/riv drive layer.png"
+                      alt="Drive Times"
+                      width={1200}
+                      height={800}
+                      loading="lazy"
+                      className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[40] ${
+                        rivieraLayers.driveTime ? 'opacity-100' : 'opacity-0'
+                      }`}
+                      sizes="(max-width: 1200px) 100vw, 1200px"
+                    />
+                    
+                    {/* Florida Layer (z-index: 30) */}
+                    <Image
+                      src="/riv fla layer.png"
+                      alt="Florida Translation"
+                      width={1200}
+                      height={800}
+                      loading="lazy"
+                      className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[30] ${
+                        rivieraLayers.florida ? 'opacity-100' : 'opacity-0'
+                      }`}
+                      sizes="(max-width: 1200px) 100vw, 1200px"
+                    />
+                    
+                    {/* Paint Map Layer (z-index: 20) */}
+                    <Image
+                      src="/riv paint map.png"
+                      alt="Painted Map"
+                      width={1200}
+                      height={800}
+                      loading="lazy"
+                      className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[20] ${
+                        rivieraLayers.paintMap ? 'opacity-100' : 'opacity-0'
+                      }`}
+                      sizes="(max-width: 1200px) 100vw, 1200px"
+                    />
+                    
+                    {/* Google Layer - Bottom (z-index: 10) */}
+                    <Image
+                      src="/riv goog map.png"
+                      alt="Google Map"
+                      width={1200}
+                      height={800}
+                      loading="lazy"
+                      className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 relative z-[10] ${
+                        rivieraLayers.googleMap ? 'opacity-100' : 'opacity-0'
+                      }`}
+                      sizes="(max-width: 1200px) 100vw, 1200px"
+                    />
+                  </div>
+                </div>
+
+                {/* Title and Filter Buttons Container - Below map on mobile, overlaid on larger screens */}
+                <div className="block sm:absolute sm:top-24 left-0 right-0 z-[60] mt-0 sm:mt-0">
+                  {/* Riviera Map Title */}
+                  <h3 className="text-2xl sm:text-3xl font-light tracking-wide mb-4 sm:mb-8">French Riviera, Côte d'Azur</h3>
+
+                  {/* Filter Buttons Row for Riviera Map */}
+                  <div className="w-full flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 sm:gap-2">
+                    {/* Left side text buttons */}
+                    <div className="flex gap-2">
+                      <button 
+                        className={`px-2 sm:px-6 py-1 sm:py-2 rounded-xl text-sm sm:text-base md:text-lg border-[1px] sm:border-2 transition-all duration-200 ${
+                          rivieraLayers.florida 
+                            ? 'border-[#FF7700] text-[#FF7700] hover:opacity-50 bg-[#FF7700] bg-opacity-10' 
+                            : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                        }`}
+                        onClick={() => toggleLayer('florida', true)}
+                      >
+                        Florida Translation
+                      </button>
+                      <button 
+                        className={`px-2 sm:px-6 py-1 sm:py-2 rounded-xl text-sm sm:text-base md:text-lg border-[1px] sm:border-2 transition-all duration-200 ${
+                          rivieraLayers.driveTime 
+                            ? 'border-[#FF7DC5] text-[#FF7DC5] hover:opacity-50 bg-[#FF7DC5] bg-opacity-10' 
+                            : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                        }`}
+                        onClick={() => toggleLayer('driveTime', true)}
+                      >
+                        Drive Time
+                      </button>
+                    </div>
+                    
+                    {/* Right side icon buttons */}
+                    <div className="flex gap-2">
+                      <button 
+                        className={`w-12 h-12 flex items-center justify-center rounded-xl border-[1px] sm:border-2 transition-all duration-200 ${
+                          rivieraLayers.paintMap 
+                            ? 'border-[#00B4AC] text-[#00B4AC] hover:opacity-50' 
+                            : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                        }`}
+                        onClick={() => toggleLayer('paintMap', true)}
+                      >
+                        <div className="relative w-full h-full">
+                          <Image
+                            src="/paint btn.png"
+                            alt="Paint Map Toggle"
+                            fill
+                            className="object-contain"
+                          />
+                        </div>
+                      </button>
+                      <button 
+                        className={`w-12 h-12 flex items-center justify-center rounded-xl border-[1px] sm:border-2 transition-all duration-200 ${
+                          rivieraLayers.googleMap 
+                            ? 'border-[#00B4AC] text-[#00B4AC] hover:opacity-50' 
+                            : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                        }`}
+                        onClick={() => toggleLayer('googleMap', true)}
+                      >
+                        <div className="relative w-full h-full">
+                          <Image
+                            src="/goog btn.png"
+                            alt="Google Map Toggle"
+                            fill
+                            className="object-contain"
+                          />
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-4 sm:space-y-6 mt-12 mb-0 sm:mb-0">
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-widest text-[#FF7DC5]">NOTE!</h2>
+              <p className="text-sm sm:text-base leading-[200%]">There is a different town in France named Cap FerrEt, with an "E" not an "A". This is a very different place. we are in Cap FerrAt with an "A". Don't get these confused or we will be sad.</p>
+            </div>
+          </div>
+        </section>
+
+
+
         {/* Stay Section */}
         <section id="stay" className="min-h-screen py-2 sm:py-16 flex flex-col items-center">
           {/* Stay Section Title */}
@@ -880,7 +1212,7 @@ export default function Home() {
               <div className="space-y-4">
                 <p className="text-sm sm:text-base font-bold leading-[200%]">Flight Options:</p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li><a href="https://www.google.com/travel/flights/search?tfs=CBwQAhopEgoyMDI1LTA2LTE4ag0IAhIJL20vMDJfMjg2cgwIAxIIL20vMGNwNncaKRIKMjAyNS0wNi0yMmoMCAMSCC9tLzBjcDZ3cg0IAhIJL20vMDJfMjg2QAFIAXABggELCP___________wGYAQE&tfu=EgYIABABGAA&hl=en" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF7DC5]">From the US </a>
+                  <li><a href="https://www.google.com/travel/flights/search?tfs=CBwQAhopEgoyMDI1LTA2LTE8ag0IAhIJL20vMDJfMjg2cgwIAxIIL20vMGNwNncaKRIKMjAyNS0wNi0yMmoMCAMSCC9tLzBjcDZ3cg0IAhIJL20vMDJfMjg2QAFIAXABggELCP___________wGYAQE&tfu=EgYIABABGAA&hl=en" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF7DC5]">From the US </a>
                     <ul className="list-disc pl-6 mt-1">
                       <li className="text-sm sm:text-base leading-[200%]">Direct flights from from NY, Boston and DC on major carriers</li>
                       <li className="text-sm sm:text-base leading-[200%]">Most east coast flights are 8hr redeyes, leave 6-8pm ET, landing early AM France time</li>
@@ -924,311 +1256,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Area Section */}
-        <section id="area" className="min-h-screen py-12 sm:py-16 flex flex-col items-center">
-          {/* Area Section Title */}
-          <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-0 sm:mb-0 relative overflow-visible">
-            <div className="relative w-full">
-              <Image
-                src="/area title mobile.png"
-                alt="Area"
-                width={2000}
-                height={100}
-                className="w-full h-auto md:hidden"
-              />
-              <Image
-                src="/area title.png"
-                alt="Area"
-                width={2000}
-                height={100}
-                className="w-full h-auto hidden md:block"
-              />
-            </div>
-          </div>
-
-          <div className="w-full max-w-[1200px] px-5 sm:px-4 text-[#4B6CFF]">
-            <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest mb-8">Cap Ferrat Local Area</h2>
-            
-            {/* Interactive Map Component */}
-            <div className="w-full mb-8">
-              {/* Filter Buttons Row */}
-              <div className="w-full flex justify-between items-center mb-6">
-                {/* Left side text buttons */}
-                <div className="flex gap-4">
-                  <button 
-                    className={`px-6 py-2 rounded-xl text-base sm:text-lg border-2 transition-all duration-200 ${
-                      mapLayers.events 
-                        ? 'border-[#FF7700] text-[#FF7700] hover:opacity-50 bg-[#FF7700] bg-opacity-10' 
-                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
-                    }`}
-                    onClick={() => toggleLayer('events')}
-                  >
-                    Events
-                  </button>
-                  <button 
-                    className={`px-6 py-2 rounded-xl text-base sm:text-lg border-2 transition-all duration-200 ${
-                      mapLayers.hotels 
-                        ? 'border-[#4B6CFF] text-[#4B6CFF] hover:opacity-50 bg-[#4B6CFF] bg-opacity-10' 
-                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
-                    }`}
-                    onClick={() => toggleLayer('hotels')}
-                  >
-                    Hotels
-                  </button>
-                  <button 
-                    className={`px-6 py-2 rounded-xl text-base sm:text-lg border-2 transition-all duration-200 ${
-                      mapLayers.walkTime 
-                        ? 'border-[#FF7DC5] text-[#FF7DC5] hover:opacity-50 bg-[#FF7DC5] bg-opacity-10' 
-                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
-                    }`}
-                    onClick={() => toggleLayer('walkTime')}
-                  >
-                    Walk Time
-                  </button>
-                </div>
-                
-                {/* Right side icon buttons */}
-                <div className="flex gap-3">
-                  <button 
-                    className={`w-12 h-12 flex items-center justify-center rounded-xl border-2 transition-all duration-200 ${
-                      mapLayers.paintMap 
-                        ? 'border-[#00B4AC] text-[#00B4AC] hover:opacity-50' 
-                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
-                    }`}
-                    onClick={() => toggleLayer('paintMap')}
-                  >
-                    <div className="relative w-full h-full">
-                      <Image
-                        src="/paint btn.png"
-                        alt="Paint Map Toggle"
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-                  </button>
-                  <button 
-                    className={`w-12 h-12 flex items-center justify-center rounded-xl border-2 transition-all duration-200 ${
-                      mapLayers.googleMap 
-                        ? 'border-[#00B4AC] text-[#00B4AC] hover:opacity-50' 
-                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
-                    }`}
-                    onClick={() => toggleLayer('googleMap')}
-                  >
-                    <div className="relative w-full h-full">
-                      <Image
-                        src="/goog btn.png"
-                        alt="Google Map Toggle"
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-                  </button>
-                </div>
-              </div>
-
-              {/* Map Layers Container */}
-              <div className="relative w-full">
-                <div className="relative w-full">
-                  {/* Walk Layer - Top (z-index: 50) */}
-                  <Image
-                    src="/cf walk layer.png"
-                    alt="Walk Times"
-                    width={1200}
-                    height={675}
-                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[50] ${
-                      mapLayers.walkTime ? 'opacity-100' : 'opacity-0'
-                    }`}
-                    sizes="(max-width: 1200px) 100vw, 1200px"
-                  />
-                  
-                  {/* Hotel Layer (z-index: 40) */}
-                  <Image
-                    src="/cf hotel layer.png"
-                    alt="Hotels"
-                    width={1200}
-                    height={675}
-                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[40] ${
-                      mapLayers.hotels ? 'opacity-100' : 'opacity-0'
-                    }`}
-                    sizes="(max-width: 1200px) 100vw, 1200px"
-                  />
-                  
-                  {/* Event Layer (z-index: 30) */}
-                  <Image
-                    src="/cf event layer.png"
-                    alt="Events"
-                    width={1200}
-                    height={675}
-                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[30] ${
-                      mapLayers.events ? 'opacity-100' : 'opacity-0'
-                    }`}
-                    sizes="(max-width: 1200px) 100vw, 1200px"
-                  />
-                  
-                  {/* Paint Map Layer (z-index: 20) */}
-                  <Image
-                    src="/cf paint map.png"
-                    alt="Painted Map"
-                    width={1200}
-                    height={675}
-                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[20] ${
-                      mapLayers.paintMap ? 'opacity-100' : 'opacity-0'
-                    }`}
-                    sizes="(max-width: 1200px) 100vw, 1200px"
-                  />
-                  
-                  {/* Google Layer - Bottom (z-index: 10) */}
-                  <Image
-                    src="/cf goog map.png"
-                    alt="Google Map"
-                    width={1200}
-                    height={675}
-                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 relative z-[10] ${
-                      mapLayers.googleMap ? 'opacity-100' : 'opacity-0'
-                    }`}
-                    sizes="(max-width: 1200px) 100vw, 1200px"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Riviera Map Component */}
-            <div className="w-full mb-8">
-              {/* Map Layers Container */}
-              <div className="relative w-full">
-                <div className="relative w-full">
-                  {/* Reference Layer - Top (z-index: 50) */}
-                  <Image
-                    src="/riv ref layer.png"
-                    alt="Reference Layer"
-                    width={1200}
-                    height={800}
-                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[50] ${
-                      rivieraLayers.reference ? 'opacity-100' : 'opacity-0'
-                    }`}
-                    sizes="(max-width: 1200px) 100vw, 1200px"
-                  />
-                  
-                  {/* Drive Layer (z-index: 40) */}
-                  <Image
-                    src="/riv drive layer.png"
-                    alt="Drive Times"
-                    width={1200}
-                    height={800}
-                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[40] ${
-                      rivieraLayers.driveTime ? 'opacity-100' : 'opacity-0'
-                    }`}
-                    sizes="(max-width: 1200px) 100vw, 1200px"
-                  />
-                  
-                  {/* Florida Layer (z-index: 30) */}
-                  <Image
-                    src="/riv fla layer.png"
-                    alt="Florida Translation"
-                    width={1200}
-                    height={800}
-                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[30] ${
-                      rivieraLayers.florida ? 'opacity-100' : 'opacity-0'
-                    }`}
-                    sizes="(max-width: 1200px) 100vw, 1200px"
-                  />
-                  
-                  {/* Paint Map Layer (z-index: 20) */}
-                  <Image
-                    src="/riv paint map.png"
-                    alt="Painted Map"
-                    width={1200}
-                    height={800}
-                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[20] ${
-                      rivieraLayers.paintMap ? 'opacity-100' : 'opacity-0'
-                    }`}
-                    sizes="(max-width: 1200px) 100vw, 1200px"
-                  />
-                  
-                  {/* Google Layer - Bottom (z-index: 10) */}
-                  <Image
-                    src="/riv goog map.png"
-                    alt="Google Map"
-                    width={1200}
-                    height={800}
-                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 relative z-[10] ${
-                      rivieraLayers.googleMap ? 'opacity-100' : 'opacity-0'
-                    }`}
-                    sizes="(max-width: 1200px) 100vw, 1200px"
-                  />
-                </div>
-              </div>
-
-              {/* Filter Buttons Row */}
-              <div className="w-full flex justify-between items-center mt-6">
-                {/* Left side text buttons */}
-                <div className="flex gap-4">
-                  <button 
-                    className={`px-6 py-2 rounded-xl text-base sm:text-lg border-2 transition-all duration-200 ${
-                      rivieraLayers.florida 
-                        ? 'border-[#FF7700] text-[#FF7700] hover:opacity-50 bg-[#FF7700] bg-opacity-10' 
-                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
-                    }`}
-                    onClick={() => toggleLayer('florida', true)}
-                  >
-                    Florida Translation
-                  </button>
-                  <button 
-                    className={`px-6 py-2 rounded-xl text-base sm:text-lg border-2 transition-all duration-200 ${
-                      rivieraLayers.driveTime 
-                        ? 'border-[#FF7DC5] text-[#FF7DC5] hover:opacity-50 bg-[#FF7DC5] bg-opacity-10' 
-                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
-                    }`}
-                    onClick={() => toggleLayer('driveTime', true)}
-                  >
-                    Drive Time
-                  </button>
-                </div>
-                
-                {/* Right side icon buttons */}
-                <div className="flex gap-3">
-                  <button 
-                    className={`w-12 h-12 flex items-center justify-center rounded-xl border-2 transition-all duration-200 ${
-                      rivieraLayers.paintMap 
-                        ? 'border-[#00B4AC] text-[#00B4AC] hover:opacity-50' 
-                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
-                    }`}
-                    onClick={() => toggleLayer('paintMap', true)}
-                  >
-                    <div className="relative w-full h-full">
-                      <Image
-                        src="/paint btn.png"
-                        alt="Paint Map Toggle"
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-                  </button>
-                  <button 
-                    className={`w-12 h-12 flex items-center justify-center rounded-xl border-2 transition-all duration-200 ${
-                      rivieraLayers.googleMap 
-                        ? 'border-[#00B4AC] text-[#00B4AC] hover:opacity-50' 
-                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
-                    }`}
-                    onClick={() => toggleLayer('googleMap', true)}
-                  >
-                    <div className="relative w-full h-full">
-                      <Image
-                        src="/goog btn.png"
-                        alt="Google Map Toggle"
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-                  </button>
-                </div>
-              </div>
-
-              {/* Riviera Map Title */}
-              <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest mt-8">French Riviera, Côte d'Azur</h2>
-            </div>
-          </div>
-        </section>
 
         {/* FAQ Section */}
         <section id="faq" className="min-h-screen py-12 sm:py-16 flex flex-col items-center">
