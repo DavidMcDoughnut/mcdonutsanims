@@ -33,6 +33,13 @@ export default function Home() {
   const lastScrollPosition = useRef(0);
   const hasReachedThirtyPercent = useRef(false);
   const animationLoadAttempted = useRef(false);
+  const [mapLayers, setMapLayers] = useState({
+    events: true,
+    hotels: false,
+    walkTime: false,
+    paintMap: true,
+    googleMap: false
+  });
 
   // Add event listener for animation frame updates and handle initial autoplay
   useEffect(() => {
@@ -194,6 +201,23 @@ export default function Home() {
     
     loadAnimation();
   }, []);
+
+  const toggleLayer = (layer: keyof typeof mapLayers) => {
+    if (layer === 'paintMap' || layer === 'googleMap') {
+      // For map type toggles, switch between them
+      setMapLayers(prev => ({
+        ...prev,
+        paintMap: layer === 'paintMap',
+        googleMap: layer === 'googleMap'
+      }));
+    } else {
+      // For other layers, just toggle the specific layer
+      setMapLayers(prev => ({
+        ...prev,
+        [layer]: !prev[layer]
+      }));
+    }
+  };
 
   // Modify the Lottie component to respect animation ready state
   const renderLottieAnimation = () => {
@@ -566,7 +590,7 @@ export default function Home() {
                   </div>
                 </a>
                 <div className="w-full md:w-1/2 flex flex-col justify-center space-y-2 md:space-y-6">
-                  <h3 className="text-[#FF89A9] text-lg sm:text-xl font-extralight tracking-widest">Thursday June 19</h3>
+                  <h3 className="text-[#FF7DC5] text-lg sm:text-xl font-extralight tracking-widest">Thursday June 19</h3>
                   <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest">WELCOME DRINKS</h2>
                   <div className="grid grid-cols-[52px_1fr] sm:grid-cols-[72px_1fr] gap-x-2 sm:gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base">
                     <div className="contents">
@@ -576,8 +600,8 @@ export default function Home() {
                     <div className="contents">
                       <span className="font-light">Where</span>
                       <div>
-                        <a href="https://www.mayssabeach.fr/en/restaurant" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] font-bold">Mayssa Beach</a>
-                        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] ml-1">(map)</a>
+                        <a href="https://www.mayssabeach.fr/en/restaurant" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5] font-bold">Mayssa Beach</a>
+                        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5] ml-1">(map)</a>
                       </div>
                     </div>
                     <div className="contents">
@@ -609,7 +633,7 @@ export default function Home() {
                   </div>
                 </a>
                 <div className="w-full md:w-1/2 flex flex-col justify-center space-y-2 md:space-y-6">
-                  <h3 className="text-[#FF89A9] text-lg sm:text-xl font-extralight tracking-widest">Friday June 20</h3>
+                  <h3 className="text-[#FF7DC5] text-lg sm:text-xl font-extralight tracking-widest">Friday June 20</h3>
                   <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest">MAIN EVENT</h2>
                   <div className="grid grid-cols-[52px_1fr] sm:grid-cols-[72px_1fr] gap-x-2 sm:gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base">
                     <div className="contents">
@@ -619,8 +643,8 @@ export default function Home() {
                     <div className="contents">
                       <span className="font-light">Where</span>
                       <div>
-                        <a href="https://www.villa-ephrussi.com/en" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] font-bold">Villa Ephrussi de Rothschild</a>
-                        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] ml-1">(map)</a>
+                        <a href="https://www.villa-ephrussi.com/en" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5] font-bold">Villa Ephrussi de Rothschild</a>
+                        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5] ml-1">(map)</a>
                       </div>
                     </div>
                     <div className="contents">
@@ -652,7 +676,7 @@ export default function Home() {
                   </div>
                 </a>
                 <div className="w-full md:w-1/2 flex flex-col justify-center space-y-2 md:space-y-6">
-                  <h3 className="text-[#FF89A9] text-lg sm:text-xl font-extralight tracking-widest">Saturday June 21</h3>
+                  <h3 className="text-[#FF7DC5] text-lg sm:text-xl font-extralight tracking-widest">Saturday June 21</h3>
                   <div className="space-y-1">
                     <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest">LA VIE EN ROSÉ</h2>
                     <h3 className="text-lg sm:text-xl font-extralight tracking-widest">BEACH CLUB RECOVERY LOUNGE</h3>
@@ -665,8 +689,8 @@ export default function Home() {
                     <div className="contents">
                       <span className="font-light">Where</span>
                       <div>
-                        <a href="https://www.plage-de-passable.fr/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] font-bold">Plage de Passable</a>
-                        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9] ml-1">(map)</a>
+                        <a href="https://www.plage-de-passable.fr/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5] font-bold">Plage de Passable</a>
+                        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5] ml-1">(map)</a>
                       </div>
                     </div>
                     <div className="contents">
@@ -725,8 +749,8 @@ export default function Home() {
                   <p className="italic leading-[200%] text-sm">Max luxe, max price... money no object</p>
                 </div>
                 <ul className="space-y-2 list-disc md:pl-8 pl-4 marker:text-[#4B6CFF] font-bold text-sm md:text-base">
-                  <li className="pl-2 md:pl-4"><a href="https://www.fourseasons.com/capferrat/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Four Seasons: The Grand Hotel du Cap-Ferrat</a></li>
-                  <li className="pl-2 md:pl-4"><a href="https://www.capestel.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Hotel Cap-Estel</a></li>
+                  <li className="pl-2 md:pl-4"><a href="https://www.fourseasons.com/capferrat/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5]">Four Seasons: The Grand Hotel du Cap-Ferrat</a></li>
+                  <li className="pl-2 md:pl-4"><a href="https://www.capestel.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5]">Hotel Cap-Estel</a></li>
                 </ul>
               </div>
 
@@ -736,8 +760,8 @@ export default function Home() {
                   <p className="italic text-sm leading-[200%]">Approachable luxury... pricey but less crazy</p>
                 </div>
                 <ul className="space-y-1 list-disc md:pl-8 pl-4 marker:text-[#4B6CFF] font-bold text-sm md:text-base">
-                  <li className="pl-2 md:pl-4"><a href="https://www.lareservebeaulieu.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">La Reserve de Beaulieu</a></li>
-                  <li className="pl-2 md:pl-4"><a href="https://www.royal-riviera.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Royal Riviera</a></li>
+                  <li className="pl-2 md:pl-4"><a href="https://www.lareservebeaulieu.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5]">La Reserve de Beaulieu</a></li>
+                  <li className="pl-2 md:pl-4"><a href="https://www.royal-riviera.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5]">Royal Riviera</a></li>
                 </ul>
               </div>
 
@@ -747,11 +771,11 @@ export default function Home() {
                   <p className="italic leading-[200%] text-sm">Local boutique, upscale, more reasonable</p>
                 </div>
                 <ul className="space-y-1 list-disc md:pl-8 pl-4 marker:text-[#4B6CFF] font-bold text-sm md:text-base">
-                  <li className="pl-2 md:pl-4"><a href="https://www.villa-capferrat.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">La Villa Cap Ferrat, Boutique Hotel & Spa</a></li>
-                  <li className="pl-2 md:pl-4"><a href="https://www.hotel-carlton-beaulieu.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Carlton Hotel, Beaulieu sur mer</a></li>
-                  <li className="pl-2 md:pl-4"><a href="https://www.welcomehotel.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Welcome Hotel, Villefranche sur mer</a></li>
-                  <li className="pl-2 md:pl-4"><a href="https://www.hotelversailles.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Hotel Versailles, Villefranche sur mer</a></li>
-                  <li className="pl-2 md:pl-4"><a href="https://www.hotel-provencale.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF89A9]">Hotel Provençale, Villefranche sur mer</a></li>
+                  <li className="pl-2 md:pl-4"><a href="https://www.villa-capferrat.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5]">La Villa Cap Ferrat, Boutique Hotel & Spa</a></li>
+                  <li className="pl-2 md:pl-4"><a href="https://www.hotel-carlton-beaulieu.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5]">Carlton Hotel, Beaulieu sur mer</a></li>
+                  <li className="pl-2 md:pl-4"><a href="https://www.welcomehotel.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5]">Welcome Hotel, Villefranche sur mer</a></li>
+                  <li className="pl-2 md:pl-4"><a href="https://www.hotelversailles.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5]">Hotel Versailles, Villefranche sur mer</a></li>
+                  <li className="pl-2 md:pl-4"><a href="https://www.hotel-provencale.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5]">Hotel Provençale, Villefranche sur mer</a></li>
                 </ul>
               </div>
             </div>
@@ -800,12 +824,12 @@ export default function Home() {
               <div className="space-y-4">
                 <p className="text-sm sm:text-base font-bold leading-[200%]">Airport Options:</p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li><a href="https://www.google.com/maps/place/Nice+C%C3%B4te+d'Azur+Airport/@43.6584014,7.2029736,14z/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF89A9]">Nice (NCE) Côte d'Azur Airport </a>
+                  <li><a href="https://www.google.com/maps/place/Nice+C%C3%B4te+d'Azur+Airport/@43.6584014,7.2029736,14z/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF7DC5]">Nice (NCE) Côte d'Azur Airport </a>
                     <ul className="list-disc pl-6 mt-1">
                       <li className="text-sm sm:text-base leading-[200%]">Large, modern intl airport, 25 min drive from Cap Ferrat</li>
                     </ul>
                   </li>
-                  <li><a href="https://www.google.com/maps/place/Marseille+Provence+Airport/@43.4366961,5.2133322,14z/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF89A9]">Marseille (MRS) Provence Airport</a> 
+                  <li><a href="https://www.google.com/maps/place/Marseille+Provence+Airport/@43.4366961,5.2133322,14z/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF7DC5]">Marseille (MRS) Provence Airport</a> 
                     <ul className="list-disc pl-6 mt-1">
                       <li className="text-sm sm:text-base leading-[200%]">2 hr drive from Cap Ferrat (not ideal,never been)</li>
                     </ul>
@@ -816,13 +840,13 @@ export default function Home() {
               <div className="space-y-4">
                 <p className="text-sm sm:text-base font-bold leading-[200%]">Flight Options:</p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li><a href="https://www.google.com/travel/flights/search?tfs=CBwQAhopEgoyMDI1LTA2LTE4ag0IAhIJL20vMDJfMjg2cgwIAxIIL20vMGNwNncaKRIKMjAyNS0wNi0yMmoMCAMSCC9tLzBjcDZ3cg0IAhIJL20vMDJfMjg2QAFIAXABggELCP___________wGYAQE&tfu=EgYIABABGAA&hl=en" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF89A9]">From the US </a>
+                  <li><a href="https://www.google.com/travel/flights/search?tfs=CBwQAhopEgoyMDI1LTA2LTE4ag0IAhIJL20vMDJfMjg2cgwIAxIIL20vMGNwNncaKRIKMjAyNS0wNi0yMmoMCAMSCC9tLzBjcDZ3cg0IAhIJL20vMDJfMjg2QAFIAXABggELCP___________wGYAQE&tfu=EgYIABABGAA&hl=en" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF7DC5]">From the US </a>
                     <ul className="list-disc pl-6 mt-1">
                       <li className="text-sm sm:text-base leading-[200%]">Direct flights from from NY, Boston and DC on major carriers</li>
                       <li className="text-sm sm:text-base leading-[200%]">Most east coast flights are 8hr redeyes, leave 6-8pm ET, landing early AM France time</li>
                     </ul>
                   </li>
-                  <li><a href="https://www.google.com/travel/flights/search?tfs=CBwQAhooEgoyMDI1LTA2LTE5agwIAxIIL20vMDRqcGxyDAgDEggvbS8wY3A2dxooEgoyMDI1LTA2LTIyagwIAxIIL20vMGNwNndyDAgDEggvbS8wNGpwbEABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABABGAA&hl=en" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF89A9]">From the UK </a>
+                  <li><a href="https://www.google.com/travel/flights/search?tfs=CBwQAhooEgoyMDI1LTA2LTE5agwIAxIIL20vMDRqcGxyDAgDEggvbS8wY3A2dxooEgoyMDI1LTA2LTIyagwIAxIIL20vMGNwNndyDAgDEggvbS8wNGpwbEABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABABGAA&hl=en" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] font-bold transition-colors duration-150 hover:text-[#FF7DC5]">From the UK </a>
                     <ul className="list-disc pl-6 mt-1">
                       <li className="text-sm sm:text-base leading-[200%]">Direct ~2hr flights from London on B, Air France & budget carriers</li>
                     </ul>
@@ -885,17 +909,146 @@ export default function Home() {
           <div className="w-full max-w-[1200px] px-5 sm:px-4 text-[#4B6CFF]">
             <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest mb-8">Cap Ferrat Local Area</h2>
             
-            {/* Cap Ferrat Image */}
+            {/* Interactive Map Component */}
             <div className="w-full mb-8">
-              <div className="relative w-full h-auto">
-                <Image
-                  src="/cap ferrat.png"
-                  alt="Cap Ferrat Area"
-                  width={1200}
-                  height={675}
-                  className="w-full h-auto rounded-lg"
-                  sizes="(max-width: 1200px) 100vw, 1200px"
-                />
+              {/* Filter Buttons Row */}
+              <div className="w-full flex justify-between items-center mb-6">
+                {/* Left side text buttons */}
+                <div className="flex gap-4">
+                  <button 
+                    className={`px-6 py-2 rounded-xl text-base sm:text-lg border-2 transition-all duration-200 ${
+                      mapLayers.events 
+                        ? 'border-[#FF7700] text-[#FF7700] hover:opacity-50 bg-[#FF7700] bg-opacity-10' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                    }`}
+                    onClick={() => toggleLayer('events')}
+                  >
+                    Events
+                  </button>
+                  <button 
+                    className={`px-6 py-2 rounded-xl text-base sm:text-lg border-2 transition-all duration-200 ${
+                      mapLayers.hotels 
+                        ? 'border-[#4B6CFF] text-[#4B6CFF] hover:opacity-50 bg-[#4B6CFF] bg-opacity-10' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                    }`}
+                    onClick={() => toggleLayer('hotels')}
+                  >
+                    Hotels
+                  </button>
+                  <button 
+                    className={`px-6 py-2 rounded-xl text-base sm:text-lg border-2 transition-all duration-200 ${
+                      mapLayers.walkTime 
+                        ? 'border-[#FF7DC5] text-[#FF7DC5] hover:opacity-50 bg-[#FF7DC5] bg-opacity-10' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                    }`}
+                    onClick={() => toggleLayer('walkTime')}
+                  >
+                    Walk Time
+                  </button>
+                </div>
+                
+                {/* Right side icon buttons */}
+                <div className="flex gap-3">
+                  <button 
+                    className={`w-12 h-12 flex items-center justify-center rounded-xl border-2 transition-all duration-200 ${
+                      mapLayers.paintMap 
+                        ? 'border-[#00B4AC] text-[#00B4AC] hover:opacity-50' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                    }`}
+                    onClick={() => toggleLayer('paintMap')}
+                  >
+                    <div className="relative w-full h-full">
+                      <Image
+                        src="/paint btn.png"
+                        alt="Paint Map Toggle"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  </button>
+                  <button 
+                    className={`w-12 h-12 flex items-center justify-center rounded-xl border-2 transition-all duration-200 ${
+                      mapLayers.googleMap 
+                        ? 'border-[#00B4AC] text-[#00B4AC] hover:opacity-50' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                    }`}
+                    onClick={() => toggleLayer('googleMap')}
+                  >
+                    <div className="relative w-full h-full">
+                      <Image
+                        src="/goog btn.png"
+                        alt="Google Map Toggle"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Map Layers Container */}
+              <div className="relative w-full">
+                <div className="relative w-full">
+                  {/* Walk Layer - Top (z-index: 50) */}
+                  <Image
+                    src="/cf walk layer.png"
+                    alt="Walk Times"
+                    width={1200}
+                    height={675}
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[50] ${
+                      mapLayers.walkTime ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                  
+                  {/* Hotel Layer (z-index: 40) */}
+                  <Image
+                    src="/cf hotel layer.png"
+                    alt="Hotels"
+                    width={1200}
+                    height={675}
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[40] ${
+                      mapLayers.hotels ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                  
+                  {/* Event Layer (z-index: 30) */}
+                  <Image
+                    src="/cf event layer.png"
+                    alt="Events"
+                    width={1200}
+                    height={675}
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[30] ${
+                      mapLayers.events ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                  
+                  {/* Paint Map Layer (z-index: 20) */}
+                  <Image
+                    src="/cf paint map.png"
+                    alt="Painted Map"
+                    width={1200}
+                    height={675}
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[20] ${
+                      mapLayers.paintMap ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                  
+                  {/* Google Layer - Bottom (z-index: 10) */}
+                  <Image
+                    src="/cf goog map.png"
+                    alt="Google Map"
+                    width={1200}
+                    height={675}
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 relative z-[10] ${
+                      mapLayers.googleMap ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                </div>
               </div>
             </div>
 
