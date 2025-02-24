@@ -860,6 +860,61 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Area Section */}
+        <section id="area" className="min-h-screen py-12 sm:py-16 flex flex-col items-center">
+          {/* Area Section Title */}
+          <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-0 sm:mb-0 relative overflow-visible">
+            <div className="relative w-full">
+              <Image
+                src="/area title mobile.png"
+                alt="Area"
+                width={2000}
+                height={100}
+                className="w-full h-auto md:hidden"
+              />
+              <Image
+                src="/area title.png"
+                alt="Area"
+                width={2000}
+                height={100}
+                className="w-full h-auto hidden md:block"
+              />
+            </div>
+          </div>
+
+          <div className="w-full max-w-[1200px] px-5 sm:px-4 text-[#4B6CFF]">
+            <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest mb-8">Cap Ferrat Local Area</h2>
+            
+            {/* Cap Ferrat Image */}
+            <div className="w-full mb-8">
+              <div className="relative w-full h-auto">
+                <Image
+                  src="/cap ferrat.png"
+                  alt="Cap Ferrat Area"
+                  width={1200}
+                  height={675}
+                  className="w-full h-auto rounded-lg"
+                  sizes="(max-width: 1200px) 100vw, 1200px"
+                />
+              </div>
+            </div>
+
+            {/* Riviera Image */}
+            <div className="w-full mb-8">
+              <div className="relative w-full h-auto">
+                <Image
+                  src="/riviera.png"
+                  alt="Riviera Area"
+                  width={1200}
+                  height={675}
+                  className="w-full h-auto rounded-lg"
+                  sizes="(max-width: 1200px) 100vw, 1200px"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* FAQ Section */}
         <section id="faq" className="min-h-screen py-12 sm:py-16 flex flex-col items-center">
           {/* FAQ Section Title */}
@@ -913,33 +968,6 @@ export default function Home() {
                 <p className="text-sm sm:text-base leading-[200%]">Say no more, start vibing.</p>
               </div>
             </div> */}
-          </div>
-        </section>
-
-        {/* Area Section */}
-        <section id="area" className="min-h-screen py-12 sm:py-16 flex flex-col items-center">
-          {/* Area Section Title */}
-          <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-0 sm:mb-0 relative overflow-visible">
-            <div className="relative w-full">
-              <Image
-                src="/area title mobile.png"
-                alt="Area"
-                width={2000}
-                height={100}
-                className="w-full h-auto md:hidden"
-              />
-              <Image
-                src="/area title.png"
-                alt="Area"
-                width={2000}
-                height={100}
-                className="w-full h-auto hidden md:block"
-              />
-            </div>
-          </div>
-
-          <div className="w-[800px] max-w-full px-5 sm:px-4 text-[#4B6CFF]">
-            <p className="text-2xl leading-[200%]">COMING SOON</p>
           </div>
         </section>
 
