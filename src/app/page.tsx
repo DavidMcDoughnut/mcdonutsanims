@@ -18,6 +18,22 @@ const easeOutExpo = (x: number): number => {
   return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
 };
 
+type CapFerratLayers = {
+  events: boolean;
+  hotels: boolean;
+  walkTime: boolean;
+  paintMap: boolean;
+  googleMap: boolean;
+};
+
+type RivieraLayers = {
+  florida: boolean;
+  driveTime: boolean;
+  reference: boolean;
+  paintMap: boolean;
+  googleMap: boolean;
+};
+
 export default function Home() {
   const [animationData, setAnimationData] = useState<any>(null);
   const [error, setError] = useState<string>('');
@@ -33,10 +49,18 @@ export default function Home() {
   const lastScrollPosition = useRef(0);
   const hasReachedThirtyPercent = useRef(false);
   const animationLoadAttempted = useRef(false);
-  const [mapLayers, setMapLayers] = useState({
+  const [mapLayers, setMapLayers] = useState<CapFerratLayers>({
     events: true,
     hotels: false,
     walkTime: false,
+    paintMap: true,
+    googleMap: false
+  });
+
+  const [rivieraLayers, setRivieraLayers] = useState<RivieraLayers>({
+    florida: false,
+    driveTime: false,
+    reference: true,
     paintMap: true,
     googleMap: false
   });
@@ -202,20 +226,36 @@ export default function Home() {
     loadAnimation();
   }, []);
 
-  const toggleLayer = (layer: keyof typeof mapLayers) => {
-    if (layer === 'paintMap' || layer === 'googleMap') {
-      // For map type toggles, switch between them
-      setMapLayers(prev => ({
-        ...prev,
-        paintMap: layer === 'paintMap',
-        googleMap: layer === 'googleMap'
-      }));
+  const toggleLayer = (
+    layer: keyof CapFerratLayers | keyof RivieraLayers,
+    isRiviera: boolean = false
+  ) => {
+    if (isRiviera) {
+      if (layer === 'paintMap' || layer === 'googleMap') {
+        setRivieraLayers(prev => ({
+          ...prev,
+          paintMap: layer === 'paintMap',
+          googleMap: layer === 'googleMap'
+        }));
+      } else if (layer === 'florida' || layer === 'driveTime' || layer === 'reference') {
+        setRivieraLayers(prev => ({
+          ...prev,
+          [layer]: !prev[layer]
+        }));
+      }
     } else {
-      // For other layers, just toggle the specific layer
-      setMapLayers(prev => ({
-        ...prev,
-        [layer]: !prev[layer]
-      }));
+      if (layer === 'paintMap' || layer === 'googleMap') {
+        setMapLayers(prev => ({
+          ...prev,
+          paintMap: layer === 'paintMap',
+          googleMap: layer === 'googleMap'
+        }));
+      } else if (layer === 'events' || layer === 'hotels' || layer === 'walkTime') {
+        setMapLayers(prev => ({
+          ...prev,
+          [layer]: !prev[layer]
+        }));
+      }
     }
   };
 
@@ -1052,18 +1092,140 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Riviera Image */}
+            {/* Riviera Map Component */}
             <div className="w-full mb-8">
-              <div className="relative w-full h-auto">
-                <Image
-                  src="/riviera.png"
-                  alt="Riviera Area"
-                  width={1200}
-                  height={675}
-                  className="w-full h-auto rounded-lg"
-                  sizes="(max-width: 1200px) 100vw, 1200px"
-                />
+              {/* Map Layers Container */}
+              <div className="relative w-full">
+                <div className="relative w-full">
+                  {/* Reference Layer - Top (z-index: 50) */}
+                  <Image
+                    src="/riv ref layer.png"
+                    alt="Reference Layer"
+                    width={1200}
+                    height={800}
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[50] ${
+                      rivieraLayers.reference ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                  
+                  {/* Drive Layer (z-index: 40) */}
+                  <Image
+                    src="/riv drive layer.png"
+                    alt="Drive Times"
+                    width={1200}
+                    height={800}
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[40] ${
+                      rivieraLayers.driveTime ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                  
+                  {/* Florida Layer (z-index: 30) */}
+                  <Image
+                    src="/riv fla layer.png"
+                    alt="Florida Translation"
+                    width={1200}
+                    height={800}
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[30] ${
+                      rivieraLayers.florida ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                  
+                  {/* Paint Map Layer (z-index: 20) */}
+                  <Image
+                    src="/riv paint map.png"
+                    alt="Painted Map"
+                    width={1200}
+                    height={800}
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[20] ${
+                      rivieraLayers.paintMap ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                  
+                  {/* Google Layer - Bottom (z-index: 10) */}
+                  <Image
+                    src="/riv goog map.png"
+                    alt="Google Map"
+                    width={1200}
+                    height={800}
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 relative z-[10] ${
+                      rivieraLayers.googleMap ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                </div>
               </div>
+
+              {/* Filter Buttons Row */}
+              <div className="w-full flex justify-between items-center mt-6">
+                {/* Left side text buttons */}
+                <div className="flex gap-4">
+                  <button 
+                    className={`px-6 py-2 rounded-xl text-base sm:text-lg border-2 transition-all duration-200 ${
+                      rivieraLayers.florida 
+                        ? 'border-[#FF7700] text-[#FF7700] hover:opacity-50 bg-[#FF7700] bg-opacity-10' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                    }`}
+                    onClick={() => toggleLayer('florida', true)}
+                  >
+                    Florida Translation
+                  </button>
+                  <button 
+                    className={`px-6 py-2 rounded-xl text-base sm:text-lg border-2 transition-all duration-200 ${
+                      rivieraLayers.driveTime 
+                        ? 'border-[#FF7DC5] text-[#FF7DC5] hover:opacity-50 bg-[#FF7DC5] bg-opacity-10' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                    }`}
+                    onClick={() => toggleLayer('driveTime', true)}
+                  >
+                    Drive Time
+                  </button>
+                </div>
+                
+                {/* Right side icon buttons */}
+                <div className="flex gap-3">
+                  <button 
+                    className={`w-12 h-12 flex items-center justify-center rounded-xl border-2 transition-all duration-200 ${
+                      rivieraLayers.paintMap 
+                        ? 'border-[#00B4AC] text-[#00B4AC] hover:opacity-50' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                    }`}
+                    onClick={() => toggleLayer('paintMap', true)}
+                  >
+                    <div className="relative w-full h-full">
+                      <Image
+                        src="/paint btn.png"
+                        alt="Paint Map Toggle"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  </button>
+                  <button 
+                    className={`w-12 h-12 flex items-center justify-center rounded-xl border-2 transition-all duration-200 ${
+                      rivieraLayers.googleMap 
+                        ? 'border-[#00B4AC] text-[#00B4AC] hover:opacity-50' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                    }`}
+                    onClick={() => toggleLayer('googleMap', true)}
+                  >
+                    <div className="relative w-full h-full">
+                      <Image
+                        src="/goog btn.png"
+                        alt="Google Map Toggle"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Riviera Map Title */}
+              <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest mt-8">French Riviera, Côte d'Azur</h2>
             </div>
           </div>
         </section>
