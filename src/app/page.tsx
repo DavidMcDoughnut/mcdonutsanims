@@ -13,6 +13,11 @@ const Lottie = dynamic(() => import('lottie-react'), {
   loading: () => null,
 });
 
+// Dynamically import ImageCarousel with SSR disabled
+const ImageCarousel = dynamic(() => import('../components/ImageCarousel'), {
+  ssr: true,
+});
+
 // Easing function for smoother opacity transition
 const easeOutExpo = (x: number): number => {
   return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
@@ -1081,8 +1086,6 @@ export default function Home() {
           </div>
         </section>
 
-
-
         {/* Stay Section */}
         <section id="stay" className="min-h-screen py-2 sm:py-16 flex flex-col items-center">
           {/* Stay Section Title */}
@@ -1258,7 +1261,6 @@ export default function Home() {
           </div>
         </section>
 
-
         {/* FAQ Section */}
         <section id="faq" className="min-h-screen py-12 sm:py-16 flex flex-col items-center">
           {/* FAQ Section Title */}
@@ -1320,6 +1322,39 @@ export default function Home() {
                   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
                   loading="lazy">
                 </iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Gallery Section - New dedicated section */}
+        <section id="gallery" className="py-12 sm:py-16 flex flex-col items-center w-full">
+          {/* Gallery Section Title */}
+          <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-8 relative overflow-visible">
+            {/* <h2 className="text-3xl sm:text-4xl font-extralight tracking-widest text-[#4B6CFF] text-center">GALLERY</h2> */}
+          </div>
+
+          <div className="w-full px-2 sm:px-4 md:px-8 lg:px-12">
+            <div className="space-y-8 mb-12">
+              {/* <p className="text-sm sm:text-base leading-[200%] text-[#4B6CFF] text-center px-5 mb-4">Please come hang out with us on the Med!</p> */}
+
+              <div className="w-full">
+                <ImageCarousel 
+                  images={[
+                    '/gallery-3.JPG',
+                    '/gallery-5.png',
+                    '/gallery-1.png',
+                    '/gallery-2.png',
+                    '/gallery-4.jpg',
+                    '/gallery-6.JPG',
+                    '/gallery-7.png',
+                    '/gallery-8.JPG',
+                    '/gallery-9.jpg',
+                    '/gallery-10.JPG',
+                    '/gallery-11.png',
+                    '/gallery-12.JPG'
+                  ]}
+                />
               </div>
             </div>
           </div>
