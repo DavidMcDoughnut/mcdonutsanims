@@ -1341,18 +1341,21 @@ export default function Home() {
               <div className="w-full">
                 <ImageCarousel 
                   images={[
-                    '/gallery-3.JPG',
-                    '/gallery-5.png',
-                    '/gallery-1.png',
-                    '/gallery-2.png',
-                    '/gallery-4.jpg',
-                    '/gallery-6.JPG',
-                    '/gallery-7.png',
-                    '/gallery-8.JPG',
-                    '/gallery-9.jpg',
-                    '/gallery-10.JPG',
-                    '/gallery-11.png',
-                    '/gallery-12.JPG'
+                    '/gallery/pdp-1.JPG',
+                    '/gallery/pdp-2.jpeg',
+                    '/gallery/dl-1.jpg',
+                    '/gallery/pdp-3.jpeg',
+                    '/gallery/dl-2.JPG',
+                    '/gallery/pdp-4.jpeg',
+                    '/gallery/pdp-5-7.jpeg',
+                    '/gallery/dl-3.JPG',
+                    '/gallery/dle-2.JPG',
+                    '/gallery/ver-1.jpg',
+                    '/gallery/ver-2.jpeg',
+                    '/gallery/dle-3.JPG',
+                    '/gallery/ver-3.JPG',
+                    '/gallery/dl-4.JPG',
+                    '/gallery/dle-1.JPG'
                   ]}
                 />
               </div>
