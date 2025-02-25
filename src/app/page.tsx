@@ -1306,12 +1306,22 @@ export default function Home() {
             </div>
 
             {/* Playlist Section */}
-            {/* <div className="space-y-6">
+            <div className="space-y-6">
               <h3 className="text-xl sm:text-2xl font-extralight tracking-widest">PLAYLIST?</h3>
               <div className="space-y-4">
                 <p className="text-sm sm:text-base leading-[200%]">Say no more, start vibing.</p>
+                <iframe 
+                  style={{ borderRadius: '12px' }} 
+                  src="https://open.spotify.com/embed/playlist/7uVwfbZk2S4eOMNzxhXVGx?utm_source=generator" 
+                  width="100%" 
+                  height="352" 
+                  frameBorder="0" 
+                  allowFullScreen 
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                  loading="lazy">
+                </iframe>
               </div>
-            </div> */}
+            </div>
           </div>
         </section>
 
