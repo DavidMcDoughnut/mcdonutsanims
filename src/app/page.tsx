@@ -1076,7 +1076,7 @@ export default function Home() {
 
             <div className="space-y-4 sm:space-y-6 mt-12 mb-0 sm:mb-0">
               <h2 className="text-2xl sm:text-3xl font-bold tracking-widest text-[#FF7DC5]">NOTE!</h2>
-              <p className="text-sm sm:text-base leading-[200%]">There is a different town in France named Cap FerrEt, with an "E" not an "A". This is a very different place. we are in Cap FerrAt with an "A". Don't get these confused or we will be sad.</p>
+              <p className="text-sm sm:text-base leading-[200%]">There is a different town in France named Cap FerrEt, with an "E" not an "A". This is a different place, very far away. We'll be in Cap FerrAt, with an "A".  Don't get these confused or we will be sad.</p>
             </div>
           </div>
         </section>
