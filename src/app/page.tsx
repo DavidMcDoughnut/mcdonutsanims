@@ -235,7 +235,9 @@ export default function Home() {
         setRivieraLayers(prev => ({
           ...prev,
           paintMap: layer === 'paintMap',
-          googleMap: layer === 'googleMap'
+          googleMap: layer === 'googleMap',
+          // Deselect florida layer when google map is selected
+          florida: layer === 'googleMap' ? false : prev.florida
         }));
       } else if (layer === 'florida' || layer === 'driveTime' || layer === 'reference') {
         setRivieraLayers(prev => ({
@@ -787,8 +789,8 @@ export default function Home() {
                   <button 
                     className={`px-2 sm:px-6 py-1 sm:py-2 rounded-xl text-sm sm:text-base md:text-lg border-[1px] sm:border-2 transition-all duration-200 ${
                       mapLayers.events 
-                        ? 'border-[#FF7700] text-[#FF7700] hover:opacity-50 bg-[#FF7700] bg-opacity-10' 
-                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                        ? 'border-[#FF7700] text-[#FF7700] bg-[#FF7700] bg-opacity-10 [@media(hover:hover)]:hover:opacity-50' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 [@media(hover:hover)]:hover:opacity-100'
                     }`}
                     onClick={() => toggleLayer('events')}
                   >
@@ -797,8 +799,8 @@ export default function Home() {
                   <button 
                     className={`px-2 sm:px-6 py-1 sm:py-2 rounded-xl text-sm sm:text-base md:text-lg border-[1px] sm:border-2 transition-all duration-200 ${
                       mapLayers.hotels 
-                        ? 'border-[#4B6CFF] text-[#4B6CFF] hover:opacity-50 bg-[#4B6CFF] bg-opacity-10' 
-                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                        ? 'border-[#4B6CFF] text-[#4B6CFF] bg-[#4B6CFF] bg-opacity-10 [@media(hover:hover)]:hover:opacity-50' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 [@media(hover:hover)]:hover:opacity-100'
                     }`}
                     onClick={() => toggleLayer('hotels')}
                   >
@@ -807,8 +809,8 @@ export default function Home() {
                   <button 
                     className={`px-2 sm:px-6 py-1 sm:py-2 rounded-xl text-sm sm:text-base md:text-lg border-[1px] sm:border-2 transition-all duration-200 ${
                       mapLayers.walkTime 
-                        ? 'border-[#FF7DC5] text-[#FF7DC5] hover:opacity-50 bg-[#FF7DC5] bg-opacity-10' 
-                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                        ? 'border-[#FF7DC5] text-[#FF7DC5] bg-[#FF7DC5] bg-opacity-10 [@media(hover:hover)]:hover:opacity-50' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 [@media(hover:hover)]:hover:opacity-100'
                     }`}
                     onClick={() => toggleLayer('walkTime')}
                   >
@@ -821,8 +823,8 @@ export default function Home() {
                   <button 
                     className={`w-12 h-12 flex items-center justify-center rounded-xl border-[1px] sm:border-2 transition-all duration-200 ${
                       mapLayers.paintMap 
-                        ? 'border-[#00B4AC] text-[#00B4AC] hover:opacity-50' 
-                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                        ? 'border-[#00B4AC] text-[#00B4AC] [@media(hover:hover)]:hover:opacity-50' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 [@media(hover:hover)]:hover:opacity-100'
                     }`}
                     onClick={() => toggleLayer('paintMap')}
                   >
@@ -838,8 +840,8 @@ export default function Home() {
                   <button 
                     className={`w-12 h-12 flex items-center justify-center rounded-xl border-[1px] sm:border-2 transition-all duration-200 ${
                       mapLayers.googleMap 
-                        ? 'border-[#00B4AC] text-[#00B4AC] hover:opacity-50' 
-                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                        ? 'border-[#00B4AC] text-[#00B4AC] [@media(hover:hover)]:hover:opacity-50' 
+                        : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 [@media(hover:hover)]:hover:opacity-100'
                     }`}
                     onClick={() => toggleLayer('googleMap')}
                   >
@@ -1011,8 +1013,8 @@ export default function Home() {
                       <button 
                         className={`px-2 sm:px-6 py-1 sm:py-2 rounded-xl text-sm sm:text-base md:text-lg border-[1px] sm:border-2 transition-all duration-200 ${
                           rivieraLayers.florida 
-                            ? 'border-[#FF7700] text-[#FF7700] hover:opacity-50 bg-[#FF7700] bg-opacity-10' 
-                            : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                            ? 'border-[#FF7700] text-[#FF7700] bg-[#FF7700] bg-opacity-10 [@media(hover:hover)]:hover:opacity-50' 
+                            : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 [@media(hover:hover)]:hover:opacity-100'
                         }`}
                         onClick={() => toggleLayer('florida', true)}
                       >
@@ -1021,8 +1023,8 @@ export default function Home() {
                       <button 
                         className={`px-2 sm:px-6 py-1 sm:py-2 rounded-xl text-sm sm:text-base md:text-lg border-[1px] sm:border-2 transition-all duration-200 ${
                           rivieraLayers.driveTime 
-                            ? 'border-[#FF7DC5] text-[#FF7DC5] hover:opacity-50 bg-[#FF7DC5] bg-opacity-10' 
-                            : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                            ? 'border-[#FF7DC5] text-[#FF7DC5] bg-[#FF7DC5] bg-opacity-10 [@media(hover:hover)]:hover:opacity-50' 
+                            : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 [@media(hover:hover)]:hover:opacity-100'
                         }`}
                         onClick={() => toggleLayer('driveTime', true)}
                       >
@@ -1035,8 +1037,8 @@ export default function Home() {
                       <button 
                         className={`w-12 h-12 flex items-center justify-center rounded-xl border-[1px] sm:border-2 transition-all duration-200 ${
                           rivieraLayers.paintMap 
-                            ? 'border-[#00B4AC] text-[#00B4AC] hover:opacity-50' 
-                            : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                            ? 'border-[#00B4AC] text-[#00B4AC] [@media(hover:hover)]:hover:opacity-50' 
+                            : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 [@media(hover:hover)]:hover:opacity-100'
                         }`}
                         onClick={() => toggleLayer('paintMap', true)}
                       >
@@ -1052,8 +1054,8 @@ export default function Home() {
                       <button 
                         className={`w-12 h-12 flex items-center justify-center rounded-xl border-[1px] sm:border-2 transition-all duration-200 ${
                           rivieraLayers.googleMap 
-                            ? 'border-[#00B4AC] text-[#00B4AC] hover:opacity-50' 
-                            : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 hover:opacity-100'
+                            ? 'border-[#00B4AC] text-[#00B4AC] [@media(hover:hover)]:hover:opacity-50' 
+                            : 'border-[#4B6CFF] border-opacity-50 text-[#4B6CFF] opacity-50 [@media(hover:hover)]:hover:opacity-100'
                         }`}
                         onClick={() => toggleLayer('googleMap', true)}
                       >
