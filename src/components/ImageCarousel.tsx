@@ -62,18 +62,18 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
       <div className="flex items-center">
         {/* Navigation Button - Previous */}
         <button 
-          className="flex-none mr-4 bg-white rounded-full p-2 shadow-md hover:bg-opacity-90 transition-all border border-[#4B6CFF] border-opacity-20 z-10"
+          className="hidden sm:flex flex-none mr-1 sm:mr-4 bg-white rounded-full p-1 sm:p-2 shadow-md hover:bg-opacity-90 transition-all border border-[#4B6CFF] border-opacity-20 z-10"
           onClick={scrollPrev}
           aria-label="Previous slide"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4B6CFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B6CFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 sm:w-6 sm:h-6">
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
         
         {/* Carousel container with mask for fade effect */}
         <div 
-          className="overflow-hidden rounded-[12px] flex-grow relative"
+          className="overflow-hidden rounded-[8px] sm:rounded-[12px] flex-grow relative"
           style={{
             maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent 100%)',
             WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent 100%)'
@@ -84,17 +84,20 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
             {images.map((image, index) => (
               <div 
                 key={index} 
-                className="flex-[0_0_90%] sm:flex-[0_0_45%] md:flex-[0_0_30%] lg:flex-[0_0_22%] min-w-0 pr-4 relative h-[300px] cursor-pointer"
+                className="flex-[0_0_55%] sm:flex-[0_0_45%] md:flex-[0_0_30%] lg:flex-[0_0_22%] min-w-0 pr-2 sm:pr-4 relative h-[220px] sm:h-[300px] cursor-pointer"
                 onClick={() => openModal(image)}
               >
-                <div className="h-full w-full relative rounded-[12px] overflow-hidden">
+                <div className="h-full w-full relative rounded-[8px] sm:rounded-[12px] overflow-hidden">
                   <Image
                     src={image}
                     alt={`Gallery image ${index + 1}`}
                     fill
                     className="object-cover hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 640px) 90vw, (max-width: 768px) 45vw, (max-width: 1024px) 30vw, 22vw"
+                    sizes="(max-width: 640px) 55vw, (max-width: 768px) 45vw, (max-width: 1024px) 30vw, 22vw"
                     loading="lazy"
+                    style={{
+                      objectPosition: 'center center'
+                    }}
                   />
                 </div>
               </div>
@@ -104,11 +107,11 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
         
         {/* Navigation Button - Next */}
         <button 
-          className="flex-none ml-4 bg-white rounded-full p-2 shadow-md hover:bg-opacity-90 transition-all border border-[#4B6CFF] border-opacity-20 z-10"
+          className="hidden sm:flex flex-none ml-1 sm:ml-4 bg-white rounded-full p-1 sm:p-2 shadow-md hover:bg-opacity-90 transition-all border border-[#4B6CFF] border-opacity-20 z-10"
           onClick={scrollNext}
           aria-label="Next slide"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4B6CFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B6CFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 sm:w-6 sm:h-6">
             <polyline points="9 18 15 12 9 6"></polyline>
           </svg>
         </button>

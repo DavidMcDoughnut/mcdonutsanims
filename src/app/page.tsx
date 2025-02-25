@@ -1328,16 +1328,9 @@ export default function Home() {
         </section>
 
         {/* Gallery Section - New dedicated section */}
-        <section id="gallery" className="py-12 sm:py-16 flex flex-col items-center w-full">
-          {/* Gallery Section Title */}
-          <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-8 relative overflow-visible">
-            {/* <h2 className="text-3xl sm:text-4xl font-extralight tracking-widest text-[#4B6CFF] text-center">GALLERY</h2> */}
-          </div>
-
-          <div className="w-full px-2 sm:px-4 md:px-8 lg:px-12">
-            <div className="space-y-8 mb-12">
-              {/* <p className="text-sm sm:text-base leading-[200%] text-[#4B6CFF] text-center px-5 mb-4">Please come hang out with us on the Med!</p> */}
-
+        <section id="gallery" className="py-6 sm:py-16 mb-6 flex flex-col items-center w-full">
+          <div className="w-full px-0 sm:px-4 md:px-8 lg:px-12">
+            <div className="space-y-3 sm:space-y-8">
               <div className="w-full">
                 <ImageCarousel 
                   images={[
