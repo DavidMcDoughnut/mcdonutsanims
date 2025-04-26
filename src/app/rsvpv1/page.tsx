@@ -69,10 +69,10 @@ export default function RSVPPage() {
       name5: "",
       attending: "",
       events: {
-        allEvents: true,
-        welcomeParty: true,
-        wedding: true,
-        beachDay: true,
+        allEvents: false,
+        welcomeParty: false,
+        wedding: false,
+        beachDay: false,
         boatDay: false,
       },
       allergies1: "",
@@ -322,7 +322,14 @@ export default function RSVPPage() {
                                   "w-full h-10",
                                   field.value === "yes" && "bg-green border-green text-white"
                                 )}
-                                onClick={() => field.onChange("yes")}
+                                onClick={() => {
+                                  field.onChange("yes");
+                                  form.setValue('events.allEvents', true);
+                                  form.setValue('events.welcomeParty', true);
+                                  form.setValue('events.wedding', true);
+                                  form.setValue('events.beachDay', true);
+                                  // boatDay remains as per its independent checkbox state
+                                }}
                               >
                                 <Check className="mr-2" />
                                 <div className="flex items-baseline">
