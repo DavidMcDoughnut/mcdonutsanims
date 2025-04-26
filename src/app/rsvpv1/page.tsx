@@ -59,6 +59,8 @@ export default function RSVPPage() {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
+    mode: 'onSubmit',
+    reValidateMode: 'onChange',
     defaultValues: {
       name1: "",
       name2: "",
@@ -176,16 +178,16 @@ export default function RSVPPage() {
                 <FormField
                   control={form.control}
                   name="name1"
-                  render={({ field }: { field: FieldType }) => (
+                  render={({ field }) => (
                     <FormItem className="space-y-4">
                       <div className="flex flex-col md:flex-row md:items-baseline md:gap-2">
                         <FormLabel className="text-lg text-blue tracking-wider">Formal Name</FormLabel>
                         <span className="text-xs font-light text-blue/80 italic mt-1 md:mt-0">please include nobility titles or CFA level if relevant</span>
                       </div>
                       <FormControl>
-                        <Input 
+                        <Input
                           placeholder="Guest 1"
-                          {...field} 
+                          {...field}
                           variant="form"
                           hasValue={!!name1Value}
                         />
@@ -296,7 +298,8 @@ export default function RSVPPage() {
 
                         <div className="flex flex-col md:flex-row gap-4 w-full justify-start mx-auto">
                             <div className={cn("group w-full", field.value === "no" && "selected")}>
-                              <Button 
+                              <Button
+                                type="button"
                                 variant="radneg" size="sm"
                                 className={cn(
                                   "w-full h-10",
@@ -312,7 +315,8 @@ export default function RSVPPage() {
                               </Button>
                             </div>
                             <div className={cn("group w-full", field.value === "yes" && "selected")}>
-                              <Button 
+                              <Button
+                                type="button"
                                 variant="radpos" size="sm"
                                 className={cn(
                                   "w-full h-10",
