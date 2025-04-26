@@ -56,7 +56,7 @@ export default function RSVPPage() {
         <h1 className="text-4xl font-bold text-blue mb-8 text-center">
           RSVP Form
         </h1>
-        <div className="bg-card rounded-lg shadow-lg p-8 border border-border">
+        <div className="bg-card rounded-lg shadow-xl p-8">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
@@ -69,8 +69,43 @@ export default function RSVPPage() {
                       <Input 
                         placeholder="Your name" 
                         {...field} 
-                        className="border-blue focus-visible:ring-1 focus-visible:ring-blue"
+                        className="rounded-none border-b-2 border-blue focus-visible:ring-1 focus-visible:ring-blue px-0"
                       />
+                    </FormControl>
+                    <FormMessage className="text-destructive" />
+                  </FormItem>
+                )}
+              />
+
+            <FormField
+                control={form.control}
+                name="attending"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel className="text-lg">Will you be attending?</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex flex-col space-y-2"
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="no" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            No & I'll regret it on my deathbed.
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="yes" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            OUI! Allons-y!
+                          </FormLabel>
+                        </FormItem>
+                      </RadioGroup>
                     </FormControl>
                     <FormMessage className="text-destructive" />
                   </FormItem>
