@@ -109,24 +109,18 @@ export default function RSVPPage() {
                       >
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
-                            <RadioGroupItem 
-                              value="yes" 
-                              className="border-blue text-blue focus:ring-blue focus:ring-offset-2"
-                            />
+                            <RadioGroupItem value="yes" />
                           </FormControl>
-                          <FormLabel className="font-normal text-base">
-                            Yes, I will attend
+                          <FormLabel className="font-normal">
+                            Yes, I will be there
                           </FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
-                            <RadioGroupItem 
-                              value="no" 
-                              className="border-blue text-blue focus:ring-blue focus:ring-offset-2"
-                            />
+                            <RadioGroupItem value="no" />
                           </FormControl>
-                          <FormLabel className="font-normal text-base">
-                            No, I cannot attend
+                          <FormLabel className="font-normal">
+                            No, I cannot make it
                           </FormLabel>
                         </FormItem>
                       </RadioGroup>
@@ -145,7 +139,6 @@ export default function RSVPPage() {
                       <Checkbox
                         checked={field.value}
                         onCheckedChange={field.onChange}
-                        className="border-blue data-[state=checked]:bg-blue data-[state=checked]:border-blue focus:ring-1 focus:ring-blue"
                       />
                     </FormControl>
                     <div className="space-y-1 leading-none">
