@@ -29,6 +29,12 @@ const config: Config = {
         '6600': '6600ms',
       },
   		colors: {
+        // Brand Colors
+        blue: 'var(--blue)',
+        pink: 'var(--pink)',
+        green: 'var(--green)',
+        orange: 'var(--orange)',
+        // System Colors
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

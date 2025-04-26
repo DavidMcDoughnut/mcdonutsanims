@@ -53,7 +53,7 @@ export default function RSVPPage() {
   return (
     <main className="min-h-screen p-8 bg-background">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-4xl font-bold text-[#4B6CFF] mb-8 text-center">
+        <h1 className="text-4xl font-bold text-blue mb-8 text-center">
           RSVP Form
         </h1>
         <div className="bg-card rounded-lg shadow-lg p-8 border border-border">
@@ -69,7 +69,7 @@ export default function RSVPPage() {
                       <Input 
                         placeholder="Your name" 
                         {...field} 
-                        className="border-input focus:ring-2 focus:ring-ring"
+                        className="border-blue focus-visible:ring-1 focus-visible:ring-blue"
                       />
                     </FormControl>
                     <FormMessage className="text-destructive" />
@@ -87,7 +87,7 @@ export default function RSVPPage() {
                       <Input 
                         placeholder="your.email@example.com" 
                         {...field}
-                        className="border-input focus:ring-2 focus:ring-ring"
+                        className="border-blue focus-visible:ring-1 focus-visible:ring-blue"
                       />
                     </FormControl>
                     <FormMessage className="text-destructive" />
@@ -109,7 +109,10 @@ export default function RSVPPage() {
                       >
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="yes" />
+                            <RadioGroupItem 
+                              value="yes" 
+                              className="border-blue text-blue focus:ring-blue focus:ring-offset-2"
+                            />
                           </FormControl>
                           <FormLabel className="font-normal text-base">
                             Yes, I will attend
@@ -117,7 +120,10 @@ export default function RSVPPage() {
                         </FormItem>
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="no" />
+                            <RadioGroupItem 
+                              value="no" 
+                              className="border-blue text-blue focus:ring-blue focus:ring-offset-2"
+                            />
                           </FormControl>
                           <FormLabel className="font-normal text-base">
                             No, I cannot attend
@@ -139,7 +145,7 @@ export default function RSVPPage() {
                       <Checkbox
                         checked={field.value}
                         onCheckedChange={field.onChange}
-                        className="border-input data-[state=checked]:bg-[#4B6CFF] data-[state=checked]:border-[#4B6CFF]"
+                        className="border-blue data-[state=checked]:bg-blue data-[state=checked]:border-blue focus:ring-1 focus:ring-blue"
                       />
                     </FormControl>
                     <div className="space-y-1 leading-none">
@@ -153,7 +159,7 @@ export default function RSVPPage() {
 
               <Button 
                 type="submit"
-                className="w-full bg-[#4B6CFF] hover:bg-[#3955CC] text-white font-semibold py-2 px-4"
+                className="w-full bg-blue hover:bg-pink text-white font-semibold py-2 px-4"
               >
                 Submit RSVP
               </Button>

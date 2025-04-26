@@ -13,7 +13,7 @@ body {
 
 @layer components {
   .wedding-text {
-    @apply font-montserrat text-[#FF7DC5] tracking-widest font-light uppercase;
+    @apply font-montserrat text-pink tracking-widest font-light uppercase;
   }
 }
 
@@ -27,18 +27,18 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #4B6CFF;
+  background: var(--blue);
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4B6CFF;
+  background: var(--blue);
 }
 
 /* For Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #4B6CFF transparent;
+  scrollbar-color: var(--blue) transparent;
 }
 
 @layer base {
@@ -63,13 +63,16 @@ body {
     --input: 234 86% 65%;
     --ring: 234 86% 65%;
     --radius: 0.5rem;
+
+    /* Brand Colors */
+    --blue: #4B6CFF;
+    --pink: #FF7DC5;
+    --green: #00B4AC;
+    --orange: #FF7700;
   }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
   body {
     @apply bg-background text-foreground;
   }
