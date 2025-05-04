@@ -77,7 +77,7 @@ export default function RSVPPage() {
                 )}
               />
 
-            <FormField
+              <FormField
                 control={form.control}
                 name="attending"
                 render={({ field }) => (
