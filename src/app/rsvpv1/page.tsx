@@ -170,7 +170,7 @@ export default function RSVPPage() {
         <h1 className="text-xl font-light text-blue mb-8 text-left md:text-3xl md:text-center tracking-widest flex-shrink-0">
           RSVP for Lauren & David
         </h1>
-        <div className="bg-card rounded-lg flex-1 overflow-y-auto custom-scrollbar isolate">
+        <div className="bg-card rounded-lg flex-1 overflow-y-auto custom-scrollbar isolate mr-[-30px] pr-[30px]">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
               {/* Names Section */}
