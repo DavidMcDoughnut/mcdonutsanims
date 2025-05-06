@@ -19,9 +19,9 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
 
         radpos:
-          "!border-2 !border-green text-green hover:bg-green hover:text-white transition-colors",
+          "!border-1.5 !border-green text-green hover:bg-green hover:text-white transition-colors",
         radneg:
-          "!border-2 !border-pink text-pink hover:bg-pink hover:text-white transition-colors",
+          "!border-1.5 !border-pink text-pink hover:bg-pink hover:text-white transition-colors",
 
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
