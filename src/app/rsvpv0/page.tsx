@@ -18,6 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { cn } from "@/lib/utils";
 
 // Define the form schema with proper types
 const formSchema = z.object({
@@ -69,13 +70,13 @@ export default function RSVPPage() {
         </h1>
         <div className="bg-card rounded-lg shadow-xl p-8">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-16">
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg">Name</FormLabel>
+                    <FormLabel className="text-lg text-blue tracking-wider">Guest Name</FormLabel>
                     <FormControl>
                       <Input 
                         placeholder="Your name" 
@@ -93,7 +94,7 @@ export default function RSVPPage() {
                 name="attending"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel className="text-lg">Will you be attending?</FormLabel>
+                    <FormLabel className="text-lg text-blue tracking-wider">Attending?</FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
@@ -101,13 +102,27 @@ export default function RSVPPage() {
                         className="flex flex-col space-y-2">
 
                         <div className="flex flex-col gap-4 w-1/2 justify-startmx-auto">
-                            <Button variant="radpos" className="flex-1 w-full">
-                            <Check className="w-4 h-4" />
-                            OUI, allons-y! (can't wait, YOLO)
+                            <Button 
+                              variant="radpos" 
+                              className={cn(
+                                "flex-1 w-full",
+                                field.value === "yes" && "bg-green border-green text-white"
+                              )}
+                              onClick={() => field.onChange("yes")}
+                            >
+                              <Check className="" />
+                              <span className="font-bold">OUI</span> Allons-y! YOLO! Can't Wait!
                             </Button>
-                            <Button variant="radneg" className="flex-1 w-full">
-                            <X className="w-4 h-4" />
-                            Non and I will live with regret
+                            <Button 
+                              variant="radneg" 
+                              className={cn(
+                                "flex-1 w-full",
+                                field.value === "no" && "bg-pink/40 border-pink text-white"
+                              )}
+                              onClick={() => field.onChange("no")}
+                            >
+                              <X className="" />
+                              <span className="font-bold">NON</span> I'm ok living a life of regret
                             </Button>
                         </div>
 
@@ -125,15 +140,15 @@ export default function RSVPPage() {
                   <FormItem className="space-y-3">
                     <FormLabel className="text-lg text-blue tracking-wider">Which Events?</FormLabel>
                     <div className="flex flex-col gap-4">
-                      <FormItem className="flex items-center space-x-4 space-y-0">
+                      <FormItem className="flex items-center space-x-4 space-y-0 hover:text-green hover:cursor-pointer transition-colors">
                         <FormControl>
                           <Checkbox
                             checked={field.value}
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
-                        <div className="space-y-1 leading-none">
-                          <FormLabel className="font-semibold">
+                        <div className="space-y-1 leading-none ">
+                          <FormLabel className="font-semibold ">
                             All Events - Thurs-Sat
                           </FormLabel>
                         </div>

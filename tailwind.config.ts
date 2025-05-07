@@ -34,10 +34,10 @@ const config: Config = {
       },
   		colors: {
         // Brand Colors
-        blue: 'var(--blue)',
-        pink: 'var(--pink)',
-        green: 'var(--green)',
-        orange: 'var(--orange)',
+        blue: 'hsl(var(--blue))',
+        pink: 'hsl(var(--pink))',
+        green: 'hsl(var(--green))',
+        orange: 'hsl(var(--orange))',
         // System Colors
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
