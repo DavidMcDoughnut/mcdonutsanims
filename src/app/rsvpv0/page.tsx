@@ -82,16 +82,16 @@ export default function RSVPPage() {
         </h1>
         <div className="bg-card rounded-lg shadow-xl p-8">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-16">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg text-blue tracking-wider">Your Name</FormLabel>
+                    <FormLabel className="text-lg text-blue tracking-wider">Guest 1</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="First + Last + nobility title (if relevant)" 
+                        placeholder="Name + nobility title (where relevant)" 
                         {...field} 
                         className="rounded-none border-b-2 border-blue  px-0"
                       />
@@ -249,8 +249,8 @@ export default function RSVPPage() {
                           </FormItem>
                         )}
                       />
-                    <div className="text-sm text-muted-foreground mt-4">
-                    100% Optional
+                    <div className="text-sm text-blue/60 mt-0 italic">
+                    Optional
                     </div>
                       <FormField
                         control={form.control}
@@ -299,7 +299,7 @@ export default function RSVPPage() {
 
               <Button 
                 type="submit"
-                className="w-full bg-blue hover:bg-pink text-white font-semibold py-2 px-4"
+                className="w-full bg-blue hover:bg-green text-white font-bold py-4 px-4 text-lg tracking-wider"
               >
                 Submit RSVP
               </Button>
