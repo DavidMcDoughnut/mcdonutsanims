@@ -88,10 +88,10 @@ export default function RSVPPage() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg text-blue tracking-wider">Guest #1</FormLabel>
+                    <FormLabel className="text-lg text-blue tracking-wider">Your Name</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="Formal name" 
+                        placeholder="First + Last + nobility title (if relevant)" 
                         {...field} 
                         className="rounded-none border-b-2 border-blue  px-0"
                       />
