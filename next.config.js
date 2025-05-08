@@ -2,10 +2,19 @@
 const nextConfig = {
   output: 'standalone',
   images: {
-    unoptimized: false,
+    formats: ['image/webp'],
+    minimumCacheTTL: 60,
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256],
-    formats: ['image/webp', 'image/avif'],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
+  experimental: {
+    optimizeImages: true,
+    optimizeCss: true,
+  },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
   },
   webpack: (config) => {
     // Add rule for JSON files
@@ -19,6 +28,31 @@ const nextConfig = {
     config.module.rules.push({
       test: /\.(webm|mp4|png|jpg|jpeg|gif|svg)$/i,
       type: 'asset/resource'
+    });
+
+    config.module.rules.push({
+      test: /\.(png|jpe?g|gif|svg|webp)$/i,
+      use: [
+        {
+          loader: 'image-webpack-loader',
+          options: {
+            mozjpeg: {
+              progressive: true,
+              quality: 65
+            },
+            optipng: {
+              enabled: true,
+            },
+            pngquant: {
+              quality: [0.65, 0.90],
+              speed: 4
+            },
+            webp: {
+              quality: 75
+            }
+          }
+        }
+      ]
     });
 
     return config;
