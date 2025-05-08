@@ -379,7 +379,7 @@ export default function Home() {
         <defs>
           <filter id='roughpaper' x='0%' y='0%' width='100%' height="100%">
             <feTurbulence type="fractalNoise" baseFrequency='0.12' result='noise' numOctaves="4" />
-            <feDiffuseLighting in='noise' lighting-color='white' surfaceScale='8'>
+            <feDiffuseLighting in='noise' lightingColor='white' surfaceScale='8'>
               <feDistantLight azimuth='45' elevation='40' />
             </feDiffuseLighting>
           </filter>
