@@ -1327,7 +1327,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Gallery Section - New dedicated section */}
+        {/* Gallery Section - New dedicated section
         <section id="gallery" className="py-6 sm:py-16 mb-6 flex flex-col items-center w-full">
           <div className="w-full px-0 sm:px-4 md:px-8 lg:px-12">
             <div className="space-y-3 sm:space-y-8">
@@ -1355,6 +1355,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+         */}
 
         {/* Footer Image */}
         <div className="w-full relative">
