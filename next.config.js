@@ -10,12 +10,10 @@ const nextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   experimental: {
-    optimizeCss: true,
+    optimizeCss: false,
   },
-  compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
-  },
-  webpack: (config) => {
+  pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
+  webpack: (config, { dev, isServer }) => {
     // Add rule for JSON files
     config.module.rules.push({
       test: /\.json$/,
@@ -29,30 +27,33 @@ const nextConfig = {
       type: 'asset/resource'
     });
 
-    config.module.rules.push({
-      test: /\.(png|jpe?g|gif|svg|webp)$/i,
-      use: [
-        {
-          loader: 'image-webpack-loader',
-          options: {
-            mozjpeg: {
-              progressive: true,
-              quality: 65
-            },
-            optipng: {
-              enabled: true,
-            },
-            pngquant: {
-              quality: [0.65, 0.90],
-              speed: 4
-            },
-            webp: {
-              quality: 75
+    // Only run image optimization in production
+    if (!dev) {
+      config.module.rules.push({
+        test: /\.(png|jpe?g|gif|svg|webp)$/i,
+        use: [
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                progressive: true,
+                quality: 65
+              },
+              optipng: {
+                enabled: true,
+              },
+              pngquant: {
+                quality: [0.65, 0.90],
+                speed: 4
+              },
+              webp: {
+                quality: 75
+              }
             }
           }
-        }
-      ]
-    });
+        ]
+      });
+    }
 
     return config;
   },
