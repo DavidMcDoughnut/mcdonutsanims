@@ -14,6 +14,7 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: 'Lauren & David',
   description: 'Lauren & David Wedding - Juin 19-21, 2025 - Saint-Jean-Cap-Ferrat',
+  metadataBase: new URL('https://www.themcdonuts.com'),
   openGraph: {
     title: 'Lauren & David',
     description: 'Lauren & David Wedding - Juin 19-21, 2025 - Saint-Jean-Cap-Ferrat',

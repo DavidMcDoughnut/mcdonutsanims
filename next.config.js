@@ -10,7 +10,6 @@ const nextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   experimental: {
-    optimizeImages: true,
     optimizeCss: true,
   },
   compiler: {
