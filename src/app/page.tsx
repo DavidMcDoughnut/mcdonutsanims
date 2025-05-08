@@ -13,11 +13,6 @@ const Lottie = dynamic(() => import('lottie-react'), {
   loading: () => null,
 });
 
-// Dynamically import ImageCarousel with SSR disabled
-const ImageCarousel = dynamic(() => import('../components/ImageCarousel'), {
-  ssr: true,
-});
-
 // Easing function for smoother opacity transition
 const easeOutExpo = (x: number): number => {
   return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);

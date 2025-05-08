@@ -23,6 +23,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalImage, setModalImage] = useState('');
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set([0, 1])); // Track loaded images
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -39,12 +40,31 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
 
   useEffect(() => {
     if (!emblaApi) return;
-    emblaApi.on('select', onSelect);
-    onSelect();
-    return () => {
-      emblaApi.off('select', onSelect);
+    
+    const loadImagesInView = () => {
+      const visibleIndexes = emblaApi.slidesInView();
+      setLoadedImages(prev => {
+        const newSet = new Set(prev);
+        visibleIndexes.forEach(index => {
+          newSet.add(index);
+          // Preload next few images
+          for (let i = 1; i <= 2; i++) {
+            if (index + i < images.length) {
+              newSet.add(index + i);
+            }
+          }
+        });
+        return newSet;
+      });
     };
-  }, [emblaApi, onSelect]);
+
+    emblaApi.on('select', loadImagesInView);
+    loadImagesInView(); // Initial load
+
+    return () => {
+      emblaApi.off('select', loadImagesInView);
+    };
+  }, [emblaApi, images.length]);
 
   const openModal = (image: string) => {
     setModalImage(image);
@@ -88,17 +108,22 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
                 onClick={() => openModal(image)}
               >
                 <div className="h-full w-full relative rounded-[8px] sm:rounded-[12px] overflow-hidden">
-                  <Image
-                    src={image}
-                    alt={`Gallery image ${index + 1}`}
-                    fill
-                    className="object-cover hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 640px) 55vw, (max-width: 768px) 45vw, (max-width: 1024px) 30vw, 22vw"
-                    loading="lazy"
-                    style={{
-                      objectPosition: 'center center'
-                    }}
-                  />
+                  {loadedImages.has(index) && (
+                    <Image
+                      src={image}
+                      alt={`Gallery image ${index + 1}`}
+                      fill
+                      className="object-cover hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 640px) 55vw, (max-width: 768px) 45vw, (max-width: 1024px) 30vw, 22vw"
+                      loading={index < 2 ? "eager" : "lazy"}
+                      quality={75}
+                      placeholder="blur"
+                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qLjgyPjA+OjU1RUVHSkdKTEtMTEdGSEZLSEr/2wBDAR"
+                      style={{
+                        objectPosition: 'center center'
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             ))}
