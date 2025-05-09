@@ -164,6 +164,7 @@ export default function RSVPPage() {
         <div className="bg-card rounded-lg">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
+              {/* Names Section */}
               <div className="space-y-6">
                 <FormField
                   control={form.control}
@@ -273,6 +274,7 @@ export default function RSVPPage() {
                 )}
               </div>
 
+              {/* Attending Section */}
               <FormField
                 control={form.control}
                 name="attending"
@@ -327,6 +329,8 @@ export default function RSVPPage() {
                   </FormItem>
                 )}
               />
+
+              {/* Events Section */}
 
               <FormField
                 control={form.control}
@@ -496,6 +500,42 @@ export default function RSVPPage() {
                 
               />
 
+              {/* Travel Logistics Section */}
+
+              <FormField
+                control={form.control}
+                name="staying"
+                render={({ field }: { field: FieldType }) => (
+                  <FormItem>
+                    <FormLabel className="text-lg text-blue tracking-wider">Travel Logistics</FormLabel>
+                    <FormControl>
+                      <Input 
+                        placeholder="Hotel, Airbnb, etc" 
+                        {...field} 
+                        className="rounded-none border-b-2 border-blue px-0"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="travel"
+                render={({ field }: { field: FieldType }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input 
+                        placeholder="Flight, train, etc" 
+                        {...field} 
+                        className="rounded-none border-b-2 border-blue px-0"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              {/* Allergies Section */}
               <FormField
                 control={form.control}
                 name="allergies1"
@@ -581,39 +621,7 @@ export default function RSVPPage() {
                 </>
               )}
 
-              <FormField
-                control={form.control}
-                name="staying"
-                render={({ field }: { field: FieldType }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg text-blue tracking-wider">Travel Logistics</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="Hotel, Airbnb, etc" 
-                        {...field} 
-                        className="rounded-none border-b-2 border-blue px-0"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="travel"
-                render={({ field }: { field: FieldType }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input 
-                        placeholder="Flight, train, etc" 
-                        {...field} 
-                        className="rounded-none border-b-2 border-blue px-0"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
+              {/* Submit Button */}
               <Button 
                 type="submit"
                 className="w-full bg-blue hover:bg-green text-white font-bold py-4 px-4 text-lg tracking-wider"
