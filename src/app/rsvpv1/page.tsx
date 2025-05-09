@@ -461,9 +461,39 @@ export default function RSVPPage() {
                           </FormItem>
                         )}
                       />
+
+                      <div className="text-sm text-blue/60 mt-0 italic">
+                        Childcare
+                      </div>
+
+                      <FormField
+                        control={form.control}
+                        name="events.boatDay"
+                        render={({ field }: { field: FieldType }) => (
+                          <FormItem className="flex items-center space-x-4 space-y-0 hover:text-green hover:cursor-pointer transition-colors">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={(checked: boolean) => {
+                                  field.onChange(checked);
+                                }}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel className={cn(
+                                "transition-colors",
+                                field.value && "text-green"
+                              )}>
+                                <span className="font-bold">Yes, we'd love childcare help</span>
+                              </FormLabel>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
                     </div>
                   </FormItem>
                 )}
+                
               />
 
               <FormField
@@ -556,7 +586,7 @@ export default function RSVPPage() {
                 name="staying"
                 render={({ field }: { field: FieldType }) => (
                   <FormItem>
-                    <FormLabel className="text-lg text-blue tracking-wider">Staying?</FormLabel>
+                    <FormLabel className="text-lg text-blue tracking-wider">Travel Logistics</FormLabel>
                     <FormControl>
                       <Input 
                         placeholder="Hotel, Airbnb, etc" 
@@ -573,7 +603,6 @@ export default function RSVPPage() {
                 name="travel"
                 render={({ field }: { field: FieldType }) => (
                   <FormItem>
-                    <FormLabel className="text-lg text-blue tracking-wider">Travel?</FormLabel>
                     <FormControl>
                       <Input 
                         placeholder="Flight, train, etc" 
