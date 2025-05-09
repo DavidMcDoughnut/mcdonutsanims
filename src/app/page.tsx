@@ -400,7 +400,7 @@ export default function Home() {
       <div className="fixed inset-0 pointer-events-none z-[9999]">
         {/* White Border Mask - Creates the masking effect */}
         <div 
-          className="absolute border-[32px] sm:border-[48px] border-white rounded-[44px] sm:rounded-[72px] transition-transform duration-[1000ms] ease-out w-[calc(100%-16px+64px)] h-[calc(100%-24px+64px)] sm:w-[calc(100%-16px+80px)] sm:h-[calc(100%-16px+80px)]"
+          className="absolute border-[32px] sm:border-[48px] border-white rounded-[44px] sm:rounded-[72px] transition-transform duration-1000 ease-out w-[calc(100%-16px+64px)] h-[calc(100%-24px+64px)] sm:w-[calc(100%-16px+80px)] sm:h-[calc(100%-16px+80px)]"
           style={{
             top: '50%',
             left: '50%',
@@ -413,7 +413,7 @@ export default function Home() {
         
         {/* Blue Border - Main visual border */}
         <div 
-          className="absolute border-[2px] sm:border-[4px] border-[#4B6CFF] rounded-[12px] sm:rounded-[24px] transition-transform duration-[1000ms] ease-out w-[calc(100%-16px)] h-[calc(100%-24px)] sm:w-[calc(100%-32px)] sm:h-[calc(100%-32px)]"
+          className="absolute border-[2px] sm:border-[4px] border-[#4B6CFF] rounded-[12px] sm:rounded-[24px] transition-transform duration-1000 ease-out w-[calc(100%-16px)] h-[calc(100%-24px)] sm:w-[calc(100%-32px)] sm:h-[calc(100%-32px)]"
           style={{
             top: '50%',
             left: '50%',
@@ -584,7 +584,7 @@ export default function Home() {
           >
             {/* Lauren & David SVG */}
             <div 
-              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center mt-0 transition-all duration-1000 ease-out delay-[6000ms] ${
+              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center mt-0 transition-all duration-1000 ease-out delay-[6000] ${
                 pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
@@ -599,7 +599,7 @@ export default function Home() {
 
             {/* Date */}
             <div 
-              className={`w-[90vw] sm:w-[80vw] md:w-[800px] flex justify-center transition-all duration-1000 ease-out delay-[6200ms] ${
+              className={`w-[90vw] sm:w-[80vw] md:w-[800px] flex justify-center transition-all duration-1000 ease-out delay-[6200] ${
                 pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
@@ -610,7 +610,7 @@ export default function Home() {
 
             {/* Villa SVG */}
             <div 
-              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center transition-all duration-1000 ease-out delay-[6400ms] ${
+              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center transition-all duration-1000 ease-out delay-[6400] ${
                 pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
@@ -625,7 +625,7 @@ export default function Home() {
 
             {/* Location */}
             <div 
-              className={`w-[90vw] sm:w-[80vw] md:w-[800px] flex justify-center transition-all duration-1000 ease-out delay-[6600ms] ${
+              className={`w-[90vw] sm:w-[80vw] md:w-[800px] flex justify-center transition-all duration-1000 ease-out delay-[6600] ${
                 pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
