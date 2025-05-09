@@ -8,7 +8,7 @@ const inputVariants = cva(
     variants: {
       variant: {
         default: "h-9 px-3 py-2",
-        form: "rounded-none border-b-1.5 border-blue/40 hover:border-blue px-0 pb-2 pt-1 transition-colors duration-200",
+        form: "rounded-none border-b-1.5 border-blue/40 hover:border-blue focus:border-green px-0 pb-2 pt-1 transition-colors duration-200",
       },
       hasValue: {
         true: "border-green text-green",
