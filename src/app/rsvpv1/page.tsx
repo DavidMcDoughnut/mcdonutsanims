@@ -75,6 +75,12 @@ export default function RSVPPage() {
     },
   });
 
+  // Watch form values for styling
+  const name1Value = form.watch('name1');
+  const name2Value = form.watch('name2');
+  const name3Value = form.watch('name3');
+  const name4Value = form.watch('name4');
+
   // Handle allEvents changes
   const handleAllEventsChange = (checked: boolean) => {
     form.setValue('events.welcomeParty', checked);
@@ -158,7 +164,10 @@ export default function RSVPPage() {
                       <Input 
                         placeholder="Guest 1"
                         {...field} 
-                        className="rounded-none border-b-1.5 border-blue px-0"
+                        className={cn(
+                          "rounded-none border-b-1.5 border-blue px-0 transition-colors duration-200",
+                          name1Value && "border-green text-green"
+                        )}
                       />
                     </FormControl>
                     <FormMessage className="text-destructive" />
@@ -178,7 +187,10 @@ export default function RSVPPage() {
                       <Input 
                         placeholder="Guest 2" 
                         {...field} 
-                        className="rounded-none border-b-1.5 border-blue px-0"
+                        className={cn(
+                          "rounded-none border-b-1.5 border-blue px-0 transition-colors duration-200",
+                          name2Value && "border-green text-green"
+                        )}
                       />
                     </FormControl>
                     <FormMessage className="text-destructive" />
@@ -388,7 +400,10 @@ export default function RSVPPage() {
                       <Input 
                         placeholder="Name + nobility title (where relevant)" 
                         {...field} 
-                        className="rounded-none border-b-2 border-blue px-0"
+                        className={cn(
+                          "rounded-none border-b-1.5 border-blue px-0 transition-colors duration-200",
+                          name3Value && "border-green text-green"
+                        )}
                       />
                     </FormControl>
                   </FormItem>
@@ -405,7 +420,10 @@ export default function RSVPPage() {
                       <Input 
                         placeholder="Name + nobility title (where relevant)" 
                         {...field} 
-                        className="rounded-none border-b-2 border-blue px-0"
+                        className={cn(
+                          "rounded-none border-b-1.5 border-blue px-0 transition-colors duration-200",
+                          name4Value && "border-green text-green"
+                        )}
                       />
                     </FormControl>
                   </FormItem>
