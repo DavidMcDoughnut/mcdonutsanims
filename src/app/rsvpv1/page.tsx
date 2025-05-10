@@ -164,10 +164,8 @@ export default function RSVPPage() {
                       <Input 
                         placeholder="Guest 1"
                         {...field} 
-                        className={cn(
-                          "rounded-none border-b-1.5 border-blue px-0 transition-colors duration-200",
-                          name1Value && "border-green text-green"
-                        )}
+                        variant="form"
+                        hasValue={!!name1Value}
                       />
                     </FormControl>
                     <FormMessage className="text-destructive" />
@@ -187,10 +185,8 @@ export default function RSVPPage() {
                       <Input 
                         placeholder="Guest 2" 
                         {...field} 
-                        className={cn(
-                          "rounded-none border-b-1.5 border-blue px-0 transition-colors duration-200",
-                          name2Value && "border-green text-green"
-                        )}
+                        variant="form"
+                        hasValue={!!name2Value}
                       />
                     </FormControl>
                     <FormMessage className="text-destructive" />
@@ -398,12 +394,10 @@ export default function RSVPPage() {
                     <FormLabel className="text-lg text-blue tracking-wider">Guest 3</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="Name + nobility title (where relevant)" 
+                        placeholder="Guest 3" 
                         {...field} 
-                        className={cn(
-                          "rounded-none border-b-1.5 border-blue px-0 transition-colors duration-200",
-                          name3Value && "border-green text-green"
-                        )}
+                        variant="form"
+                        hasValue={!!name3Value}
                       />
                     </FormControl>
                   </FormItem>
@@ -418,12 +412,10 @@ export default function RSVPPage() {
                     <FormLabel className="text-lg text-blue tracking-wider">Guest 4</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="Name + nobility title (where relevant)" 
+                        placeholder="Guest 4" 
                         {...field} 
-                        className={cn(
-                          "rounded-none border-b-1.5 border-blue px-0 transition-colors duration-200",
-                          name4Value && "border-green text-green"
-                        )}
+                        variant="form"
+                        hasValue={!!name4Value}
                       />
                     </FormControl>
                   </FormItem>
