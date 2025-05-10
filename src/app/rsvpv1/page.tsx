@@ -137,7 +137,7 @@ export default function RSVPPage() {
   }
 
   return (
-    <main className="min-h-screen p-8 bg-background">
+    <main className="min-h-screen py-4 px-4 bg-background">
       <div className="max-w-3xl mx-auto p-4 border-2 border-blue/15 rounded-lg shadow-xl">
         <h1 className="text-3xl font-light text-blue mb-8 text-center tracking-widest">
           RSVP for Lauren & David
