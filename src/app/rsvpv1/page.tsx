@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Check, X } from "lucide-react";
+import { Check, X, Plus } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -51,6 +51,14 @@ type FormValues = z.infer<typeof formSchema>;
 type FieldType = ControllerRenderProps<FieldValues, string>;
 
 export default function RSVPPage() {
+  const [visibleGuests, setVisibleGuests] = React.useState(2); // Start with 2 guests
+
+  const addGuest = () => {
+    if (visibleGuests < 4) {
+      setVisibleGuests(prev => prev + 1);
+    }
+  };
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -178,9 +186,6 @@ export default function RSVPPage() {
                 name="name2"
                 render={({ field }: { field: FieldType }) => (
                   <FormItem>
-
-                    {/* <FormLabel className="text-lg text-blue tracking-wider">Guest 2</FormLabel> */}
-                    
                     <FormControl>
                       <Input 
                         placeholder="Guest 2" 
@@ -189,10 +194,73 @@ export default function RSVPPage() {
                         hasValue={!!name2Value}
                       />
                     </FormControl>
-                    <FormMessage className="text-destructive" />
                   </FormItem>
                 )}
               />
+
+              {visibleGuests < 4 && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="mt-2 text-blue hover:text-green border-blue/40"
+                  onClick={addGuest}
+                >
+                  <Plus className="h-4 w-4 mr-1" />
+                  add guest
+                </Button>
+              )}
+
+              {visibleGuests >= 3 && (
+                <FormField
+                  control={form.control}
+                  name="name3"
+                  render={({ field }: { field: FieldType }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input 
+                          placeholder="Guest 3" 
+                          {...field} 
+                          variant="form"
+                          hasValue={!!name3Value}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              )}
+
+              {visibleGuests === 4 && (
+                <FormField
+                  control={form.control}
+                  name="name4"
+                  render={({ field }: { field: FieldType }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input 
+                          placeholder="Guest 4" 
+                          {...field} 
+                          variant="form"
+                          hasValue={!!name4Value}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              )}
+
+              {visibleGuests >= 3 && visibleGuests < 4 && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="mt-2 text-blue hover:text-green hover:bg-transparent"
+                  onClick={addGuest}
+                >
+                  <Plus className="h-4 w-4 mr-1" />
+                  add guest
+                </Button>
+              )}
 
               <FormField
                 control={form.control}
@@ -382,42 +450,6 @@ export default function RSVPPage() {
                         )}
                       />
                     </div>
-                  </FormItem>
-                )}
-              />
-
-            <FormField
-                control={form.control}
-                name="name3"
-                render={({ field }: { field: FieldType }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg text-blue tracking-wider">Guest 3</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="Guest 3" 
-                        {...field} 
-                        variant="form"
-                        hasValue={!!name3Value}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-            <FormField
-                control={form.control}
-                name="name4"
-                render={({ field }: { field: FieldType }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg text-blue tracking-wider">Guest 4</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="Guest 4" 
-                        {...field} 
-                        variant="form"
-                        hasValue={!!name4Value}
-                      />
-                    </FormControl>
                   </FormItem>
                 )}
               />
