@@ -25,6 +25,9 @@ import { supabase } from '@/lib/supabase';
 const formSchema = z.object({
   name1: z.string().min(1, "Name is required"),
   name2: z.string().optional(),
+  name3: z.string().optional(),
+  name4: z.string().optional(),
+  name5: z.string().optional(),
   attending: z.enum(["yes", "no"] as const, {
     required_error: "Please select whether you're attending.",
   }),
@@ -37,10 +40,9 @@ const formSchema = z.object({
   }),
   allergies1: z.string().optional(),
   allergies2: z.string().optional(),
-  name3: z.string().optional(),
   allergies3: z.string().optional(),
-  name4: z.string().optional(),
   allergies4: z.string().optional(),
+  allergies5: z.string().optional(),
   staying: z.string().optional(),
   travel: z.string().optional(),
 });
@@ -51,12 +53,10 @@ type FormValues = z.infer<typeof formSchema>;
 type FieldType = ControllerRenderProps<FieldValues, string>;
 
 export default function RSVPPage() {
-  const [visibleGuests, setVisibleGuests] = React.useState(2); // Start with 2 guests
+  const [showAdditionalGuests, setShowAdditionalGuests] = React.useState(false);
 
-  const addGuest = () => {
-    if (visibleGuests < 4) {
-      setVisibleGuests(prev => prev + 1);
-    }
+  const addGuests = () => {
+    setShowAdditionalGuests(true);
   };
 
   const form = useForm<FormValues>({
@@ -64,6 +64,9 @@ export default function RSVPPage() {
     defaultValues: {
       name1: "",
       name2: "",
+      name3: "",
+      name4: "",
+      name5: "",
       attending: "yes",
       events: {
         allEvents: true,
@@ -74,10 +77,9 @@ export default function RSVPPage() {
       },
       allergies1: "",
       allergies2: "",
-      name3: "",
       allergies3: "",
-      name4: "",
       allergies4: "",
+      allergies5: "",
       staying: "",
       travel: "",
     },
@@ -88,6 +90,7 @@ export default function RSVPPage() {
   const name2Value = form.watch('name2');
   const name3Value = form.watch('name3');
   const name4Value = form.watch('name4');
+  const name5Value = form.watch('name5');
 
   // Handle allEvents changes
   const handleAllEventsChange = (checked: boolean) => {
@@ -120,6 +123,7 @@ export default function RSVPPage() {
             name2: values.name2 || null,
             name3: values.name3 || null,
             name4: values.name4 || null,
+            name5: values.name5 || null,
             attending: values.attending === "yes",
             welcome_party: values.events.welcomeParty,
             wedding: values.events.wedding,
@@ -129,6 +133,7 @@ export default function RSVPPage() {
             allergies2: values.allergies2 || null,
             allergies3: values.allergies3 || null,
             allergies4: values.allergies4 || null,
+            allergies5: values.allergies5 || null,
             staying: values.staying || null,
             travel: values.travel || null,
           }
@@ -198,68 +203,72 @@ export default function RSVPPage() {
                 )}
               />
 
-              {visibleGuests < 4 && (
+              {!showAdditionalGuests && (
                 <Button
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="mt-2 text-blue hover:text-green border-blue/40"
-                  onClick={addGuest}
+                  className="text-blue hover:text-green border-blue/40 hover:border-green"
+                  onClick={addGuests}
                 >
                   <Plus className="h-4 w-4 mr-1" />
-                  add guest
+                  Add Guests
                 </Button>
               )}
 
-              {visibleGuests >= 3 && (
-                <FormField
-                  control={form.control}
-                  name="name3"
-                  render={({ field }: { field: FieldType }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input 
-                          placeholder="Guest 3" 
-                          {...field} 
-                          variant="form"
-                          hasValue={!!name3Value}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              )}
+              {showAdditionalGuests && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="name3"
+                    render={({ field }: { field: FieldType }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input 
+                            placeholder="Guest 3" 
+                            {...field} 
+                            variant="form"
+                            hasValue={!!name3Value}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
 
-              {visibleGuests === 4 && (
-                <FormField
-                  control={form.control}
-                  name="name4"
-                  render={({ field }: { field: FieldType }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input 
-                          placeholder="Guest 4" 
-                          {...field} 
-                          variant="form"
-                          hasValue={!!name4Value}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              )}
+                  <FormField
+                    control={form.control}
+                    name="name4"
+                    render={({ field }: { field: FieldType }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input 
+                            placeholder="Guest 4" 
+                            {...field} 
+                            variant="form"
+                            hasValue={!!name4Value}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
 
-              {visibleGuests >= 3 && visibleGuests < 4 && (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="mt-2 text-blue hover:text-green hover:bg-transparent"
-                  onClick={addGuest}
-                >
-                  <Plus className="h-4 w-4 mr-1" />
-                  add guest
-                </Button>
+                  <FormField
+                    control={form.control}
+                    name="name5"
+                    render={({ field }: { field: FieldType }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input 
+                            placeholder="Guest 5" 
+                            {...field} 
+                            variant="form"
+                            hasValue={!!name5Value}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </>
               )}
 
               <FormField
@@ -476,7 +485,6 @@ export default function RSVPPage() {
                 name="allergies2"
                 render={({ field }: { field: FieldType }) => (
                   <FormItem>
-                    
                     <FormControl>
                       <Input 
                         placeholder="Guest 2" 
@@ -488,42 +496,57 @@ export default function RSVPPage() {
                 )}
               />
 
+              {showAdditionalGuests && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="allergies3"
+                    render={({ field }: { field: FieldType }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input 
+                            placeholder="Guest 3" 
+                            {...field} 
+                            className="rounded-none border-b-2 border-blue px-0"
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
 
+                  <FormField
+                    control={form.control}
+                    name="allergies4"
+                    render={({ field }: { field: FieldType }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input 
+                            placeholder="Guest 4" 
+                            {...field} 
+                            className="rounded-none border-b-2 border-blue px-0"
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
 
-              <FormField
-                control={form.control}
-                name="allergies3"
-                render={({ field }: { field: FieldType }) => (
-                  <FormItem>
-                    
-                    <FormControl>
-                      <Input 
-                        placeholder="Guest 3" 
-                        {...field} 
-                        className="rounded-none border-b-2 border-blue px-0"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              
-
-              <FormField
-                control={form.control}
-                name="allergies4"
-                render={({ field }: { field: FieldType }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input 
-                        placeholder="Guest 4" 
-                        {...field} 
-                        className="rounded-none border-b-2 border-blue px-0"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+                  <FormField
+                    control={form.control}
+                    name="allergies5"
+                    render={({ field }: { field: FieldType }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input 
+                            placeholder="Guest 5" 
+                            {...field} 
+                            className="rounded-none border-b-2 border-blue px-0"
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
 
               <FormField
                 control={form.control}
