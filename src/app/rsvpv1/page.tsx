@@ -164,112 +164,114 @@ export default function RSVPPage() {
         <div className="bg-card rounded-lg">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
-              <FormField
-                control={form.control}
-                name="name1"
-                render={({ field }: { field: FieldType }) => (
-                  <FormItem className="space-y-4">
-                    <div className="flex flex-col md:flex-row md:items-baseline md:gap-2">
-                      <FormLabel className="text-lg text-blue tracking-wider">Formal Name</FormLabel>
-                      <span className="text-xs font-light text-blue/80 italic mt-1 md:mt-0">please include nobility titles or CFA level if relevant</span>
-                    </div>
-                    <FormControl>
-                      <Input 
-                        placeholder="Guest 1"
-                        {...field} 
-                        variant="form"
-                        hasValue={!!name1Value}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-destructive" />
-                  </FormItem>
+              <div className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="name1"
+                  render={({ field }: { field: FieldType }) => (
+                    <FormItem className="space-y-4">
+                      <div className="flex flex-col md:flex-row md:items-baseline md:gap-2">
+                        <FormLabel className="text-lg text-blue tracking-wider">Formal Name</FormLabel>
+                        <span className="text-xs font-light text-blue/80 italic mt-1 md:mt-0">please include nobility titles or CFA level if relevant</span>
+                      </div>
+                      <FormControl>
+                        <Input 
+                          placeholder="Guest 1"
+                          {...field} 
+                          variant="form"
+                          hasValue={!!name1Value}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-destructive" />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="name2"
+                  render={({ field }: { field: FieldType }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input 
+                          placeholder="Guest 2" 
+                          {...field} 
+                          variant="form"
+                          hasValue={!!name2Value}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                {!showAdditionalGuests && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="text-blue hover:text-green border-blue/40 hover:border-green mt-2"
+                    onClick={addGuests}
+                  >
+                    <Plus className="h-4 w-4 mr-1" />
+                    Add Guests
+                  </Button>
                 )}
-              />
 
-              <FormField
-                control={form.control}
-                name="name2"
-                render={({ field }: { field: FieldType }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input 
-                        placeholder="Guest 2" 
-                        {...field} 
-                        variant="form"
-                        hasValue={!!name2Value}
-                      />
-                    </FormControl>
-                  </FormItem>
+                {showAdditionalGuests && (
+                  <div className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="name3"
+                      render={({ field }: { field: FieldType }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input 
+                              placeholder="Guest 3" 
+                              {...field} 
+                              variant="form"
+                              hasValue={!!name3Value}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="name4"
+                      render={({ field }: { field: FieldType }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input 
+                              placeholder="Guest 4" 
+                              {...field} 
+                              variant="form"
+                              hasValue={!!name4Value}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="name5"
+                      render={({ field }: { field: FieldType }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input 
+                              placeholder="Guest 5" 
+                              {...field} 
+                              variant="form"
+                              hasValue={!!name5Value}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 )}
-              />
-
-              {!showAdditionalGuests && (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="text-blue hover:text-green border-blue/40 hover:border-green"
-                  onClick={addGuests}
-                >
-                  <Plus className="h-4 w-4 mr-1" />
-                  Add Guests
-                </Button>
-              )}
-
-              {showAdditionalGuests && (
-                <>
-                  <FormField
-                    control={form.control}
-                    name="name3"
-                    render={({ field }: { field: FieldType }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input 
-                            placeholder="Guest 3" 
-                            {...field} 
-                            variant="form"
-                            hasValue={!!name3Value}
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="name4"
-                    render={({ field }: { field: FieldType }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input 
-                            placeholder="Guest 4" 
-                            {...field} 
-                            variant="form"
-                            hasValue={!!name4Value}
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="name5"
-                    render={({ field }: { field: FieldType }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input 
-                            placeholder="Guest 5" 
-                            {...field} 
-                            variant="form"
-                            hasValue={!!name5Value}
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                </>
-              )}
+              </div>
 
               <FormField
                 control={form.control}
