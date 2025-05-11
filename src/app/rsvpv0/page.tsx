@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Check, X } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -77,7 +78,7 @@ export default function RSVPPage() {
                 )}
               />
 
-            <FormField
+              <FormField
                 control={form.control}
                 name="attending"
                 render={({ field }) => (
@@ -87,24 +88,19 @@ export default function RSVPPage() {
                       <RadioGroup
                         onValueChange={field.onChange}
                         defaultValue={field.value}
-                        className="flex flex-col space-y-2"
-                      >
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="no" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            No & I'll regret it on my deathbed.
-                          </FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="yes" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            OUI! Allons-y!
-                          </FormLabel>
-                        </FormItem>
+                        className="flex flex-col space-y-2">
+
+                        <div className="flex flex-col gap-4 w-1/2 justify-startmx-auto">
+                            <Button variant="radpos" className="flex-1 w-full">
+                            <Check className="w-4 h-4" />
+                            OUI, allons-y! (can't wait, YOLO)
+                            </Button>
+                            <Button variant="radneg" className="flex-1 w-full">
+                            <X className="w-4 h-4" />
+                            Non and I will live with regret
+                            </Button>
+                        </div>
+
                       </RadioGroup>
                     </FormControl>
                     <FormMessage className="text-destructive" />
@@ -191,6 +187,8 @@ export default function RSVPPage() {
               >
                 Submit RSVP
               </Button>
+
+
             </form>
           </Form>
         </div>
