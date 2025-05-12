@@ -26,10 +26,10 @@
     --radius: 0.5rem;
 
     /* Brand Colors */
-    --blue: #4B6CFF;
-    --pink: #FF7DC5;
-    --green: #00B4AC;
-    --orange: #FF7700;
+    --blue: 228 100% 65%;    /* #4B6CFF */
+    --pink: 324 100% 75%;    /* #FF7DC5 */
+    --green: 178 100% 35%;   /* #00B4AC */
+    --orange: 28 100% 50%;   /* #FF7700 */
   }
 }
 
