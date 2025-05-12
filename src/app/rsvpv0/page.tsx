@@ -24,11 +24,15 @@ const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
-  email: z.string().email({
-    message: "Please enter a valid email address.",
-  }),
   attending: z.enum(["yes", "no"] as const, {
     required_error: "Please select whether you're attending.",
+  }),
+  events: z.object({
+    allEvents: z.boolean(),
+    welcomeParty: z.boolean(),
+    wedding: z.boolean(),
+    beachClub: z.boolean(),
+    boatDay: z.boolean(),
   }),
   dietaryRestrictions: z.boolean(),
 });
@@ -41,8 +45,14 @@ export default function RSVPPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      email: "",
       attending: "yes",
+      events: {
+        allEvents: false,
+        welcomeParty: false,
+        wedding: false,
+        beachClub: false,
+        boatDay: false,
+      },
       dietaryRestrictions: false,
     },
   });
@@ -110,53 +120,105 @@ export default function RSVPPage() {
 
               <FormField
                 control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg">Email</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="your.email@example.com" 
-                        {...field}
-                        className="border-blue focus-visible:ring-1 focus-visible:ring-blue"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-destructive" />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="attending"
+                name="events.allEvents"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel className="text-lg">Will you be attending?</FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className="flex flex-col space-y-2"
-                      >
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="yes" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            Yes, I will be there
+                    <FormLabel className="text-lg text-blue tracking-wider">Which Events?</FormLabel>
+                    <div className="flex flex-col gap-4">
+                      <FormItem className="flex items-center space-x-4 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel className="font-semibold">
+                            All Events - Thurs-Sat
                           </FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="no" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            No, I cannot make it
-                          </FormLabel>
-                        </FormItem>
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage className="text-destructive" />
+                        </div>
+                      </FormItem>
+
+                      <FormField
+                        control={form.control}
+                        name="events.welcomeParty"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center space-x-4 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel>
+                                Welcome Party - Thurs 6/19
+                              </FormLabel>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="events.wedding"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center space-x-4 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel>
+                                Wedding - Fri 6/20
+                              </FormLabel>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="events.beachClub"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center space-x-4 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel>
+                                Beach Club - Sat 6/21
+                              </FormLabel>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="events.boatDay"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center space-x-4 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel>
+                                Any interest in optional boat day to St Tropez on Sunday
+                              </FormLabel>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
                   </FormItem>
                 )}
               />
@@ -165,7 +227,7 @@ export default function RSVPPage() {
                 control={form.control}
                 name="dietaryRestrictions"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 pt-2">
+                  <FormItem className="flex flex-row items-center space-x-4 space-y-0 pt-2">
                     <FormControl>
                       <Checkbox
                         checked={field.value}
