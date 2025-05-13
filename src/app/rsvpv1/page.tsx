@@ -150,7 +150,7 @@ export default function RSVPPage() {
                 name="name1"
                 render={({ field }: { field: FieldType }) => (
                   <FormItem className="space-y-4">
-                    <FormLabel className="text-lg text-blue tracking-wider block pb-2">Formal Name <span className="text-xs font-light text-blue/80 italic"> &nbsp;please include nobility titles where relevant </span></FormLabel>
+                    <FormLabel className="text-lg text-blue tracking-wider block pb-2">Formal Name <span className="text-xs font-light text-blue/80 italic"> &nbsp;please include nobility titles or CFA level if relevant </span></FormLabel>
                     <FormControl>
                       <Input 
                         placeholder="Guest 1"
@@ -175,7 +175,7 @@ export default function RSVPPage() {
                       <Input 
                         placeholder="Guest 2" 
                         {...field} 
-                        className="rounded-none border-b-2 border-blue px-0"
+                        className="rounded-none border-b-1.5 border-blue px-0"
                       />
                     </FormControl>
                     <FormMessage className="text-destructive" />
@@ -198,28 +198,34 @@ export default function RSVPPage() {
                         <div className="flex flex-col md:flex-row gap-4 w-full justify-start mx-auto">
                             <div className={cn("group w-full", field.value === "yes" && "selected")}>
                               <Button 
-                                variant="radpos" 
+                                variant="radpos" size="sm"
                                 className={cn(
-                                  "w-full",
+                                  "w-full h-10",
                                   field.value === "yes" && "bg-green border-green text-white"
                                 )}
                                 onClick={() => field.onChange("yes")}
                               >
-                                <Check className="" />
-                                <span className="font-bold">OUI</span> Allons-y! YOLO! Can't Wait!
+                                <Check className="mr-2" />
+                                <div className="flex items-baseline">
+                                  <span className="font-bold text-lg tracking-widest">Oui!</span>&nbsp;&nbsp;
+                                  <span>Allons-y! YOLO! Can't Wait!</span>
+                                </div>
                               </Button>
                             </div>
                             <div className={cn("group w-full", field.value === "no" && "selected")}>
                               <Button 
-                                variant="radneg" 
+                                variant="radneg" size="sm"
                                 className={cn(
-                                  "w-full",
-                                  field.value === "no" && "bg-pink border-pink text-white"
+                                  "w-full h-10",
+                                  field.value === "no" && "bg-pink border-pink text-white "
                                 )}
                                 onClick={() => field.onChange("no")}
                               >
-                                <X className="" />
-                                <span className="font-bold">NON</span> I'm ok living a life of regret
+                                <X className="mr-2" />
+                                <div className="flex items-baseline">
+                                  <span className="font-bold text-lg tracking-widest">Non</span>&nbsp;&nbsp;
+                                  <span>I'm ok living a life of regret</span>
+                                </div>
                               </Button>
                             </div>
                         </div>
