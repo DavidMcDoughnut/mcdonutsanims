@@ -1,6 +1,18 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+// Check if we're in a browser environment
+const isClient = typeof window !== 'undefined';
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey); 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  if (isClient) {
+    console.warn('Supabase credentials not found. Please check your environment variables.');
+  }
+}
+
+export const supabase = createClient(
+  supabaseUrl || 'https://placeholder-url.supabase.co',
+  supabaseAnonKey || 'placeholder-key'
+); 

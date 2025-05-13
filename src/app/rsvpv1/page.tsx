@@ -91,6 +91,13 @@ export default function RSVPPage() {
 
   async function onSubmit(values: FormValues) {
     try {
+      // Check if we have valid Supabase credentials
+      if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+        console.error('Supabase credentials not found');
+        alert('Unable to submit form. Please contact the site administrator.');
+        return;
+      }
+
       const { data, error } = await supabase
         .from('donut_rsvps')
         .insert([
@@ -116,12 +123,10 @@ export default function RSVPPage() {
 
       if (error) {
         console.error('Error submitting RSVP:', error);
-        // TODO: Add proper error handling UI
         alert('Error submitting RSVP. Please try again.');
         return;
       }
 
-      // TODO: Add success UI
       alert('RSVP submitted successfully!');
       console.log('Submission successful:', data);
       
