@@ -134,8 +134,8 @@ export default function RSVPPage() {
   return (
     <main className="min-h-screen p-8 bg-background">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-4xl font-bold text-blue mb-8 text-center">
-          RSVP Form
+        <h1 className="text-4xl font-light text-blue mb-8 text-center tracking-widest">
+          RSVP for Lauren & David
         </h1>
         <div className="bg-card rounded-lg p-6">
           <Form {...form}>
