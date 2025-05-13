@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 // Define the form schema with proper types
 const formSchema = z.object({
   name: z.string(),
+  guest2Name: z.string().optional(),
   attending: z.enum(["yes", "no"] as const, {
     required_error: "Please select whether you're attending.",
   }),
@@ -44,6 +45,7 @@ export default function RSVPPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      guest2Name: "",
       attending: "yes",
       events: {
         allEvents: true,
@@ -80,7 +82,7 @@ export default function RSVPPage() {
         <h1 className="text-4xl font-bold text-blue mb-8 text-center">
           RSVP Form
         </h1>
-        <div className="bg-card rounded-lg shadow-xl p-8">
+        <div className="bg-card rounded-lg p-6">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
               <FormField
@@ -103,6 +105,24 @@ export default function RSVPPage() {
 
               <FormField
                 control={form.control}
+                name="guest2Name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-lg text-blue tracking-wider">Guest 2</FormLabel>
+                    <FormControl>
+                      <Input 
+                        placeholder="Name + nobility title (where relevant)" 
+                        {...field} 
+                        className="rounded-none border-b-2 border-blue px-0"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-destructive" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
                 name="attending"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
@@ -113,29 +133,33 @@ export default function RSVPPage() {
                         defaultValue={field.value}
                         className="flex flex-col space-y-2">
 
-                        <div className="flex flex-col gap-4 w-1/2 justify-startmx-auto">
-                            <Button 
-                              variant="radpos" 
-                              className={cn(
-                                "flex-1 w-full",
-                                field.value === "yes" && "bg-green border-green text-white"
-                              )}
-                              onClick={() => field.onChange("yes")}
-                            >
-                              <Check className="" />
-                              <span className="font-bold">OUI</span> Allons-y! YOLO! Can't Wait!
-                            </Button>
-                            <Button 
-                              variant="radneg" 
-                              className={cn(
-                                "flex-1 w-full",
-                                field.value === "no" && "bg-pink border-pink text-white"
-                              )}
-                              onClick={() => field.onChange("no")}
-                            >
-                              <X className="" />
-                              <span className="font-bold">NON</span> I'm ok living a life of regret
-                            </Button>
+                        <div className="flex flex-row gap-4 w-full justify-start mx-auto">
+                            <div className={cn("group", field.value === "yes" && "selected")}>
+                              <Button 
+                                variant="radpos" 
+                                className={cn(
+                                  "flex-1 w-full",
+                                  field.value === "yes" && "bg-green border-green text-white"
+                                )}
+                                onClick={() => field.onChange("yes")}
+                              >
+                                <Check className="" />
+                                <span className="font-bold">OUI</span> Allons-y! YOLO! Can't Wait!
+                              </Button>
+                            </div>
+                            <div className={cn("group", field.value === "no" && "selected")}>
+                              <Button 
+                                variant="radneg" 
+                                className={cn(
+                                  "flex-1 w-full",
+                                  field.value === "no" && "bg-pink border-pink text-white"
+                                )}
+                                onClick={() => field.onChange("no")}
+                              >
+                                <X className="" />
+                                <span className="font-bold">NON</span> I'm ok living a life of regret
+                              </Button>
+                            </div>
                         </div>
 
                       </RadioGroup>
@@ -150,7 +174,7 @@ export default function RSVPPage() {
                 name="events.allEvents"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel className="text-lg text-blue tracking-wider">Which Events?</FormLabel>
+                    <FormLabel className="text-lg text-blue tracking-wider">Events?</FormLabel>
                     <div className="flex flex-col gap-4">
                       <FormItem className="flex items-center space-x-4 space-y-0 hover:text-green hover:cursor-pointer transition-colors">
                         <FormControl>
