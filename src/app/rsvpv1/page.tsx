@@ -362,41 +362,7 @@ export default function RSVPPage() {
                 )}
               />
 
-              <FormField
-                control={form.control}
-                name="allergies1"
-                render={({ field }: { field: FieldType }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg text-blue tracking-wider">Allergies 1</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="Allergies, preferences, etc" 
-                        {...field} 
-                        className="rounded-none border-b-2 border-blue px-0"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="allergies2"
-                render={({ field }: { field: FieldType }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg text-blue tracking-wider">Allergies 2</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="Allergies, preferences, etc" 
-                        {...field} 
-                        className="rounded-none border-b-2 border-blue px-0"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
+            <FormField
                 control={form.control}
                 name="name3"
                 render={({ field }: { field: FieldType }) => (
@@ -413,24 +379,7 @@ export default function RSVPPage() {
                 )}
               />
 
-              <FormField
-                control={form.control}
-                name="allergies3"
-                render={({ field }: { field: FieldType }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg text-blue tracking-wider">Allergies 3</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="Allergies, preferences, etc" 
-                        {...field} 
-                        className="rounded-none border-b-2 border-blue px-0"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
+            <FormField
                 control={form.control}
                 name="name4"
                 render={({ field }: { field: FieldType }) => (
@@ -449,13 +398,67 @@ export default function RSVPPage() {
 
               <FormField
                 control={form.control}
+                name="allergies1"
+                render={({ field }: { field: FieldType }) => (
+                  <FormItem>
+                    <FormLabel className="text-lg text-blue tracking-wider">Allergies</FormLabel>
+                    <FormControl>
+                      <Input 
+                        placeholder="Guest 1" 
+                        {...field} 
+                        className="rounded-none border-b-2 border-blue px-0"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="allergies2"
+                render={({ field }: { field: FieldType }) => (
+                  <FormItem>
+                    
+                    <FormControl>
+                      <Input 
+                        placeholder="Guest 2" 
+                        {...field} 
+                        className="rounded-none border-b-2 border-blue px-0"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+
+
+              <FormField
+                control={form.control}
+                name="allergies3"
+                render={({ field }: { field: FieldType }) => (
+                  <FormItem>
+                    
+                    <FormControl>
+                      <Input 
+                        placeholder="Guest 3" 
+                        {...field} 
+                        className="rounded-none border-b-2 border-blue px-0"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              
+
+              <FormField
+                control={form.control}
                 name="allergies4"
                 render={({ field }: { field: FieldType }) => (
                   <FormItem>
-                    <FormLabel className="text-lg text-blue tracking-wider">Allergies 4</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="Allergies, preferences, etc" 
+                        placeholder="Guest 4" 
                         {...field} 
                         className="rounded-none border-b-2 border-blue px-0"
                       />
