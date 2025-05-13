@@ -138,24 +138,24 @@ export default function RSVPPage() {
 
   return (
     <main className="min-h-screen p-8 bg-background">
-      <div className="max-w-2xl mx-auto">
-        <h1 className="text-4xl font-light text-blue mb-8 text-center tracking-widest">
+      <div className="max-w-3xl mx-auto p-4 border-2 border-blue/15 rounded-lg shadow-xl">
+        <h1 className="text-3xl font-light text-blue mb-8 text-center tracking-widest">
           RSVP for Lauren & David
         </h1>
-        <div className="bg-card rounded-lg p-6">
+        <div className="bg-card rounded-lg">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
               <FormField
                 control={form.control}
                 name="name1"
                 render={({ field }: { field: FieldType }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg text-blue tracking-wider">Guest 1</FormLabel>
+                  <FormItem className="space-y-4">
+                    <FormLabel className="text-lg text-blue tracking-wider block pb-2">Formal Name <span className="text-xs font-light text-blue/80 italic"> &nbsp;please include nobility titles or CFA level if relevant </span></FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="Name + nobility title (where relevant)" 
+                        placeholder="Guest 1"
                         {...field} 
-                        className="rounded-none border-b-2 border-blue  px-0"
+                        className="rounded-none border-b-1.5 border-blue px-0"
                       />
                     </FormControl>
                     <FormMessage className="text-destructive" />
@@ -168,12 +168,14 @@ export default function RSVPPage() {
                 name="name2"
                 render={({ field }: { field: FieldType }) => (
                   <FormItem>
-                    <FormLabel className="text-lg text-blue tracking-wider">Guest 2</FormLabel>
+
+                    {/* <FormLabel className="text-lg text-blue tracking-wider">Guest 2</FormLabel> */}
+                    
                     <FormControl>
                       <Input 
-                        placeholder="Name + nobility title (where relevant)" 
+                        placeholder="Guest 2" 
                         {...field} 
-                        className="rounded-none border-b-2 border-blue px-0"
+                        className="rounded-none border-b-1.5 border-blue px-0"
                       />
                     </FormControl>
                     <FormMessage className="text-destructive" />
@@ -193,31 +195,37 @@ export default function RSVPPage() {
                         defaultValue={field.value}
                         className="flex flex-col space-y-2">
 
-                        <div className="flex flex-row gap-4 w-full justify-start mx-auto">
-                            <div className={cn("group", field.value === "yes" && "selected")}>
+                        <div className="flex flex-col md:flex-row gap-4 w-full justify-start mx-auto">
+                            <div className={cn("group w-full", field.value === "yes" && "selected")}>
                               <Button 
-                                variant="radpos" 
+                                variant="radpos" size="sm"
                                 className={cn(
-                                  "flex-1 w-full",
+                                  "w-full h-10",
                                   field.value === "yes" && "bg-green border-green text-white"
                                 )}
                                 onClick={() => field.onChange("yes")}
                               >
-                                <Check className="" />
-                                <span className="font-bold">OUI</span> Allons-y! YOLO! Can't Wait!
+                                <Check className="mr-2" />
+                                <div className="flex items-baseline">
+                                  <span className="font-bold text-lg tracking-widest">Oui!</span>&nbsp;&nbsp;
+                                  <span>Allons-y! YOLO! Can't Wait!</span>
+                                </div>
                               </Button>
                             </div>
-                            <div className={cn("group", field.value === "no" && "selected")}>
+                            <div className={cn("group w-full", field.value === "no" && "selected")}>
                               <Button 
-                                variant="radneg" 
+                                variant="radneg" size="sm"
                                 className={cn(
-                                  "flex-1 w-full",
-                                  field.value === "no" && "bg-pink border-pink text-white"
+                                  "w-full h-10",
+                                  field.value === "no" && "bg-pink border-pink text-white "
                                 )}
                                 onClick={() => field.onChange("no")}
                               >
-                                <X className="" />
-                                <span className="font-bold">NON</span> I'm ok living a life of regret
+                                <X className="mr-2" />
+                                <div className="flex items-baseline">
+                                  <span className="font-bold text-lg tracking-widest">Non</span>&nbsp;&nbsp;
+                                  <span>I'm ok living a life of regret</span>
+                                </div>
                               </Button>
                             </div>
                         </div>
