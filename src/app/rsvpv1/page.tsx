@@ -75,6 +75,12 @@ export default function RSVPPage() {
     },
   });
 
+  // Watch form values for styling
+  const name1Value = form.watch('name1');
+  const name2Value = form.watch('name2');
+  const name3Value = form.watch('name3');
+  const name4Value = form.watch('name4');
+
   // Handle allEvents changes
   const handleAllEventsChange = (checked: boolean) => {
     form.setValue('events.welcomeParty', checked);
@@ -158,7 +164,8 @@ export default function RSVPPage() {
                       <Input 
                         placeholder="Guest 1"
                         {...field} 
-                        className="rounded-none border-b-1.5 border-blue px-0"
+                        variant="form"
+                        hasValue={!!name1Value}
                       />
                     </FormControl>
                     <FormMessage className="text-destructive" />
@@ -178,7 +185,8 @@ export default function RSVPPage() {
                       <Input 
                         placeholder="Guest 2" 
                         {...field} 
-                        className="rounded-none border-b-1.5 border-blue px-0"
+                        variant="form"
+                        hasValue={!!name2Value}
                       />
                     </FormControl>
                     <FormMessage className="text-destructive" />
@@ -386,9 +394,10 @@ export default function RSVPPage() {
                     <FormLabel className="text-lg text-blue tracking-wider">Guest 3</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="Name + nobility title (where relevant)" 
+                        placeholder="Guest 3" 
                         {...field} 
-                        className="rounded-none border-b-2 border-blue px-0"
+                        variant="form"
+                        hasValue={!!name3Value}
                       />
                     </FormControl>
                   </FormItem>
@@ -403,9 +412,10 @@ export default function RSVPPage() {
                     <FormLabel className="text-lg text-blue tracking-wider">Guest 4</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="Name + nobility title (where relevant)" 
+                        placeholder="Guest 4" 
                         {...field} 
-                        className="rounded-none border-b-2 border-blue px-0"
+                        variant="form"
+                        hasValue={!!name4Value}
                       />
                     </FormControl>
                   </FormItem>
