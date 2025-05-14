@@ -14,7 +14,7 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border border-blue bg-background hover:bg-accent hover:text-accent-foreground",
+          "border border-blue hover:bg-accent hover:text-green",
         secondary:
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
 
@@ -23,12 +23,12 @@ const buttonVariants = cva(
         radneg:
           "!border-1.5 !border-pink text-pink group-[&:not(.selected)]:hover:bg-pink/15 group-[&:not(.selected)]:hover:text-pink active:bg-pink active:text-white transition-colors",
 
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        ghost: "hover:bg-blue/10 hover:text-green px-0 py-0",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
         default: "h-9 px-4 py-2",
-        sm: "h-7 rounded-md px-3 text-xs",
+        sm: "h-6 rounded-md px-3 text-xs",
         lg: "h-10 rounded-md px-8",
         icon: "h-9 w-9",
       },
