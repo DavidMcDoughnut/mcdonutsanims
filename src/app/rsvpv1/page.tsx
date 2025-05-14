@@ -212,7 +212,7 @@ export default function RSVPPage() {
                     className="text-blue hover:text-green border-blue/40 hover:border-green mt-2"
                     onClick={addGuests}
                   >
-                    <Plus className="h-4 w-4 mr-1" />
+                    <Plus className="h-3 w-3" />
                     Add Guests
                   </Button>
                 )}
@@ -286,22 +286,6 @@ export default function RSVPPage() {
                         className="flex flex-col space-y-2">
 
                         <div className="flex flex-col md:flex-row gap-4 w-full justify-start mx-auto">
-                            <div className={cn("group w-full", field.value === "yes" && "selected")}>
-                              <Button 
-                                variant="radpos" size="sm"
-                                className={cn(
-                                  "w-full h-10",
-                                  field.value === "yes" && "bg-green border-green text-white"
-                                )}
-                                onClick={() => field.onChange("yes")}
-                              >
-                                <Check className="mr-2" />
-                                <div className="flex items-baseline">
-                                  <span className="font-bold text-lg tracking-widest">Oui!</span>&nbsp;&nbsp;
-                                  <span>Allons-y! YOLO! Can't Wait!</span>
-                                </div>
-                              </Button>
-                            </div>
                             <div className={cn("group w-full", field.value === "no" && "selected")}>
                               <Button 
                                 variant="radneg" size="sm"
@@ -318,6 +302,23 @@ export default function RSVPPage() {
                                 </div>
                               </Button>
                             </div>
+                            <div className={cn("group w-full", field.value === "yes" && "selected")}>
+                              <Button 
+                                variant="radpos" size="sm"
+                                className={cn(
+                                  "w-full h-10",
+                                  field.value === "yes" && "bg-green border-green text-white"
+                                )}
+                                onClick={() => field.onChange("yes")}
+                              >
+                                <Check className="mr-2" />
+                                <div className="flex items-baseline">
+                                  <span className="font-bold text-lg tracking-widest">Oui!</span>&nbsp;&nbsp;
+                                  <span>Allons-y! YOLO! Can't Wait!</span>
+                                </div>
+                              </Button>
+                            </div>
+                            
                         </div>
 
                       </RadioGroup>
