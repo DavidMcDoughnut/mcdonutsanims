@@ -49,25 +49,25 @@
 }
 
 /* Scrollbar Styling */
-::-webkit-scrollbar {
+.custom-scrollbar::-webkit-scrollbar {
   width: 6px;
 }
 
-::-webkit-scrollbar-track {
+.custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
 
-::-webkit-scrollbar-thumb {
-  background: var(--blue);
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--blue));
   border-radius: 5px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--blue);
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--blue));
 }
 
 /* For Firefox */
-* {
+.custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: var(--blue) transparent;
+  scrollbar-color: hsl(var(--blue)) transparent;
 } 
