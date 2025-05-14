@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { supabase } from '@/lib/supabase';
+import Image from 'next/image';
 
 // Update form schema to match database
 const formSchema = z.object({
@@ -92,8 +93,8 @@ export default function RSVPPage() {
   const name4Value = form.watch('name4');
   const name5Value = form.watch('name5');
 
-  // Check if any names are filled
-  const hasNamesFilled = !!name1Value || !!name2Value || !!name3Value || !!name4Value || !!name5Value;
+  // Watch the attending field value for opacity changes
+  const attendingValue = form.watch('attending');
 
   // Handle allEvents changes
   const handleAllEventsChange = (checked: boolean) => {
@@ -165,14 +166,23 @@ export default function RSVPPage() {
   }
 
   return (
-    <main className="min-h-screen py-4 px-4 md:p-8 bg-background">
-      <div className="max-w-3xl mx-auto p-4 md:p-12 border-2 border-blue/15 rounded-lg shadow-xl">
-        <h1 className="text-xl font-light text-blue mb-8 text-left md:text-3xl md:text-center tracking-widest">
+    <main className="h-screen flex items-stretch justify-center bg-background relative">
+      <div className="absolute inset-0 opacity-50">
+        <Image
+          src="/optimized/vebg-static.webp"
+          alt="Background"
+          fill
+          priority
+          className="object-cover"
+        />
+      </div>
+      <div id="formcard" className="flex-1 mx-4 md:mx-8 my-4 md:my-8 p-4 md:p-12 border-2 border-blue rounded-lg shadow-xl bg-white/80 backdrop-blur-md flex flex-col max-w-2xl relative overflow-hidden">
+        <h1 className="text-xl font-light text-blue mb-8 text-left md:text-3xl md:text-center tracking-widest flex-shrink-0">
           RSVP for Lauren & David
         </h1>
-        <div className="bg-card rounded-lg">
+        <div className="rounded-lg flex-1 overflow-y-auto custom-scrollbar isolate mr-[-30px] pr-[30px] pb-24">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
+            <form id="rsvp-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
               {/* Names Section */}
               <div className="space-y-6">
                 <FormField
@@ -217,12 +227,12 @@ export default function RSVPPage() {
                 {!showAdditionalGuests && (
                   <Button
                     type="button"
-                    variant="outline"
+                    variant="ghost"
                     size="sm"
-                    className="text-blue hover:text-green border-blue/40 hover:border-green mt-2"
+                    className="text-blue/60 hover:text-blue border-blue/40 hover:border-green mt-1 [&_svg]:!size-5 !bg-transparent !gap-1"
                     onClick={addGuests}
                   >
-                    <Plus className="h-3 w-3" />
+                    <Plus />
                     Add Guests
                   </Button>
                 )}
@@ -307,7 +317,7 @@ export default function RSVPPage() {
                                 )}
                                 onClick={() => field.onChange("no")}
                               >
-                                <X className="mr-2" />
+                                <X className="mr-0" />
                                 <div className="flex items-baseline">
                                   <span className="font-bold text-lg tracking-widest">Non</span>&nbsp;&nbsp;
                                   <span>I'm ok living a life of regret</span>
@@ -331,7 +341,7 @@ export default function RSVPPage() {
                                   // boatDay remains as per its independent checkbox state
                                 }}
                               >
-                                <Check className="mr-2" />
+                                <Check className="mr-0" />
                                 <div className="flex items-baseline">
                                   <span className="font-bold text-lg tracking-widest">Oui!</span>&nbsp;&nbsp;
                                   <span>Allons-y! YOLO! Can't Wait!</span>
@@ -349,7 +359,7 @@ export default function RSVPPage() {
               />
 
               {/* Events Section */}
-              <div className={cn("transition-opacity duration-300", !hasNamesFilled && "opacity-50")}>
+              <div className={cn("transition-opacity duration-300", attendingValue !== 'yes' && "opacity-30")}>
                 <FormField
                   control={form.control}
                   name="events.allEvents"
@@ -357,7 +367,15 @@ export default function RSVPPage() {
                     <FormItem className="space-y-3">
                       <FormLabel className="text-lg text-blue tracking-wider">Events?</FormLabel>
                       <div className="flex flex-col gap-4">
-                        <FormItem className="flex items-center space-x-4 space-y-0 hover:text-green hover:cursor-pointer transition-colors">
+                        <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
+                          <div className="space-y-1 leading-none">
+                            <FormLabel className={cn(
+                              "font-bold transition-colors",
+                              field.value && "text-green"
+                            )}>
+                              All Events! Whooh!
+                            </FormLabel>
+                          </div>
                           <FormControl>
                             <Checkbox
                               checked={field.value}
@@ -367,30 +385,13 @@ export default function RSVPPage() {
                               }}
                             />
                           </FormControl>
-                          <div className="space-y-1 leading-none">
-                            <FormLabel className={cn(
-                              "font-bold transition-colors",
-                              field.value && "text-green"
-                            )}>
-                              All Events! Whooh!
-                            </FormLabel>
-                          </div>
                         </FormItem>
 
                         <FormField
                           control={form.control}
                           name="events.welcomeParty"
                           render={({ field }: { field: FieldType }) => (
-                            <FormItem className="flex items-center space-x-4 space-y-0 hover:text-green hover:cursor-pointer transition-colors">
-                              <FormControl>
-                                <Checkbox
-                                  checked={field.value}
-                                  onCheckedChange={(checked: boolean) => {
-                                    field.onChange(checked);
-                                    updateAllEventsState();
-                                  }}
-                                />
-                              </FormControl>
+                            <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
                               <div className="space-y-1 leading-none">
                                 <FormLabel className={cn(
                                   "transition-colors",
@@ -399,6 +400,15 @@ export default function RSVPPage() {
                                   <span className="font-bold">Welcome Party</span> &nbsp;Thurs 6/19
                                 </FormLabel>
                               </div>
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value}
+                                  onCheckedChange={(checked: boolean) => {
+                                    field.onChange(checked);
+                                    updateAllEventsState();
+                                  }}
+                                />
+                              </FormControl>
                             </FormItem>
                           )}
                         />
@@ -407,16 +417,7 @@ export default function RSVPPage() {
                           control={form.control}
                           name="events.wedding"
                           render={({ field }: { field: FieldType }) => (
-                            <FormItem className="flex items-center space-x-4 space-y-0 hover:text-green hover:cursor-pointer transition-colors">
-                              <FormControl>
-                                <Checkbox
-                                  checked={field.value}
-                                  onCheckedChange={(checked: boolean) => {
-                                    field.onChange(checked);
-                                    updateAllEventsState();
-                                  }}
-                                />
-                              </FormControl>
+                            <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
                               <div className="space-y-1 leading-none">
                                 <FormLabel className={cn(
                                   "transition-colors",
@@ -425,15 +426,6 @@ export default function RSVPPage() {
                                   <span className="font-bold">Wedding</span> &nbsp;Fri 6/20
                                 </FormLabel>
                               </div>
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="events.beachDay"
-                          render={({ field }: { field: FieldType }) => (
-                            <FormItem className="flex items-center space-x-4 space-y-0 hover:text-green hover:cursor-pointer transition-colors">
                               <FormControl>
                                 <Checkbox
                                   checked={field.value}
@@ -443,6 +435,15 @@ export default function RSVPPage() {
                                   }}
                                 />
                               </FormControl>
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="events.beachDay"
+                          render={({ field }: { field: FieldType }) => (
+                            <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
                               <div className="space-y-1 leading-none">
                                 <FormLabel className={cn(
                                   "transition-colors",
@@ -451,6 +452,15 @@ export default function RSVPPage() {
                                   <span className="font-bold">Beach Day</span> &nbsp;Sat 6/21
                                 </FormLabel>
                               </div>
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value}
+                                  onCheckedChange={(checked: boolean) => {
+                                    field.onChange(checked);
+                                    updateAllEventsState();
+                                  }}
+                                />
+                              </FormControl>
                             </FormItem>
                           )}
                         />
@@ -463,15 +473,7 @@ export default function RSVPPage() {
                           control={form.control}
                           name="events.boatDay"
                           render={({ field }: { field: FieldType }) => (
-                            <FormItem className="flex items-center space-x-4 space-y-0 hover:text-green hover:cursor-pointer transition-colors">
-                              <FormControl>
-                                <Checkbox
-                                  checked={field.value}
-                                  onCheckedChange={(checked: boolean) => {
-                                    field.onChange(checked);
-                                  }}
-                                />
-                              </FormControl>
+                            <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
                               <div className="space-y-1 leading-none">
                                 <FormLabel className={cn(
                                   "transition-colors",
@@ -480,6 +482,14 @@ export default function RSVPPage() {
                                   <span className="font-bold">Yes, I want to join Sunday boat trip to St Tropez</span>
                                 </FormLabel>
                               </div>
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value}
+                                  onCheckedChange={(checked: boolean) => {
+                                    field.onChange(checked);
+                                  }}
+                                />
+                              </FormControl>
                             </FormItem>
                           )}
                         />
@@ -492,15 +502,7 @@ export default function RSVPPage() {
                           control={form.control}
                           name="events.boatDay"
                           render={({ field }: { field: FieldType }) => (
-                            <FormItem className="flex items-center space-x-4 space-y-0 hover:text-green hover:cursor-pointer transition-colors">
-                              <FormControl>
-                                <Checkbox
-                                  checked={field.value}
-                                  onCheckedChange={(checked: boolean) => {
-                                    field.onChange(checked);
-                                  }}
-                                />
-                              </FormControl>
+                            <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
                               <div className="space-y-1 leading-none">
                                 <FormLabel className={cn(
                                   "transition-colors",
@@ -509,6 +511,14 @@ export default function RSVPPage() {
                                   <span className="font-bold">Yes, we'd love childcare help</span>
                                 </FormLabel>
                               </div>
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value}
+                                  onCheckedChange={(checked: boolean) => {
+                                    field.onChange(checked);
+                                  }}
+                                />
+                              </FormControl>
                             </FormItem>
                           )}
                         />
@@ -519,7 +529,7 @@ export default function RSVPPage() {
               </div>
 
               {/* Travel Logistics Section */}
-              <div className={cn("transition-opacity duration-300", !hasNamesFilled && "opacity-50")}>
+              <div className={cn("transition-opacity duration-300", attendingValue !== 'yes' && "opacity-30")}>
                 <div className="space-y-6">
                   <FormField
                     control={form.control}
@@ -557,7 +567,7 @@ export default function RSVPPage() {
               </div>
 
               {/* Allergies Section */}
-              <div className={cn("transition-opacity duration-300", !hasNamesFilled && "opacity-50")}>
+              <div className={cn("transition-opacity duration-300", attendingValue !== 'yes' && "opacity-30")}>
                 <div className="space-y-6">
                   <FormField
                     control={form.control}
@@ -645,17 +655,17 @@ export default function RSVPPage() {
                   )}
                 </div>
               </div>
-
-              {/* Submit Button */}
-              <Button 
-                type="submit"
-                className="w-full bg-blue hover:bg-green text-white font-bold py-4 px-4 text-lg tracking-wider"
-              >
-                Submit RSVP
-              </Button>
-
             </form>
           </Form>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8">
+          <Button 
+            type="submit"
+            form="rsvp-form"
+            className="w-full bg-blue hover:bg-green text-white font-bold py-4 px-4 text-lg tracking-wider"
+          >
+            Submit RSVP
+          </Button>
         </div>
       </div>
     </main>
