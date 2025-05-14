@@ -137,9 +137,9 @@ export default function RSVPPage() {
   }
 
   return (
-    <main className="min-h-screen p-8 bg-background">
+    <main className="min-h-screen py-4 px-4 bg-background">
       <div className="max-w-3xl mx-auto p-4 border-2 border-blue/15 rounded-lg shadow-xl">
-        <h1 className="text-3xl font-light text-blue mb-8 text-center tracking-widest">
+        <h1 className="text-xl font-light text-blue mb-8 text-left md:text-3xl md:text-center tracking-widest">
           RSVP for Lauren & David
         </h1>
         <div className="bg-card rounded-lg">
@@ -150,7 +150,10 @@ export default function RSVPPage() {
                 name="name1"
                 render={({ field }: { field: FieldType }) => (
                   <FormItem className="space-y-4">
-                    <FormLabel className="text-lg text-blue tracking-wider block pb-2">Formal Name <span className="text-xs font-light text-blue/80 italic"> &nbsp;please include nobility titles or CFA level if relevant </span></FormLabel>
+                    <div className="flex flex-col md:flex-row md:items-baseline md:gap-2">
+                      <FormLabel className="text-lg text-blue tracking-wider">Formal Name</FormLabel>
+                      <span className="text-xs font-light text-blue/80 italic mt-1 md:mt-0">please include nobility titles or CFA level if relevant</span>
+                    </div>
                     <FormControl>
                       <Input 
                         placeholder="Guest 1"
