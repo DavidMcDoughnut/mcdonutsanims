@@ -166,8 +166,8 @@ export default function RSVPPage() {
   }
 
   return (
-    <main className="min-h-[100dvh] relative">
-      <div className="fixed inset-0">
+    <main className="min-h-[100dvh] relative overflow-hidden">
+      <div className="absolute inset-0 h-[100dvh]">
         <Image
           src="/optimized/vebg-static.webp"
           alt="Background"
@@ -176,7 +176,7 @@ export default function RSVPPage() {
           className="object-cover opacity-50"
         />
       </div>
-      <div className="relative flex justify-center py-4 md:py-8 px-4 md:px-8">
+      <div className="relative flex justify-center py-4 md:py-8 px-4 md:px-8 min-h-[100dvh]">
         <div id="formcard" className="w-full max-w-2xl p-4 md:p-12 border-2 border-blue rounded-lg shadow-xl bg-white/80 backdrop-blur-md flex flex-col">
           <h1 className="text-xl font-light text-blue mb-8 text-left md:text-3xl md:text-center tracking-widest flex-shrink-0">
             RSVP for Lauren & David
