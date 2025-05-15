@@ -166,7 +166,7 @@ export default function RSVPPage() {
   }
 
   return (
-    <main className="h-screen flex items-stretch justify-center bg-background relative">
+    <main className="h-[100dvh] flex items-stretch justify-center bg-background relative">
       <div className="absolute inset-0 opacity-50">
         <Image
           src="/optimized/vebg-static.webp"
