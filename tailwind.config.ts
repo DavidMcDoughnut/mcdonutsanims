@@ -71,7 +71,22 @@ const config: Config = {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'var(--blue)'
-  		}
+  		},
+      keyframes: {
+        'fade-in-up': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(80px)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)'
+          },
+        }
+      },
+      animation: {
+        'fade-in-up': 'fade-in-up 2s cubic-bezier(0.2, 0, 0, 1) 1s forwards'
+      },
   	}
   },
   plugins: [require("tailwindcss-animate")],
