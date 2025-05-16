@@ -193,7 +193,7 @@ export default function RSVPPage() {
           <div className="relative flex min-h-full justify-center">
             <div 
               id="formcard" 
-              className="w-full max-w-2xl p-4 md:px-12 md:pb-12 md:pt-6 border-2 border-blue rounded-lg shadow-xl bg-white/80 backdrop-blur-md opacity-0 animate-fade-in-up relative overflow-hidden"
+              className="w-full max-w-2xl p-4 md:px-12 md:pb-12 md:pt-6 border-4 border-blue rounded-3xl shadow-paper bg-white/80 backdrop-blur-md opacity-0 animate-fade-in-up relative overflow-hidden"
             >
               {/* Paper texture overlay */}
               <div 
@@ -208,7 +208,7 @@ export default function RSVPPage() {
               <div className="relative z-10">
                 <div className="w-full mb-8">
                   <Image
-                    src="/rsvp-head.svg"
+                    src="/rsvp-head.png"
                     alt="RSVP for Lauren & David"
                     width={800}
                     height={100}

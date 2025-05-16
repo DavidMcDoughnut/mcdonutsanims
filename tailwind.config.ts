@@ -96,6 +96,11 @@ const config: Config = {
         'fade-in-up': 'fade-in-up 1.5s cubic-bezier(0.2, 0, 0, 1) 1s forwards',
         'fade-to-dim': 'fade-to-dim 1.5s ease-out 1s forwards'
       },
+      boxShadow: {
+        'strong': '0 10px 30px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        'paper': '0 15px 35px -5px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.1)',
+        'intense': '0 20px 50px -12px rgba(0, 0, 0, 0.4)',
+      },
   	}
   },
   plugins: [require("tailwindcss-animate")],
