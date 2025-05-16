@@ -193,7 +193,7 @@ export default function RSVPPage() {
           <div className="relative flex min-h-full justify-center">
             <div 
               id="formcard" 
-              className="w-full max-w-2xl p-4 md:p-12 border-2 border-blue rounded-lg shadow-xl bg-white/80 backdrop-blur-md opacity-0 animate-fade-in-up relative overflow-hidden"
+              className="w-full max-w-2xl p-4 md:px-12 md:pb-12 md:pt-6 border-2 border-blue rounded-lg shadow-xl bg-white/80 backdrop-blur-md opacity-0 animate-fade-in-up relative overflow-hidden"
             >
               {/* Paper texture overlay */}
               <div 
@@ -206,9 +206,16 @@ export default function RSVPPage() {
               />
               {/* Content container */}
               <div className="relative z-10">
-                <h1 className="text-xl font-light text-blue mb-8 text-left md:text-3xl md:text-center tracking-widest">
-                  RSVP for Lauren & David
-                </h1>
+                <div className="w-full mb-8">
+                  <Image
+                    src="/rsvp-head.svg"
+                    alt="RSVP for Lauren & David"
+                    width={800}
+                    height={100}
+                    className="w-full h-auto"
+                    priority
+                  />
+                </div>
                 <div className="rounded-lg isolate">
                   <Form {...form}>
                     <form id="rsvp-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
