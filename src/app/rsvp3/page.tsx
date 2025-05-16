@@ -166,457 +166,409 @@ export default function RSVPPage() {
   }
 
   return (
-    <main className="h-[100dvh] overflow-hidden">
-      <div className="fixed inset-0">
-        <Image
-          src="/og-image.jpg"
-          alt="Background"
-          fill
-          priority
-          className="object-cover opacity-100"
-        />
-      </div>
-      <div className="h-full overflow-y-auto px-4 md:px-8 py-4 md:py-8">
-        <div className="relative flex min-h-full justify-center">
-          <div 
-            id="formcard" 
-            className="w-full max-w-2xl p-4 md:p-12 border-2 border-blue rounded-lg shadow-xl bg-white/80 backdrop-blur-md opacity-0 animate-fade-in-up"
-          >
-            <h1 className="text-xl font-light text-blue mb-8 text-left md:text-3xl md:text-center tracking-widest">
-              RSVP for Lauren & David
-            </h1>
-            <div className="rounded-lg isolate">
-              <Form {...form}>
-                <form id="rsvp-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
-                  {/* Names Section */}
-                  <div className="space-y-6">
-                    <FormField
-                      control={form.control}
-                      name="name1"
-                      render={({ field }) => (
-                        <FormItem className="space-y-4">
-                          <div className="flex flex-col md:flex-row md:items-baseline md:gap-2">
-                            <FormLabel className="text-lg text-blue tracking-wider">Formal Name</FormLabel>
-                            <span className="text-xs font-light text-blue/80 italic mt-1 md:mt-0">please include nobility titles or CFA level if relevant</span>
-                          </div>
-                          <FormControl>
-                            <Input
-                              placeholder="Guest 1"
-                              {...field}
-                              variant="form"
-                              hasValue={!!name1Value}
-                            />
-                          </FormControl>
-                          <FormMessage className="text-destructive" />
-                        </FormItem>
-                      )}
-                    />
+    <>
+      {/* SVG Filter Definition */}
+      <svg className="fixed w-0 h-0 z-[9999]">
+        <defs>
+          <filter id='roughpaper' x='0%' y='0%' width='100%' height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency='0.12' result='noise' numOctaves="4" />
+            <feDiffuseLighting in='noise' lightingColor='white' surfaceScale='8'>
+              <feDistantLight azimuth='45' elevation='40' />
+            </feDiffuseLighting>
+          </filter>
+        </defs>
+      </svg>
 
-                    <FormField
-                      control={form.control}
-                      name="name2"
-                      render={({ field }: { field: FieldType }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input 
-                              placeholder="Guest 2" 
-                              {...field} 
-                              variant="form"
-                              hasValue={!!name2Value}
-                            />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-
-                    {!showAdditionalGuests && (
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        className="text-blue/60 hover:text-blue border-blue/40 hover:border-green mt-1 [&_svg]:!size-5 !bg-transparent !gap-1"
-                        onClick={addGuests}
-                      >
-                        <Plus />
-                        Add Guests
-                      </Button>
-                    )}
-
-                    {showAdditionalGuests && (
+      <main className="h-[100dvh] overflow-hidden">
+        <div className="fixed inset-0">
+          <Image
+            src="/og-image.jpg"
+            alt="Background"
+            fill
+            priority
+            className="object-cover animate-fade-to-dim"
+          />
+        </div>
+        <div className="h-full overflow-y-auto px-4 md:px-8 py-4 md:py-8">
+          <div className="relative flex min-h-full justify-center">
+            <div 
+              id="formcard" 
+              className="w-full max-w-2xl p-4 md:p-12 border-2 border-blue rounded-lg shadow-xl bg-white/80 backdrop-blur-md opacity-0 animate-fade-in-up relative overflow-hidden"
+            >
+              {/* Paper texture overlay */}
+              <div 
+                className="absolute inset-0 w-full h-full pointer-events-none"
+                style={{
+                  filter: 'url(#roughpaper)',
+                  opacity: 0.04,
+                  zIndex: 1
+                }}
+              />
+              {/* Content container */}
+              <div className="relative z-10">
+                <h1 className="text-xl font-light text-blue mb-8 text-left md:text-3xl md:text-center tracking-widest">
+                  RSVP for Lauren & David
+                </h1>
+                <div className="rounded-lg isolate">
+                  <Form {...form}>
+                    <form id="rsvp-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
+                      {/* Names Section */}
                       <div className="space-y-6">
                         <FormField
                           control={form.control}
-                          name="name3"
-                          render={({ field }: { field: FieldType }) => (
-                            <FormItem>
+                          name="name1"
+                          render={({ field }) => (
+                            <FormItem className="space-y-4">
+                              <div className="flex flex-col md:flex-row md:items-baseline md:gap-2">
+                                <FormLabel className="text-lg text-blue tracking-wider">Formal Name</FormLabel>
+                                <span className="text-xs font-light text-blue/80 italic mt-1 md:mt-0">please include nobility titles or CFA level if relevant</span>
+                              </div>
                               <FormControl>
-                                <Input 
-                                  placeholder="Guest 3" 
-                                  {...field} 
+                                <Input
+                                  placeholder="Guest 1"
+                                  {...field}
                                   variant="form"
-                                  hasValue={!!name3Value}
+                                  hasValue={!!name1Value}
                                 />
                               </FormControl>
+                              <FormMessage className="text-destructive" />
                             </FormItem>
                           )}
                         />
 
                         <FormField
                           control={form.control}
-                          name="name4"
+                          name="name2"
                           render={({ field }: { field: FieldType }) => (
                             <FormItem>
                               <FormControl>
                                 <Input 
-                                  placeholder="Guest 4" 
+                                  placeholder="Guest 2" 
                                   {...field} 
                                   variant="form"
-                                  hasValue={!!name4Value}
+                                  hasValue={!!name2Value}
                                 />
                               </FormControl>
                             </FormItem>
                           )}
                         />
 
+                        {!showAdditionalGuests && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="text-blue/60 hover:text-blue border-blue/40 hover:border-green mt-1 [&_svg]:!size-5 !bg-transparent !gap-1"
+                            onClick={addGuests}
+                          >
+                            <Plus />
+                            Add Guests
+                          </Button>
+                        )}
+
+                        {showAdditionalGuests && (
+                          <div className="space-y-6">
+                            <FormField
+                              control={form.control}
+                              name="name3"
+                              render={({ field }: { field: FieldType }) => (
+                                <FormItem>
+                                  <FormControl>
+                                    <Input 
+                                      placeholder="Guest 3" 
+                                      {...field} 
+                                      variant="form"
+                                      hasValue={!!name3Value}
+                                    />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="name4"
+                              render={({ field }: { field: FieldType }) => (
+                                <FormItem>
+                                  <FormControl>
+                                    <Input 
+                                      placeholder="Guest 4" 
+                                      {...field} 
+                                      variant="form"
+                                      hasValue={!!name4Value}
+                                    />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="name5"
+                              render={({ field }: { field: FieldType }) => (
+                                <FormItem>
+                                  <FormControl>
+                                    <Input 
+                                      placeholder="Guest 5" 
+                                      {...field} 
+                                      variant="form"
+                                      hasValue={!!name5Value}
+                                    />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Attending Section */}
+                      <FormField
+                        control={form.control}
+                        name="attending"
+                        render={({ field }: { field: FieldType }) => (
+                          <FormItem className="space-y-3">
+                            <FormLabel className="text-lg text-blue tracking-wider">Attending?</FormLabel>
+                            <FormControl>
+                              <RadioGroup
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                                className="flex flex-col space-y-2">
+
+                                <div className="flex flex-col md:flex-row gap-4 w-full justify-start mx-auto">
+                                    <div className={cn("group w-full", field.value === "no" && "selected")}>
+                                      <Button
+                                        type="button"
+                                        variant="radneg" size="sm"
+                                        className={cn(
+                                          "w-full h-10",
+                                          field.value === "no" && "bg-pink border-pink text-white "
+                                        )}
+                                        onClick={() => field.onChange("no")}
+                                      >
+                                        <X className="mr-0" />
+                                        <div className="flex items-baseline">
+                                          <span className="font-bold text-lg tracking-widest">Non</span>&nbsp;&nbsp;
+                                          <span>I'm ok living a life of regret</span>
+                                        </div>
+                                      </Button>
+                                    </div>
+                                    <div className={cn("group w-full", field.value === "yes" && "selected")}>
+                                      <Button
+                                        type="button"
+                                        variant="radpos" size="sm"
+                                        className={cn(
+                                          "w-full h-10",
+                                          field.value === "yes" && "bg-green border-green text-white"
+                                        )}
+                                        onClick={() => {
+                                          field.onChange("yes");
+                                          form.setValue('events.allEvents', true);
+                                          form.setValue('events.welcomeParty', true);
+                                          form.setValue('events.wedding', true);
+                                          form.setValue('events.beachDay', true);
+                                          // boatDay remains as per its independent checkbox state
+                                        }}
+                                      >
+                                        <Check className="mr-0" />
+                                        <div className="flex items-baseline">
+                                          <span className="font-bold text-lg tracking-widest">Oui!</span>&nbsp;&nbsp;
+                                          <span>Allons-y! YOLO! Can't Wait!</span>
+                                        </div>
+                                      </Button>
+                                    </div>
+                                    
+                                </div>
+
+                              </RadioGroup>
+                            </FormControl>
+                            <FormMessage className="text-destructive" />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Events Section */}
+                      <div className={cn("transition-opacity duration-300", attendingValue !== 'yes' && "opacity-30")}>
                         <FormField
                           control={form.control}
-                          name="name5"
+                          name="events.allEvents"
                           render={({ field }: { field: FieldType }) => (
-                            <FormItem>
-                              <FormControl>
-                                <Input 
-                                  placeholder="Guest 5" 
-                                  {...field} 
-                                  variant="form"
-                                  hasValue={!!name5Value}
+                            <FormItem className="space-y-3">
+                              <FormLabel className="text-lg text-blue tracking-wider">Events?</FormLabel>
+                              <div className="flex flex-col gap-4">
+                                <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
+                                  <div className="space-y-1 leading-none">
+                                    <FormLabel className={cn(
+                                      "font-bold transition-colors",
+                                      field.value && "text-green"
+                                    )}>
+                                      All Events! Whooh!
+                                    </FormLabel>
+                                  </div>
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value}
+                                      onCheckedChange={(checked: boolean) => {
+                                        field.onChange(checked);
+                                        handleAllEventsChange(Boolean(checked));
+                                      }}
+                                    />
+                                  </FormControl>
+                                </FormItem>
+
+                                <FormField
+                                  control={form.control}
+                                  name="events.welcomeParty"
+                                  render={({ field }: { field: FieldType }) => (
+                                    <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
+                                      <div className="space-y-1 leading-none">
+                                        <FormLabel className={cn(
+                                          "transition-colors",
+                                          field.value && "text-green"
+                                        )}>
+                                          <span className="font-bold">Welcome Party</span> &nbsp;Thurs 6/19
+                                        </FormLabel>
+                                      </div>
+                                      <FormControl>
+                                        <Checkbox
+                                          checked={field.value}
+                                          onCheckedChange={(checked: boolean) => {
+                                            field.onChange(checked);
+                                            updateAllEventsState();
+                                          }}
+                                        />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
                                 />
-                              </FormControl>
+
+                                <FormField
+                                  control={form.control}
+                                  name="events.wedding"
+                                  render={({ field }: { field: FieldType }) => (
+                                    <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
+                                      <div className="space-y-1 leading-none">
+                                        <FormLabel className={cn(
+                                          "transition-colors",
+                                          field.value && "text-green"
+                                        )}>
+                                          <span className="font-bold">Wedding</span> &nbsp;Fri 6/20
+                                        </FormLabel>
+                                      </div>
+                                      <FormControl>
+                                        <Checkbox
+                                          checked={field.value}
+                                          onCheckedChange={(checked: boolean) => {
+                                            field.onChange(checked);
+                                            updateAllEventsState();
+                                          }}
+                                        />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
+                                />
+
+                                <FormField
+                                  control={form.control}
+                                  name="events.beachDay"
+                                  render={({ field }: { field: FieldType }) => (
+                                    <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
+                                      <div className="space-y-1 leading-none">
+                                        <FormLabel className={cn(
+                                          "transition-colors",
+                                          field.value && "text-green"
+                                        )}>
+                                          <span className="font-bold">Beach Day</span> &nbsp;Sat 6/21
+                                        </FormLabel>
+                                      </div>
+                                      <FormControl>
+                                        <Checkbox
+                                          checked={field.value}
+                                          onCheckedChange={(checked: boolean) => {
+                                            field.onChange(checked);
+                                            updateAllEventsState();
+                                          }}
+                                        />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
+                                />
+
+                                <div className="text-sm text-blue/60 mt-0 italic">
+                                  Optional
+                                </div>
+
+                                <FormField
+                                  control={form.control}
+                                  name="events.boatDay"
+                                  render={({ field }: { field: FieldType }) => (
+                                    <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
+                                      <div className="space-y-1 leading-none">
+                                        <FormLabel className={cn(
+                                          "transition-colors",
+                                          field.value && "text-green"
+                                        )}>
+                                          <span className="font-bold">Yes, I want to join Sunday boat trip to St Tropez</span>
+                                        </FormLabel>
+                                      </div>
+                                      <FormControl>
+                                        <Checkbox
+                                          checked={field.value}
+                                          onCheckedChange={(checked: boolean) => {
+                                            field.onChange(checked);
+                                          }}
+                                        />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
+                                />
+
+                                <div className="text-sm text-blue/60 mt-0 italic">
+                                  Childcare
+                                </div>
+
+                                <FormField
+                                  control={form.control}
+                                  name="events.boatDay"
+                                  render={({ field }: { field: FieldType }) => (
+                                    <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
+                                      <div className="space-y-1 leading-none">
+                                        <FormLabel className={cn(
+                                          "transition-colors",
+                                          field.value && "text-green"
+                                        )}>
+                                          <span className="font-bold">Yes, we'd love childcare help</span>
+                                        </FormLabel>
+                                      </div>
+                                      <FormControl>
+                                        <Checkbox
+                                          checked={field.value}
+                                          onCheckedChange={(checked: boolean) => {
+                                            field.onChange(checked);
+                                          }}
+                                        />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
                             </FormItem>
                           )}
                         />
                       </div>
-                    )}
-                  </div>
 
-                  {/* Attending Section */}
-                  <FormField
-                    control={form.control}
-                    name="attending"
-                    render={({ field }: { field: FieldType }) => (
-                      <FormItem className="space-y-3">
-                        <FormLabel className="text-lg text-blue tracking-wider">Attending?</FormLabel>
-                        <FormControl>
-                          <RadioGroup
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            className="flex flex-col space-y-2">
-
-                            <div className="flex flex-col md:flex-row gap-4 w-full justify-start mx-auto">
-                                <div className={cn("group w-full", field.value === "no" && "selected")}>
-                                  <Button
-                                    type="button"
-                                    variant="radneg" size="sm"
-                                    className={cn(
-                                      "w-full h-10",
-                                      field.value === "no" && "bg-pink border-pink text-white "
-                                    )}
-                                    onClick={() => field.onChange("no")}
-                                  >
-                                    <X className="mr-0" />
-                                    <div className="flex items-baseline">
-                                      <span className="font-bold text-lg tracking-widest">Non</span>&nbsp;&nbsp;
-                                      <span>I'm ok living a life of regret</span>
-                                    </div>
-                                  </Button>
-                                </div>
-                                <div className={cn("group w-full", field.value === "yes" && "selected")}>
-                                  <Button
-                                    type="button"
-                                    variant="radpos" size="sm"
-                                    className={cn(
-                                      "w-full h-10",
-                                      field.value === "yes" && "bg-green border-green text-white"
-                                    )}
-                                    onClick={() => {
-                                      field.onChange("yes");
-                                      form.setValue('events.allEvents', true);
-                                      form.setValue('events.welcomeParty', true);
-                                      form.setValue('events.wedding', true);
-                                      form.setValue('events.beachDay', true);
-                                      // boatDay remains as per its independent checkbox state
-                                    }}
-                                  >
-                                    <Check className="mr-0" />
-                                    <div className="flex items-baseline">
-                                      <span className="font-bold text-lg tracking-widest">Oui!</span>&nbsp;&nbsp;
-                                      <span>Allons-y! YOLO! Can't Wait!</span>
-                                    </div>
-                                  </Button>
-                                </div>
-                                
-                            </div>
-
-                          </RadioGroup>
-                        </FormControl>
-                        <FormMessage className="text-destructive" />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* Events Section */}
-                  <div className={cn("transition-opacity duration-300", attendingValue !== 'yes' && "opacity-30")}>
-                    <FormField
-                      control={form.control}
-                      name="events.allEvents"
-                      render={({ field }: { field: FieldType }) => (
-                        <FormItem className="space-y-3">
-                          <FormLabel className="text-lg text-blue tracking-wider">Events?</FormLabel>
-                          <div className="flex flex-col gap-4">
-                            <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
-                              <div className="space-y-1 leading-none">
-                                <FormLabel className={cn(
-                                  "font-bold transition-colors",
-                                  field.value && "text-green"
-                                )}>
-                                  All Events! Whooh!
-                                </FormLabel>
-                              </div>
-                              <FormControl>
-                                <Checkbox
-                                  checked={field.value}
-                                  onCheckedChange={(checked: boolean) => {
-                                    field.onChange(checked);
-                                    handleAllEventsChange(Boolean(checked));
-                                  }}
-                                />
-                              </FormControl>
-                            </FormItem>
-
-                            <FormField
-                              control={form.control}
-                              name="events.welcomeParty"
-                              render={({ field }: { field: FieldType }) => (
-                                <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
-                                  <div className="space-y-1 leading-none">
-                                    <FormLabel className={cn(
-                                      "transition-colors",
-                                      field.value && "text-green"
-                                    )}>
-                                      <span className="font-bold">Welcome Party</span> &nbsp;Thurs 6/19
-                                    </FormLabel>
-                                  </div>
-                                  <FormControl>
-                                    <Checkbox
-                                      checked={field.value}
-                                      onCheckedChange={(checked: boolean) => {
-                                        field.onChange(checked);
-                                        updateAllEventsState();
-                                      }}
-                                    />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-
-                            <FormField
-                              control={form.control}
-                              name="events.wedding"
-                              render={({ field }: { field: FieldType }) => (
-                                <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
-                                  <div className="space-y-1 leading-none">
-                                    <FormLabel className={cn(
-                                      "transition-colors",
-                                      field.value && "text-green"
-                                    )}>
-                                      <span className="font-bold">Wedding</span> &nbsp;Fri 6/20
-                                    </FormLabel>
-                                  </div>
-                                  <FormControl>
-                                    <Checkbox
-                                      checked={field.value}
-                                      onCheckedChange={(checked: boolean) => {
-                                        field.onChange(checked);
-                                        updateAllEventsState();
-                                      }}
-                                    />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-
-                            <FormField
-                              control={form.control}
-                              name="events.beachDay"
-                              render={({ field }: { field: FieldType }) => (
-                                <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
-                                  <div className="space-y-1 leading-none">
-                                    <FormLabel className={cn(
-                                      "transition-colors",
-                                      field.value && "text-green"
-                                    )}>
-                                      <span className="font-bold">Beach Day</span> &nbsp;Sat 6/21
-                                    </FormLabel>
-                                  </div>
-                                  <FormControl>
-                                    <Checkbox
-                                      checked={field.value}
-                                      onCheckedChange={(checked: boolean) => {
-                                        field.onChange(checked);
-                                        updateAllEventsState();
-                                      }}
-                                    />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-
-                            <div className="text-sm text-blue/60 mt-0 italic">
-                              Optional
-                            </div>
-
-                            <FormField
-                              control={form.control}
-                              name="events.boatDay"
-                              render={({ field }: { field: FieldType }) => (
-                                <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
-                                  <div className="space-y-1 leading-none">
-                                    <FormLabel className={cn(
-                                      "transition-colors",
-                                      field.value && "text-green"
-                                    )}>
-                                      <span className="font-bold">Yes, I want to join Sunday boat trip to St Tropez</span>
-                                    </FormLabel>
-                                  </div>
-                                  <FormControl>
-                                    <Checkbox
-                                      checked={field.value}
-                                      onCheckedChange={(checked: boolean) => {
-                                        field.onChange(checked);
-                                      }}
-                                    />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-
-                            <div className="text-sm text-blue/60 mt-0 italic">
-                              Childcare
-                            </div>
-
-                            <FormField
-                              control={form.control}
-                              name="events.boatDay"
-                              render={({ field }: { field: FieldType }) => (
-                                <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
-                                  <div className="space-y-1 leading-none">
-                                    <FormLabel className={cn(
-                                      "transition-colors",
-                                      field.value && "text-green"
-                                    )}>
-                                      <span className="font-bold">Yes, we'd love childcare help</span>
-                                    </FormLabel>
-                                  </div>
-                                  <FormControl>
-                                    <Checkbox
-                                      checked={field.value}
-                                      onCheckedChange={(checked: boolean) => {
-                                        field.onChange(checked);
-                                      }}
-                                    />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          </div>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  {/* Travel Logistics Section */}
-                  <div className={cn("transition-opacity duration-300", attendingValue !== 'yes' && "opacity-30")}>
-                    <div className="space-y-6">
-                      <FormField
-                        control={form.control}
-                        name="staying"
-                        render={({ field }: { field: FieldType }) => (
-                          <FormItem>
-                            <FormLabel className="text-lg text-blue tracking-wider">Travel Logistics</FormLabel>
-                            <FormControl>
-                              <Input 
-                                placeholder="Hotel, Airbnb, etc" 
-                                {...field} 
-                                variant="form"
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="travel"
-                        render={({ field }: { field: FieldType }) => (
-                          <FormItem>
-                            <FormControl>
-                              <Input 
-                                placeholder="Flight, train, etc" 
-                                {...field} 
-                                variant="form"
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Allergies Section */}
-                  <div className={cn("transition-opacity duration-300", attendingValue !== 'yes' && "opacity-30")}>
-                    <div className="space-y-6">
-                      <FormField
-                        control={form.control}
-                        name="allergies1"
-                        render={({ field }: { field: FieldType }) => (
-                          <FormItem>
-                            <FormLabel className="text-lg text-blue tracking-wider">Allergies</FormLabel>
-                            <FormControl>
-                              <Input 
-                                placeholder="Guest 1" 
-                                {...field} 
-                                variant="form"
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="allergies2"
-                        render={({ field }: { field: FieldType }) => (
-                          <FormItem>
-                            <FormControl>
-                              <Input 
-                                placeholder="Guest 2" 
-                                {...field} 
-                                variant="form"
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      {showAdditionalGuests && (
-                        <>
+                      {/* Travel Logistics Section */}
+                      <div className={cn("transition-opacity duration-300", attendingValue !== 'yes' && "opacity-30")}>
+                        <div className="space-y-6">
                           <FormField
                             control={form.control}
-                            name="allergies3"
+                            name="staying"
                             render={({ field }: { field: FieldType }) => (
                               <FormItem>
+                                <FormLabel className="text-lg text-blue tracking-wider">Travel Logistics</FormLabel>
                                 <FormControl>
                                   <Input 
-                                    placeholder="Guest 3" 
+                                    placeholder="Hotel, Airbnb, etc" 
                                     {...field} 
                                     variant="form"
                                   />
@@ -627,12 +579,34 @@ export default function RSVPPage() {
 
                           <FormField
                             control={form.control}
-                            name="allergies4"
+                            name="travel"
                             render={({ field }: { field: FieldType }) => (
                               <FormItem>
                                 <FormControl>
                                   <Input 
-                                    placeholder="Guest 4" 
+                                    placeholder="Flight, train, etc" 
+                                    {...field} 
+                                    variant="form"
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Allergies Section */}
+                      <div className={cn("transition-opacity duration-300", attendingValue !== 'yes' && "opacity-30")}>
+                        <div className="space-y-6">
+                          <FormField
+                            control={form.control}
+                            name="allergies1"
+                            render={({ field }: { field: FieldType }) => (
+                              <FormItem>
+                                <FormLabel className="text-lg text-blue tracking-wider">Allergies</FormLabel>
+                                <FormControl>
+                                  <Input 
+                                    placeholder="Guest 1" 
                                     {...field} 
                                     variant="form"
                                   />
@@ -643,12 +617,12 @@ export default function RSVPPage() {
 
                           <FormField
                             control={form.control}
-                            name="allergies5"
+                            name="allergies2"
                             render={({ field }: { field: FieldType }) => (
                               <FormItem>
                                 <FormControl>
                                   <Input 
-                                    placeholder="Guest 5" 
+                                    placeholder="Guest 2" 
                                     {...field} 
                                     variant="form"
                                   />
@@ -656,25 +630,77 @@ export default function RSVPPage() {
                               </FormItem>
                             )}
                           />
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </form>
-              </Form>
-            </div>
-            <div className="mt-12">
-              <Button 
-                type="submit"
-                form="rsvp-form"
-                className="w-full bg-blue hover:bg-green text-white font-bold py-4 px-4 text-lg tracking-wider"
-              >
-                Submit RSVP
-              </Button>
+
+                          {showAdditionalGuests && (
+                            <>
+                              <FormField
+                                control={form.control}
+                                name="allergies3"
+                                render={({ field }: { field: FieldType }) => (
+                                  <FormItem>
+                                    <FormControl>
+                                      <Input 
+                                        placeholder="Guest 3" 
+                                        {...field} 
+                                        variant="form"
+                                      />
+                                    </FormControl>
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name="allergies4"
+                                render={({ field }: { field: FieldType }) => (
+                                  <FormItem>
+                                    <FormControl>
+                                      <Input 
+                                        placeholder="Guest 4" 
+                                        {...field} 
+                                        variant="form"
+                                      />
+                                    </FormControl>
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name="allergies5"
+                                render={({ field }: { field: FieldType }) => (
+                                  <FormItem>
+                                    <FormControl>
+                                      <Input 
+                                        placeholder="Guest 5" 
+                                        {...field} 
+                                        variant="form"
+                                      />
+                                    </FormControl>
+                                  </FormItem>
+                                )}
+                              />
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </form>
+                  </Form>
+                </div>
+                <div className="mt-12">
+                  <Button 
+                    type="submit"
+                    form="rsvp-form"
+                    className="w-full bg-blue hover:bg-green text-white font-bold py-4 px-4 text-lg tracking-wider"
+                  >
+                    Submit RSVP
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 } 

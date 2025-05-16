@@ -76,16 +76,25 @@ const config: Config = {
         'fade-in-up': {
           '0%': {
             opacity: '0',
-            transform: 'translateY(80px)'
+            transform: 'translateY(20px)'
           },
           '100%': {
             opacity: '1',
             transform: 'translateY(0)'
           },
+        },
+        'fade-to-dim': {
+          '0%': {
+            opacity: '1'
+          },
+          '100%': {
+            opacity: '0.4'
+          }
         }
       },
       animation: {
-        'fade-in-up': 'fade-in-up 2s cubic-bezier(0.2, 0, 0, 1) 1s forwards'
+        'fade-in-up': 'fade-in-up 1.5s cubic-bezier(0.2, 0, 0, 1) 1s forwards',
+        'fade-to-dim': 'fade-to-dim 1.5s ease-out 1s forwards'
       },
   	}
   },
