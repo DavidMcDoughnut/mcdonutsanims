@@ -182,7 +182,7 @@ export default function RSVPPage() {
       <main className="h-[100dvh] overflow-hidden">
         <div className="fixed inset-0">
           <Image
-            src="/og-image.jpg"
+            src="/formbg.png"
             alt="Background"
             fill
             priority
@@ -228,7 +228,7 @@ export default function RSVPPage() {
                             <FormItem className="space-y-4">
                               <div className="flex flex-col md:flex-row md:items-baseline md:gap-2">
                                 <FormLabel className="text-lg text-blue tracking-wider">Formal Name</FormLabel>
-                                <span className="text-xs font-light text-blue/80 italic mt-1 md:mt-0">please include nobility titles or CFA level if relevant</span>
+                                <span className="text-xs font-light text-blue/80 italic mt-1 md:mt-0">plz include nobility title if relevant</span>
                               </div>
                               <FormControl>
                                 <Input
