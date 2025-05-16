@@ -185,7 +185,7 @@ export default function RSVPPage() {
       <main className="h-[100dvh] overflow-hidden">
         <div className="fixed inset-0">
           <Image
-            src="/optimized/formbg.webp"
+            src="/optimized/formbggrad.webp"
             alt="Background"
             fill
             priority
