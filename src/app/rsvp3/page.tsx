@@ -193,7 +193,7 @@ export default function RSVPPage() {
           <div className="relative flex min-h-full justify-center">
             <div 
               id="formcard" 
-              className="w-full max-w-2xl p-4 md:px-12 md:pb-12 md:pt-6 border-4 border-blue rounded-3xl shadow-paper bg-white/80 backdrop-blur-md opacity-0 animate-fade-in-up relative overflow-hidden"
+              className="w-full max-w-2xl p-4 md:px-12 md:pb-12 md:pt-6 border-2 border-blue rounded-3xl shadow-paper bg-white/80 backdrop-blur-md opacity-0 animate-fade-in-up relative overflow-hidden"
             >
               {/* Paper texture overlay */}
               <div 
@@ -227,7 +227,7 @@ export default function RSVPPage() {
                           render={({ field }) => (
                             <FormItem className="space-y-4">
                               <div className="flex flex-col md:flex-row md:items-baseline md:gap-2">
-                                <FormLabel className="text-lg text-blue tracking-wider">Formal Name</FormLabel>
+                                <FormLabel className="text-lg text-blue tracking-wider font-bold">Names</FormLabel>
                                 <span className="text-xs font-light text-blue/80 italic mt-1 md:mt-0">plz include nobility title if relevant</span>
                               </div>
                               <FormControl>
@@ -335,7 +335,7 @@ export default function RSVPPage() {
                         name="attending"
                         render={({ field }: { field: FieldType }) => (
                           <FormItem className="space-y-3">
-                            <FormLabel className="text-lg text-blue tracking-wider">Attending?</FormLabel>
+                            <FormLabel className="text-lg text-blue tracking-wider font-bold">Attending?</FormLabel>
                             <FormControl>
                               <RadioGroup
                                 onValueChange={field.onChange}
@@ -395,13 +395,13 @@ export default function RSVPPage() {
                       />
 
                       {/* Events Section */}
-                      <div className={cn("transition-opacity duration-300", attendingValue !== 'yes' && "opacity-30")}>
+                      <div className={cn("transition-opacity duration-300", attendingValue !== 'yes' && "opacity-15")}>
                         <FormField
                           control={form.control}
                           name="events.allEvents"
                           render={({ field }: { field: FieldType }) => (
                             <FormItem className="space-y-3">
-                              <FormLabel className="text-lg text-blue tracking-wider">Events?</FormLabel>
+                              <FormLabel className="text-lg text-blue tracking-wider font-bold">Events?</FormLabel>
                               <div className="flex flex-col gap-4">
                                 <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
                                   <div className="space-y-1 leading-none">
@@ -485,7 +485,7 @@ export default function RSVPPage() {
                                           "transition-colors",
                                           field.value && "text-green"
                                         )}>
-                                          <span className="font-bold">Beach Day</span> &nbsp;Sat 6/21
+                                          <span className="font-bold">La Vie en Rose Beach Club</span> &nbsp;Sat 6/21
                                         </FormLabel>
                                       </div>
                                       <FormControl>
@@ -502,7 +502,7 @@ export default function RSVPPage() {
                                 />
 
                                 <div className="text-sm text-blue/60 mt-0 italic">
-                                  Optional
+                                 Optional Add-Ons
                                 </div>
 
                                 <FormField
@@ -515,7 +515,7 @@ export default function RSVPPage() {
                                           "transition-colors",
                                           field.value && "text-green"
                                         )}>
-                                          <span className="font-bold">Yes, I want to join Sunday boat trip to St Tropez</span>
+                                          <span className="font-bold">I'm in for Sunday boat to St Tropez</span>
                                         </FormLabel>
                                       </div>
                                       <FormControl>
@@ -530,9 +530,7 @@ export default function RSVPPage() {
                                   )}
                                 />
 
-                                <div className="text-sm text-blue/60 mt-0 italic">
-                                  Childcare
-                                </div>
+
 
                                 <FormField
                                   control={form.control}
