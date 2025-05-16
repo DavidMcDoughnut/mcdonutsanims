@@ -22,7 +22,7 @@ export default function UpdatePage() {
       <main className="h-[100dvh] overflow-hidden">
         <div className="fixed inset-0">
           <Image
-            src="/formbg.png"
+            src="/optimized/formbg.webp"
             alt="Background"
             fill
             priority

@@ -36,6 +36,7 @@ const formSchema = z.object({
     wedding: z.boolean(),
     beachDay: z.boolean(),
     boatDay: z.boolean(),
+    babysitting: z.boolean(),
   }),
   allergies1: z.string().optional(),
   allergies2: z.string().optional(),
@@ -75,6 +76,7 @@ export default function RSVPPage() {
         wedding: false,
         beachDay: false,
         boatDay: false,
+        babysitting: false,
       },
       allergies1: "",
       allergies2: "",
@@ -139,6 +141,7 @@ export default function RSVPPage() {
             wedding: values.events.wedding,
             beach_day: values.events.beachDay,
             boat_day: values.events.boatDay,
+            babysitting: values.events.babysitting,
             allergies1: values.allergies1 || null,
             allergies2: values.allergies2 || null,
             allergies3: values.allergies3 || null,
@@ -182,7 +185,7 @@ export default function RSVPPage() {
       <main className="h-[100dvh] overflow-hidden">
         <div className="fixed inset-0">
           <Image
-            src="/formbg.png"
+            src="/optimized/formbg.webp"
             alt="Background"
             fill
             priority
@@ -501,7 +504,7 @@ export default function RSVPPage() {
                                   )}
                                 />
 
-                                <div className="text-sm text-blue/60 mt-0 italic">
+                                <div className="text-sm text-green mt-0 italic">
                                  Optional Add-Ons
                                 </div>
 
@@ -530,11 +533,9 @@ export default function RSVPPage() {
                                   )}
                                 />
 
-
-
                                 <FormField
                                   control={form.control}
-                                  name="events.boatDay"
+                                  name="events.babysitting"
                                   render={({ field }: { field: FieldType }) => (
                                     <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
                                       <div className="space-y-1 leading-none">
@@ -570,10 +571,10 @@ export default function RSVPPage() {
                             name="staying"
                             render={({ field }: { field: FieldType }) => (
                               <FormItem>
-                                <FormLabel className="text-lg text-blue tracking-wider">Travel Logistics</FormLabel>
+                                <FormLabel className="text-lg text-blue tracking-wider font-bold">Logistics</FormLabel>
                                 <FormControl>
                                   <Input 
-                                    placeholder="Hotel, Airbnb, etc" 
+                                    placeholder="Other" 
                                     {...field} 
                                     variant="form"
                                   />
