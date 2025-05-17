@@ -210,7 +210,7 @@ export default function RSVPPage() {
             variant="rsvp"
             size="xl"
             onClick={() => setShowForm(true)}
-            className="w-full text-2xl py-8 tracking-widest font-normal"
+            className="w-full text-xl md:text-2xl py-8 tracking-widest font-normal"
           >
             <Image
               src="/favicon-32x32.png"
@@ -232,10 +232,10 @@ export default function RSVPPage() {
 
         {/* Form Section */}
         <div className={cn(
-          "h-full  flex items-center justify-center fixed inset-0",
+          "h-full flex items-center justify-center fixed inset-0",
           !showForm && "pointer-events-none"
         )}>
-          <div className="relative flex justify-center w-full h-full max-h-[calc(100dvh-80px)] md:max-h-none overflow-y-auto custom-scrollbar overflow-y-auto px-4 md:px-8 py-4">
+          <div className="relative flex justify-center w-full h-full md:max-h-none overflow-y-auto custom-scrollbar overflow-y-auto px-4 md:px-8 py-4">
             <div 
               id="formcard" 
               className={cn(
