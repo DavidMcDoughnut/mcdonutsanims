@@ -54,6 +54,7 @@ type FieldType = ControllerRenderProps<FieldValues, string>;
 
 export default function RSVPPage() {
   const [showAdditionalGuests, setShowAdditionalGuests] = React.useState(false);
+  const [showForm, setShowForm] = React.useState(false);
 
   const addGuests = () => {
     setShowAdditionalGuests(true);
@@ -199,11 +200,50 @@ export default function RSVPPage() {
             unoptimized={true}
           />
         </div>
-        <div className="h-full overflow-y-auto px-4 md:px-8 py-4 md:mt-[70vh]">
-          <div className="relative flex min-h-full justify-center">
+
+        {/* Start RSVP Button */}
+        <div className={cn(
+          "absolute left-1/2 -translate-x-1/2 top-[40%] -translate-y-1/2 w-full max-w-md px-4 transition-all duration-500",
+          showForm && "opacity-0 pointer-events-none"
+        )}>
+          <Button
+            variant="rsvp"
+            size="xl"
+            onClick={() => setShowForm(true)}
+            className="w-full text-2xl py-8 tracking-widest font-normal"
+          >
+            <Image
+              src="/favicon-32x32.png"
+              alt=""
+              width={32}
+              height={32}
+              className="absolute left-8 top-1/2 -translate-y-1/2"
+            />
+            RSVP, allons-y!
+            <Image
+              src="/favicon-32x32.png"
+              alt=""
+              width={32}
+              height={32}
+              className="absolute right-8 top-1/2 -translate-y-1/2"
+            />
+          </Button>
+        </div>
+
+        {/* Form Section */}
+        <div className={cn(
+          "h-full  flex items-center justify-center fixed inset-0",
+          !showForm && "pointer-events-none"
+        )}>
+          <div className="relative flex justify-center w-full h-full max-h-[calc(100dvh-80px)] md:max-h-none overflow-y-auto custom-scrollbar overflow-y-auto px-4 md:px-8 py-4">
             <div 
               id="formcard" 
-              className="w-full max-w-2xl p-4 md:px-12 md:pb-12 md:pt-6 border-2 border-blue rounded-3xl shadow-paper bg-white/80 backdrop-blur-md opacity-0 animate-fade-in-up relative overflow-hidden"
+              className={cn(
+                "w-full max-w-2xl p-4 md:px-12 md:pb-12 md:pt-6 border-2 border-blue rounded-3xl shadow-paper bg-white/80 backdrop-blur-md relative overflow-hidden my-auto transform-gpu",
+                "transition-all duration-1000 ease-[cubic-bezier(0.2,0,0,1)]",
+                !showForm && "opacity-0 translate-y-8",
+                showForm && "opacity-100 translate-y-0 delay-500"
+              )}
             >
               {/* Paper texture overlay */}
               <div 
