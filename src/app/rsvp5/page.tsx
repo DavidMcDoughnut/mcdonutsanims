@@ -249,7 +249,8 @@ export default function RSVPPage() {
           "h-full flex items-center justify-center fixed inset-0",
           !showForm && "pointer-events-none"
         )}>
-          <div className="relative flex justify-center w-full h-full max-h-[calc(100dvh-80px)] md:max-h-none overflow-y-auto custom-scrollbar overflow-y-auto px-4 md:px-8 py-4">
+          {/* This inner div is to ensure the scrollbar/overflow handling for the content doesn't interfere with the centering and fixed positioning of the card itself */}
+          <div className="relative flex justify-center w-full h-full overflow-y-auto custom-scrollbar overflow-y-auto px-4 md:px-8 py-4">
             <div 
               id="formcard" 
               className={cn(
