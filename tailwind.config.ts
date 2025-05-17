@@ -99,7 +99,7 @@ const config: Config = {
       boxShadow: {
         'strong': '0 10px 30px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
         'paper': '0 15px 35px -5px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.1)',
-        'intense': '0 20px 50px -12px rgba(0, 0, 0, 0.4)',
+        'intense': '0 30px 30px -0px rgba(0, 0, 0, 0.6)',
       },
   	}
   },

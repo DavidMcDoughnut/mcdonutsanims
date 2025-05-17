@@ -17,7 +17,8 @@ const buttonVariants = cva(
           "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-
+        rsvp:
+          "!border-1.5 !border-white bg-white/40 backdrop-blur-md text-white hover:bg-white/80 hover:text-blue hover:!border-blue active:bg-green active:text-white transition-colors shadow-intense",
         radpos:
           "!border-1.5 !border-green text-green group-[&:not(.selected)]:hover:bg-green/15 group-[&:not(.selected)]:hover:text-green active:bg-green active:text-white transition-colors",
         radneg:
@@ -30,6 +31,7 @@ const buttonVariants = cva(
         default: "h-9 px-4 py-2",
         sm: "h-6 rounded-md px-0 text-xs",
         lg: "h-10 rounded-md px-8",
+        xl: "h-16 rounded-xl px-8 text-xl",
         icon: "h-9 w-9",
       },
     },
