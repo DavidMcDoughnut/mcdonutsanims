@@ -29,7 +29,7 @@ export default function UpdatePage() {
             className="object-cover animate-fade-to-dim"
           />
         </div>
-        <div className="h-full overflow-y-auto px-4 md:px-8 py-4 md:py-8">
+        <div className="h-full overflow-y-auto px-4 md:px-8 py-4 md:pt-[50vh]">
           <div className="relative flex min-h-full justify-center">
             <div 
               id="formcard" 
