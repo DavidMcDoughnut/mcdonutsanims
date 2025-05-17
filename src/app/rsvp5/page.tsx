@@ -290,9 +290,9 @@ export default function RSVPPage() {
                           name="name1"
                           render={({ field }) => (
                             <FormItem className="space-y-4">
-                              <div className="flex flex-col md:flex-row md:items-baseline md:gap-2">
+                              <div className="flex flex-row items-baseline gap-2">
                                 <FormLabel className="text-lg text-blue tracking-wider font-bold">Names</FormLabel>
-                                <span className="text-xs font-light text-blue/80 italic mt-1 md:mt-0">plz include nobility title if relevant</span>
+                                <span className="text-xs font-light text-blue/80 italic">plz include nobility title if relevant</span>
                               </div>
                               <FormControl>
                                 <Input
