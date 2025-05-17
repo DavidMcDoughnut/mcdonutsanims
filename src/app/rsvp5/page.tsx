@@ -202,32 +202,46 @@ export default function RSVPPage() {
         </div>
 
         {/* Start RSVP Button */}
-        <div className={cn(
-          "absolute left-1/2 -translate-x-1/2 top-[40%] -translate-y-1/2 w-full max-w-md px-4 transition-all duration-500",
-          showForm && "opacity-0 pointer-events-none"
+        <div 
+          id="navbtns" 
+          className={cn(
+            "absolute left-1/2 -translate-x-1/2 top-[40%] -translate-y-1/2 w-full max-w-md px-4 transition-all duration-500",
+            showForm && "opacity-0 pointer-events-none"
         )}>
+          {/* Background div for shadow and border effect */}
+          <div
+            id="buttonbg"
+            className={cn(
+              "absolute top-0 left-4 right-4 h-16", // Positioned within navbtns padding, matches button height
+              "rounded-xl border-1.5 border-white shadow-intense", // Matches button's xl size radius, rsvp border, and desired shadow
+              "opacity-0 animate-content-fade-in -z-10 pointer-events-none" // Animation for delayed appearance, behind button, non-interactive
+            )}
+          />
           <Button
             variant="rsvp"
             size="xl"
             onClick={() => setShowForm(true)}
-            className="w-full text-xl md:text-2xl py-8 tracking-widest font-normal"
+            className="w-full text-xl md:text-2xl py-8 tracking-widest font-normal relative"
           >
             <Image
               src="/favicon-32x32.png"
               alt=""
               width={32}
               height={32}
-              className="absolute left-8 top-1/2 -translate-y-1/2"
+              className="absolute left-8 top-1/2 -translate-y-1/2 opacity-0 animate-content-fade-in"
             />
-            RSVP, allons-y!
+            <span className="opacity-0 animate-content-fade-in">
+              RSVP, allons-y!
+            </span>
             <Image
               src="/favicon-32x32.png"
               alt=""
               width={32}
               height={32}
-              className="absolute right-8 top-1/2 -translate-y-1/2"
+              className="absolute right-8 top-1/2 -translate-y-1/2 opacity-0 animate-content-fade-in"
             />
           </Button>
+          {/* Future buttons can be added here */}
         </div>
 
         {/* Form Section */}
@@ -235,7 +249,7 @@ export default function RSVPPage() {
           "h-full flex items-center justify-center fixed inset-0",
           !showForm && "pointer-events-none"
         )}>
-          <div className="relative flex justify-center w-full h-full md:max-h-none overflow-y-auto custom-scrollbar overflow-y-auto px-4 md:px-8 py-4">
+          <div className="relative flex justify-center w-full h-full max-h-[calc(100dvh-80px)] md:max-h-none overflow-y-auto custom-scrollbar overflow-y-auto px-4 md:px-8 py-4">
             <div 
               id="formcard" 
               className={cn(
@@ -276,9 +290,9 @@ export default function RSVPPage() {
                           name="name1"
                           render={({ field }) => (
                             <FormItem className="space-y-4">
-                              <div className="flex flex-col md:flex-row md:items-baseline md:gap-2">
+                              <div className="flex flex-row items-baseline gap-2">
                                 <FormLabel className="text-lg text-blue tracking-wider font-bold">Names</FormLabel>
-                                <span className="text-xs font-light text-blue/80 italic mt-1 md:mt-0">plz include nobility title if relevant</span>
+                                <span className="text-xs font-light text-blue/80 italic">plz include nobility title if relevant</span>
                               </div>
                               <FormControl>
                                 <Input

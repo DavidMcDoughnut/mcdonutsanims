@@ -18,7 +18,7 @@ const buttonVariants = cva(
         secondary:
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         rsvp:
-          "!border-1.5 !border-white bg-white/40 backdrop-blur-md text-white hover:bg-white/80 hover:text-blue hover:!border-blue active:bg-green active:text-white transition-colors shadow-intense",
+          "!border-1.5 !border-white bg-white/40 backdrop-blur-md text-white hover:bg-white/80 hover:text-blue hover:!border-blue hover:shadow-intense active:bg-green active:text-white transition-all",
         radpos:
           "!border-1.5 !border-green text-green group-[&:not(.selected)]:hover:bg-green/15 group-[&:not(.selected)]:hover:text-green active:bg-green active:text-white transition-colors",
         radneg:

@@ -90,11 +90,16 @@ const config: Config = {
           '100%': {
             opacity: '0.4'
           }
+        },
+        'content-fade-in': {
+          '0%, 50%': { opacity: '0' },
+          '100%': { opacity: '1' }
         }
       },
       animation: {
         'fade-in-up': 'fade-in-up 1.5s cubic-bezier(0.2, 0, 0, 1) 1s forwards',
-        'fade-to-dim': 'fade-to-dim 1.5s ease-out 1s forwards'
+        'fade-to-dim': 'fade-to-dim 1.5s ease-out 1s forwards',
+        'content-fade-in': 'content-fade-in 2s ease-out forwards'
       },
       boxShadow: {
         'strong': '0 10px 30px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
