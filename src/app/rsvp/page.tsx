@@ -407,7 +407,7 @@ export default function RSVPPage() {
                                 )}
                                 onClick={() => {
                                   setNextClicked(true);
-                                  setTimeout(() => setShowResponse(true), 100);
+                                  setTimeout(() => setShowResponse(true), 500);
                                 }}
                               >
                                 NEXT
@@ -480,7 +480,7 @@ export default function RSVPPage() {
                                 )}
                                 onClick={() => {
                                   setNextClicked(true);
-                                  setTimeout(() => setShowResponse(true), 100);
+                                  setTimeout(() => setShowResponse(true), 500);
                                 }}
                               >
                                 NEXT
@@ -493,8 +493,9 @@ export default function RSVPPage() {
 
                       {/* Attending Section */}
                       <div className={cn(
-                        "transition-opacity duration-300",
-                        !showResponse && "opacity-0 pointer-events-none"
+                        "transition-all duration-500",
+                        !showResponse && "opacity-0 pointer-events-none",
+                        showResponse && "opacity-100 translate-y-0"
                       )}>
                         <FormField
                           control={form.control}
@@ -564,8 +565,8 @@ export default function RSVPPage() {
 
                       {/* Events Section */}
                       <div className={cn(
-                        "transition-opacity duration-300",
-                        !showResponse && "opacity-0 pointer-events-none",
+                        "transition-all duration-500",
+                        !showResponse && "opacity-0 pointer-events-none translate-y-2",
                         showResponse && attendingValue !== 'yes' && "opacity-40"
                       )}>
                         <FormField
@@ -745,8 +746,8 @@ export default function RSVPPage() {
 
                       {/* Travel Logistics Section */}
                       <div className={cn(
-                        "transition-opacity duration-300",
-                        !showResponse && "opacity-0 pointer-events-none",
+                        "transition-all duration-500",
+                        !showResponse && "opacity-0 pointer-events-none translate-y-2",
                         showResponse && attendingValue !== 'yes' && "opacity-0"
                       )}>
                         <div className="space-y-6">
@@ -830,8 +831,8 @@ export default function RSVPPage() {
 
                       {/* Allergies Section */}
                       <div className={cn(
-                        "transition-opacity duration-300",
-                        !showResponse && "opacity-0 pointer-events-none",
+                        "transition-all duration-500",
+                        !showResponse && "opacity-0 pointer-events-none translate-y-2",
                         showResponse && attendingValue !== 'yes' && "opacity-0"
                       )}>
                         <div className="space-y-6">
