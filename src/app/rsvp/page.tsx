@@ -22,7 +22,6 @@ import { cn } from "@/lib/utils";
 import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
 import { SelectHotel } from '@/components/ui/select-hotel';
-import scrollIntoView from 'scroll-into-view-if-needed';
 
 // Update form schema to match database
 const formSchema = z.object({
@@ -305,7 +304,7 @@ export default function RSVPPage() {
           !showForm && "pointer-events-none"
         )}>
           {/* This inner div is to ensure the scrollbar/overflow handling for the content doesn't interfere with the centering and fixed positioning of the card itself */}
-          <div className="relative flex justify-center w-full h-full overflow-y-auto custom-scrollbar overflow-y-auto px-4 md:px-8 py-4">
+          <div id="form-scroll-container" className="relative flex justify-center w-full h-full overflow-y-auto custom-scrollbar overflow-y-auto px-4 md:px-8 py-4">
             <div 
               id="formcard" 
               className={cn(
@@ -429,16 +428,23 @@ export default function RSVPPage() {
                                   setNextClicked(true);
                                   setTimeout(() => {
                                     const attendingSection = document.getElementById('attending-section');
-                                    if (attendingSection) {
-                                      attendingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                      setTimeout(() => {
-                                        const viewportHeight = (window.visualViewport?.height || window.innerHeight);
-                                        const offset = Math.floor(viewportHeight * 0.2);
-                                        window.scrollBy({ top: -offset, behavior: 'smooth' });
-                                      }, 50);
+                                    const scrollContainer = document.getElementById('form-scroll-container');
+
+                                    if (attendingSection && scrollContainer) {
+                                      const attendingSectionTop = attendingSection.offsetTop - scrollContainer.offsetTop;
+                                      const desiredScrollTop = attendingSectionTop - 100;
+                                      
+                                      console.log('Calculated scrollContainer scrollTop:', desiredScrollTop);
+                                      scrollContainer.scrollTo({
+                                        top: desiredScrollTop,
+                                        behavior: 'smooth'
+                                      });
                                     }
-                                    setTimeout(() => setShowResponse(true), 600);
-                                  }, 100);
+                                    setTimeout(() => {
+                                      console.log('Setting showResponse after calculated scroll');
+                                      setShowResponse(true);
+                                    }, 800); // Content reveal after scroll logic
+                                  }, 100); // Delay after click
                                 }}
                               >
                                 NEXT
@@ -528,16 +534,23 @@ export default function RSVPPage() {
                                   setNextClicked(true);
                                   setTimeout(() => {
                                     const attendingSection = document.getElementById('attending-section');
-                                    if (attendingSection) {
-                                      attendingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                      setTimeout(() => {
-                                        const viewportHeight = (window.visualViewport?.height || window.innerHeight);
-                                        const offset = Math.floor(viewportHeight * 0.2);
-                                        window.scrollBy({ top: -offset, behavior: 'smooth' });
-                                      }, 50);
+                                    const scrollContainer = document.getElementById('form-scroll-container');
+
+                                    if (attendingSection && scrollContainer) {
+                                      const attendingSectionTop = attendingSection.offsetTop - scrollContainer.offsetTop;
+                                      const desiredScrollTop = attendingSectionTop - 100;
+                                      
+                                      console.log('Calculated scrollContainer scrollTop (2nd button):', desiredScrollTop);
+                                      scrollContainer.scrollTo({
+                                        top: desiredScrollTop,
+                                        behavior: 'smooth'
+                                      });
                                     }
-                                    setTimeout(() => setShowResponse(true), 400);
-                                  }, 100);
+                                    setTimeout(() => {
+                                      console.log('Setting showResponse after calculated scroll (2nd button)');
+                                      setShowResponse(true);
+                                    }, 800); // Content reveal after scroll logic
+                                  }, 100); // Delay after click
                                 }}
                               >
                                 NEXT
@@ -840,7 +853,7 @@ export default function RSVPPage() {
                                           <Button
                                             type="button"
                                             variant="outline"
-                                            size="sm"
+                                            size="default"
                                             className={cn(
                                               "w-auto md:w-full h-8 border-blue/30 text-blue/80 hover:bg-blue/10 hover:text-blue hover:border-blue px-4",
                                               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2",
