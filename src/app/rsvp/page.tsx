@@ -649,7 +649,7 @@ export default function RSVPPage() {
                                     defaultValue={field.value}
                                     className="flex flex-col gap-2"
                                   >
-                                    <div className="flex flex-col gap-2 w-full">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
                                       {[
                                         "Royal Riviera",
                                         "Hotel Carlton",
@@ -660,8 +660,7 @@ export default function RSVPPage() {
                                         "Hotel La Provencal",
                                         "Welcome Hotel",
                                         "AirBnB",
-                                        "Haven't booked yet",
-                                        "Other"
+                                        "Haven't booked yet"
                                       ].map((hotel) => (
                                         <div key={hotel} className={cn("group w-full", field.value === hotel && "selected")}>
                                           <Button
@@ -679,12 +678,20 @@ export default function RSVPPage() {
                                         </div>
                                       ))}
                                     </div>
+                                    <Input
+                                      placeholder="other lodging"
+                                      variant="form"
+                                      className="col-span-full mt-1"
+                                      value={!field.value || field.value.startsWith("other:") ? field.value?.replace("other:", "") : ""}
+                                      onChange={(e) => field.onChange(e.target.value ? `other:${e.target.value}` : "")}
+                                    />
                                   </RadioGroup>
                                 </FormControl>
                               </FormItem>
                             )}
                           />
 
+                          {/* Temporarily removed travel input
                           <FormField
                             control={form.control}
                             name="travel"
@@ -700,6 +707,7 @@ export default function RSVPPage() {
                               </FormItem>
                             )}
                           />
+                          */}
                         </div>
                       </div>
 
