@@ -338,7 +338,16 @@ export default function RSVPPage() {
                 </div>
                 <div className="rounded-lg isolate">
                   <Form {...form}>
-                    <form id="rsvp-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
+                    <form 
+                      id="rsvp-form" 
+                      onSubmit={form.handleSubmit(onSubmit)}
+                      className="space-y-12"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                        }
+                      }}
+                    >
                       {/* Names Section */}
                       <div className="space-y-6">
                         <FormField
@@ -356,6 +365,11 @@ export default function RSVPPage() {
                                   {...field}
                                   variant="form"
                                   hasValue={!!name1Value}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                               </FormControl>
                               <FormMessage className="text-destructive" />
@@ -374,6 +388,11 @@ export default function RSVPPage() {
                                   {...field} 
                                   variant="form"
                                   hasValue={!!name2Value}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                               </FormControl>
                             </FormItem>
@@ -440,6 +459,11 @@ export default function RSVPPage() {
                                       {...field} 
                                       variant="form"
                                       hasValue={!!name3Value}
+                                      onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                          e.preventDefault();
+                                        }
+                                      }}
                                     />
                                   </FormControl>
                                 </FormItem>
@@ -457,6 +481,11 @@ export default function RSVPPage() {
                                       {...field} 
                                       variant="form"
                                       hasValue={!!name4Value}
+                                      onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                          e.preventDefault();
+                                        }
+                                      }}
                                     />
                                   </FormControl>
                                 </FormItem>
@@ -474,6 +503,11 @@ export default function RSVPPage() {
                                       {...field} 
                                       variant="form"
                                       hasValue={!!name5Value}
+                                      onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                          e.preventDefault();
+                                        }
+                                      }}
                                     />
                                   </FormControl>
                                 </FormItem>
@@ -495,14 +529,14 @@ export default function RSVPPage() {
                                   setTimeout(() => {
                                     const attendingSection = document.getElementById('attending-section');
                                     if (attendingSection) {
-                                      attendingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                      attendingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                       setTimeout(() => {
                                         const viewportHeight = (window.visualViewport?.height || window.innerHeight);
                                         const offset = Math.floor(viewportHeight * 0.2);
                                         window.scrollBy({ top: -offset, behavior: 'smooth' });
                                       }, 50);
                                     }
-                                    setTimeout(() => setShowResponse(true), 600);
+                                    setTimeout(() => setShowResponse(true), 400);
                                   }, 100);
                                 }}
                               >
@@ -518,7 +552,7 @@ export default function RSVPPage() {
                       <div 
                         id="attending-section"
                         className={cn(
-                          "transition-all duration-500 pt-12 md:pt-0",
+                          "transition-all duration-500 pt-4 md:pt-0",
                           !showResponse && "opacity-0 pointer-events-none",
                           showResponse && "opacity-100 translate-y-0"
                         )}
