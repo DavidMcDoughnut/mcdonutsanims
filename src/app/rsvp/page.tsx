@@ -209,14 +209,14 @@ export default function RSVPPage() {
         <div 
           id="navbtns" 
           className={cn(
-            "absolute left-1/2 -translate-x-1/2 top-[40%] -translate-y-1/2 w-full max-w-md px-4",
+            "absolute left-1/2 -translate-x-1/2 top-[40%] -translate-y-1/2 w-full max-w-md px-8 md:px-4",
             showForm ? "animate-fade-out-up pointer-events-none" : "transition-opacity duration-500 opacity-100"
         )}>
           {/* Background div for shadow and border effect */}
           <div
             id="buttonbg"
             className={cn(
-              "absolute top-0 left-4 right-4 h-16", // Positioned within navbtns padding, matches button height
+              "absolute top-0 left-8 right-8 md:left-4 md:right-4 h-16", // Positioned within navbtns padding, matches button height
               "rounded-xl border-1.5 border-white shadow-intense", // Matches button's xl size radius, rsvp border, and desired shadow
               "opacity-0 animate-content-fade-in -z-10 pointer-events-none" // Animation for delayed appearance, behind button, non-interactive
             )}
@@ -225,24 +225,27 @@ export default function RSVPPage() {
             variant="rsvp"
             size="xl"
             onClick={() => setShowForm(true)}
-            className="w-full text-xl md:text-2xl py-8 tracking-widest font-normal relative"
+            className="w-full text-lg md:text-2xl py-4 tracking-widest font-normal relative"
           >
             <Image
               src="/favicon-32x32.png"
               alt=""
               width={32}
               height={32}
-              className="absolute left-8 top-1/2 -translate-y-1/2 opacity-0 animate-content-fade-in"
+              className="absolute left-6 top-1/2 -translate-y-1/2 opacity-0 animate-content-fade-in"
             />
+            <span className="opacity-0 animate-content-fade-in font-bold">
+              RSVP!
+            </span>
             <span className="opacity-0 animate-content-fade-in">
-              RSVP, allons-y!
+              Allons-y!
             </span>
             <Image
               src="/favicon-32x32.png"
               alt=""
               width={32}
               height={32}
-              className="absolute right-8 top-1/2 -translate-y-1/2 opacity-0 animate-content-fade-in"
+              className="absolute right-6 top-1/2 -translate-y-1/2 opacity-0 animate-content-fade-in"
             />
           </Button>
           {/* Future buttons can be added here */}
@@ -297,7 +300,7 @@ export default function RSVPPage() {
                             <FormItem className="space-y-4">
                               <div className="flex flex-row items-baseline gap-2">
                                 <FormLabel className="text-lg text-blue tracking-wider font-bold">Names</FormLabel>
-                                <span className="text-xs font-light text-blue/80 italic">plz include nobility title if relevant</span>
+                                <span className="text-sm text-blue/80 italic">plz include nobility title if relevant</span>
                               </div>
                               <FormControl>
                                 <Input
@@ -412,7 +415,7 @@ export default function RSVPPage() {
                                 className="flex flex-col space-y-2">
 
                                 <div className="flex flex-col md:flex-row gap-4 w-full justify-start mx-auto">
-                                    <div className={cn("group w-full", field.value === "no" && "selected")}>
+                                    <div className={cn("group w-full order-2 md:order-1", field.value === "no" && "selected")}>
                                       <Button
                                         type="button"
                                         variant="radneg" size="sm"
@@ -429,7 +432,7 @@ export default function RSVPPage() {
                                         </div>
                                       </Button>
                                     </div>
-                                    <div className={cn("group w-full", field.value === "yes" && "selected")}>
+                                    <div className={cn("group w-full order-1 md:order-2", field.value === "yes" && "selected")}>
                                       <Button
                                         type="button"
                                         variant="radpos" size="sm"
@@ -453,7 +456,6 @@ export default function RSVPPage() {
                                         </div>
                                       </Button>
                                     </div>
-                                    
                                 </div>
 
                               </RadioGroup>
