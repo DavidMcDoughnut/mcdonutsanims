@@ -430,14 +430,14 @@ export default function RSVPPage() {
                                   setTimeout(() => {
                                     const attendingSection = document.getElementById('attending-section');
                                     if (attendingSection) {
-                                      attendingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                      attendingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                       setTimeout(() => {
                                         const viewportHeight = (window.visualViewport?.height || window.innerHeight);
                                         const offset = Math.floor(viewportHeight * 0.2);
                                         window.scrollBy({ top: -offset, behavior: 'smooth' });
                                       }, 50);
                                     }
-                                    setTimeout(() => setShowResponse(true), 800);
+                                    setTimeout(() => setShowResponse(true), 600);
                                   }, 100);
                                 }}
                               >
