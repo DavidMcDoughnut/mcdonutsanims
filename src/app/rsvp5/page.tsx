@@ -21,6 +21,7 @@ import {
 import { cn } from "@/lib/utils";
 import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
+import { SelectHotel } from '@/components/ui/select-hotel';
 
 // Update form schema to match database
 const formSchema = z.object({
@@ -205,8 +206,8 @@ export default function RSVPPage() {
         <div 
           id="navbtns" 
           className={cn(
-            "absolute left-1/2 -translate-x-1/2 top-[40%] -translate-y-1/2 w-full max-w-md px-4 transition-all duration-500",
-            showForm && "opacity-0 pointer-events-none"
+            "absolute left-1/2 -translate-x-1/2 top-[40%] -translate-y-1/2 w-full max-w-md px-4",
+            showForm ? "animate-fade-out-up pointer-events-none" : "transition-opacity duration-500 opacity-100"
         )}>
           {/* Background div for shadow and border effect */}
           <div
@@ -256,8 +257,8 @@ export default function RSVPPage() {
               className={cn(
                 "w-full max-w-2xl p-4 md:px-12 md:pb-12 md:pt-6 border-2 border-blue rounded-3xl shadow-paper bg-white/80 backdrop-blur-md relative overflow-hidden my-auto transform-gpu",
                 "transition-all duration-1000 ease-[cubic-bezier(0.2,0,0,1)]",
-                !showForm && "opacity-0 translate-y-8",
-                showForm && "opacity-100 translate-y-0 delay-500"
+                !showForm && "opacity-0 translate-y-40",
+                showForm && "opacity-100 translate-y-0"
               )}
             >
               {/* Paper texture overlay */}
@@ -634,11 +635,14 @@ export default function RSVPPage() {
                             render={({ field }: { field: FieldType }) => (
                               <FormItem>
                                 <FormLabel className="text-lg text-blue tracking-wider font-bold">Logistics</FormLabel>
+                                <FormDescription className="text-xs font-light text-blue/80 italic">
+                                  Let us know where you're staying and how you're getting there.
+                                </FormDescription>
                                 <FormControl>
-                                  <Input 
-                                    placeholder="Other" 
-                                    {...field} 
-                                    variant="form"
+                                  <SelectHotel
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    disabled={field.disabled}
                                   />
                                 </FormControl>
                               </FormItem>
