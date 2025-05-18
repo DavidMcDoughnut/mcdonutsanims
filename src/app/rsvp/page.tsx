@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Check, X, Plus, PartyPopper } from "lucide-react";
+import { Check, X, Plus, PartyPopper, ChevronDown, ArrowDown } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -56,6 +56,8 @@ type FieldType = ControllerRenderProps<FieldValues, string>;
 export default function RSVPPage() {
   const [showAdditionalGuests, setShowAdditionalGuests] = React.useState(false);
   const [showForm, setShowForm] = React.useState(false);
+  const [showResponse, setShowResponse] = React.useState(false);
+  const [nextClicked, setNextClicked] = React.useState(false);
   const [submitStatus, setSubmitStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
 
   const addGuests = () => {
@@ -263,7 +265,9 @@ export default function RSVPPage() {
           submitStatus === 'success' ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         )}>
           <div className="bg-white/90 backdrop-blur-md border-2 border-green rounded-2xl px-4 py-6 max-w-md mx-4 text-center transform transition-all duration-300 scale-100">
-            <PartyPopper className="w-16 h-16 text-green mx-auto mb-4" />
+            <div className="flex justify-center items-center mb-4">
+              <PartyPopper className="w-16 h-16 text-green" strokeWidth={1.5} />
+            </div>
             <h2 className="text-2xl font-bold text-blue mb-2">Merci beaucoup!</h2>
             <p className="text-green font-medium mb-6">We've received your RSVP!</p>
             <p className="text-blue mb-6 text-sm">Now, lets all do our part to spend our way out of this trade war so the stocks go back up</p>
@@ -375,24 +379,44 @@ export default function RSVPPage() {
                           )}
                         />
 
-                        {!showAdditionalGuests && (
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            className={cn(
-                              "text-blue/60 hover:text-blue border-blue/40 hover:border-green mt-1 [&_svg]:!size-5 !bg-transparent !gap-1",
-                              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2"
-                            )}
-                            onClick={addGuests}
-                          >
-                            <Plus />
-                            Add Guests
-                          </Button>
-                        )}
+                        {!showAdditionalGuests ? (
+                          <div className="flex justify-between gap-4 items-center">
+                            <>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="md"
+                                className={cn(
+                                  "text-blue/60 hover:text-blue border-blue/40 hover:border-green [&_svg]:!size-5 !bg-transparent !gap-1",
+                                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2"
+                                )}
+                                onClick={addGuests}
+                              >
+                                <Plus />
+                                Add more guests
+                              </Button>
 
-                        {showAdditionalGuests && (
-                          <div className="space-y-6">
+                              <Button
+                                type="button"
+                                variant="next"
+                                size="default"
+                                className={cn(
+                                  "text-green bg-white font-semibold tracking-widest disabled:text-blue/60 hover:text-green hover:bg-green/15 hover:border-green transition-all duration-100 gap-2 group px-4 py-2 text-lg",
+                                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2",
+                                  hasAnyNames && !nextClicked ? "opacity-100" : "opacity-0"
+                                )}
+                                onClick={() => {
+                                  setNextClicked(true);
+                                  setTimeout(() => setShowResponse(true), 100);
+                                }}
+                              >
+                                NEXT
+                                <ArrowDown className="w-4 h-4 group-hover:text-green transition-colors" />
+                              </Button>
+                            </>
+                          </div>
+                        ) : (
+                          <>
                             <FormField
                               control={form.control}
                               name="name3"
@@ -443,14 +467,34 @@ export default function RSVPPage() {
                                 </FormItem>
                               )}
                             />
-                          </div>
+
+                            <div className="flex justify-start">
+                              <Button
+                                type="button"
+                                variant="next"
+                                size="default"
+                                className={cn(
+                                  "text-green bg-white font-semibold tracking-widest disabled:text-blue/60 hover:text-green hover:bg-green/15 hover:border-green transition-all duration-100 gap-2 group px-4 py-2 text-lg",
+                                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2",
+                                  hasAnyNames && !nextClicked ? "opacity-100" : "opacity-0"
+                                )}
+                                onClick={() => {
+                                  setNextClicked(true);
+                                  setTimeout(() => setShowResponse(true), 100);
+                                }}
+                              >
+                                NEXT
+                                <ArrowDown className="w-4 h-4 group-hover:text-green transition-colors" />
+                              </Button>
+                            </div>
+                          </>
                         )}
                       </div>
 
                       {/* Attending Section */}
                       <div className={cn(
                         "transition-opacity duration-300",
-                        !hasAnyNames && "opacity-0 pointer-events-none"
+                        !showResponse && "opacity-0 pointer-events-none"
                       )}>
                         <FormField
                           control={form.control}
@@ -521,8 +565,8 @@ export default function RSVPPage() {
                       {/* Events Section */}
                       <div className={cn(
                         "transition-opacity duration-300",
-                        !hasAnyNames && "opacity-0 pointer-events-none",
-                        hasAnyNames && attendingValue !== 'yes' && "opacity-40"
+                        !showResponse && "opacity-0 pointer-events-none",
+                        showResponse && attendingValue !== 'yes' && "opacity-40"
                       )}>
                         <FormField
                           control={form.control}
@@ -702,8 +746,8 @@ export default function RSVPPage() {
                       {/* Travel Logistics Section */}
                       <div className={cn(
                         "transition-opacity duration-300",
-                        !hasAnyNames && "opacity-0 pointer-events-none tabindex-[-1]",
-                        hasAnyNames && attendingValue !== 'yes' && "opacity-0"
+                        !showResponse && "opacity-0 pointer-events-none",
+                        showResponse && attendingValue !== 'yes' && "opacity-0"
                       )}>
                         <div className="space-y-6">
                           <FormField
@@ -787,8 +831,8 @@ export default function RSVPPage() {
                       {/* Allergies Section */}
                       <div className={cn(
                         "transition-opacity duration-300",
-                        !hasAnyNames && "opacity-0 pointer-events-none tabindex-[-1]",
-                        hasAnyNames && attendingValue !== 'yes' && "opacity-0"
+                        !showResponse && "opacity-0 pointer-events-none",
+                        showResponse && attendingValue !== 'yes' && "opacity-0"
                       )}>
                         <div className="space-y-6">
                           <FormField
