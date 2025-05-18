@@ -638,17 +638,48 @@ export default function RSVPPage() {
                             control={form.control}
                             name="staying"
                             render={({ field }: { field: FieldType }) => (
-                              <FormItem>
+                              <FormItem className="space-y-3">
                                 <FormLabel className="text-lg text-blue tracking-wider font-bold">Logistics</FormLabel>
                                 <FormDescription className="text-xs font-light text-blue/80 italic">
                                   Let us know where you're staying and how you're getting there.
                                 </FormDescription>
                                 <FormControl>
-                                  <SelectHotel
-                                    value={field.value}
-                                    onChange={field.onChange}
-                                    disabled={field.disabled}
-                                  />
+                                  <RadioGroup
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                    className="flex flex-col gap-2"
+                                  >
+                                    <div className="flex flex-col gap-2 w-full">
+                                      {[
+                                        "Royal Riviera",
+                                        "Hotel Carlton",
+                                        "La Reserve de Beaulieu",
+                                        "Boutique Hotel Cap Ferrat",
+                                        "Four Seasons Grand Hotel",
+                                        "Versailles Hotel",
+                                        "Hotel La Provencal",
+                                        "Welcome Hotel",
+                                        "AirBnB",
+                                        "Haven't booked yet",
+                                        "Other"
+                                      ].map((hotel) => (
+                                        <div key={hotel} className={cn("group w-full", field.value === hotel && "selected")}>
+                                          <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="sm"
+                                            className={cn(
+                                              "w-full h-10 border-blue/30 text-blue/80 hover:bg-blue/10 hover:text-blue hover:border-blue",
+                                              field.value === hotel && "bg-green border-green text-white hover:bg-green hover:text-white hover:border-green"
+                                            )}
+                                            onClick={() => field.onChange(hotel)}
+                                          >
+                                            {hotel}
+                                          </Button>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </RadioGroup>
                                 </FormControl>
                               </FormItem>
                             )}
