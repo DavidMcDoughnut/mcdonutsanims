@@ -20,14 +20,14 @@ const SelectTrigger = React.forwardRef<
     ref={ref}
     className={cn(
       "flex h-12 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=open]:border-blue data-[state=open]:ring-2 data-[state=open]:ring-blue",
-      "text-blue/80 placeholder:text-blue/60 border-blue/30 hover:border-blue/70 transition-colors",
+      "text-blue/80 placeholder:text-blue/60 border-blue/30 hover:border-blue hover:bg-blue/10 transition-colors",
       className
     )}
     {...props}
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <ChevronDown className="h-5 w-5 opacity-70 text-blue" />
+      <ChevronDown className="h-5 w-5 opacity-70" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ));
@@ -84,7 +84,7 @@ const SelectItem = React.forwardRef<
     ref={ref}
     className={cn(
       "relative flex w-full cursor-default select-none items-center rounded-sm py-2 pl-8 pr-2 text-base outline-none focus:bg-blue/10 focus:text-blue data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      "hover:bg-green/10 hover:text-green transition-colors text-blue/90",
+      "hover:bg-green/10 hover:text-green transition-colors text-blue/90 cursor-pointer",
       className
     )}
     {...props}
@@ -128,14 +128,21 @@ const hotelOptions = [
   { value: "Hotel La Provencal", label: "Hotel La Provencal" },
   { value: "Welcome Hotel", label: "Welcome Hotel" },
   { value: "AirBnB", label: "AirBnB" },
-  { value: "AirBnB", label: "Haven't booked yet" },
   { value: "Other", label: "Other" },
+  { value: "NotBookedYet", label: "Haven't booked yet" },
 ];
 
 const SelectHotel: React.FC<SelectHotelProps> = ({ value, onChange, disabled }) => {
   return (
     <Select onValueChange={onChange} value={value} disabled={disabled}>
-      <SelectTrigger>
+      <SelectTrigger
+        className={cn({
+          // Default state (placeholder showing)
+          "border-blue/30 text-blue/80 placeholder:text-blue/60": !value,
+          // Selected state
+          "bg-green border-green text-white": value,
+        })}
+      >
         <SelectValue placeholder="Where are you staying?" />
       </SelectTrigger>
       <SelectContent>
