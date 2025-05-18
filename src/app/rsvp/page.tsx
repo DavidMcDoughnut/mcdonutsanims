@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
 import { SelectHotel } from '@/components/ui/select-hotel';
+import scrollIntoView from 'scroll-into-view-if-needed';
 
 // Update form schema to match database
 const formSchema = z.object({
@@ -407,7 +408,18 @@ export default function RSVPPage() {
                                 )}
                                 onClick={() => {
                                   setNextClicked(true);
-                                  setTimeout(() => setShowResponse(true), 500);
+                                  setTimeout(() => {
+                                    const attendingSection = document.getElementById('attending-section');
+                                    if (attendingSection) {
+                                      attendingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                      setTimeout(() => {
+                                        const viewportHeight = (window.visualViewport?.height || window.innerHeight);
+                                        const offset = Math.floor(viewportHeight * 0.2);
+                                        window.scrollBy({ top: -offset, behavior: 'smooth' });
+                                      }, 50);
+                                    }
+                                    setTimeout(() => setShowResponse(true), 800);
+                                  }, 100);
                                 }}
                               >
                                 NEXT
@@ -480,7 +492,18 @@ export default function RSVPPage() {
                                 )}
                                 onClick={() => {
                                   setNextClicked(true);
-                                  setTimeout(() => setShowResponse(true), 500);
+                                  setTimeout(() => {
+                                    const attendingSection = document.getElementById('attending-section');
+                                    if (attendingSection) {
+                                      attendingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                      setTimeout(() => {
+                                        const viewportHeight = (window.visualViewport?.height || window.innerHeight);
+                                        const offset = Math.floor(viewportHeight * 0.2);
+                                        window.scrollBy({ top: -offset, behavior: 'smooth' });
+                                      }, 50);
+                                    }
+                                    setTimeout(() => setShowResponse(true), 600);
+                                  }, 100);
                                 }}
                               >
                                 NEXT
@@ -492,11 +515,14 @@ export default function RSVPPage() {
                       </div>
 
                       {/* Attending Section */}
-                      <div className={cn(
-                        "transition-all duration-500",
-                        !showResponse && "opacity-0 pointer-events-none",
-                        showResponse && "opacity-100 translate-y-0"
-                      )}>
+                      <div 
+                        id="attending-section"
+                        className={cn(
+                          "transition-all duration-500 pt-12 md:pt-0",
+                          !showResponse && "opacity-0 pointer-events-none",
+                          showResponse && "opacity-100 translate-y-0"
+                        )}
+                      >
                         <FormField
                           control={form.control}
                           name="attending"
