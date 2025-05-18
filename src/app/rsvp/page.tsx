@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Check, X, Plus } from "lucide-react";
+import { Check, X, Plus, PartyPopper } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -56,6 +56,7 @@ type FieldType = ControllerRenderProps<FieldValues, string>;
 export default function RSVPPage() {
   const [showAdditionalGuests, setShowAdditionalGuests] = React.useState(false);
   const [showForm, setShowForm] = React.useState(false);
+  const [submitStatus, setSubmitStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
 
   const addGuests = () => {
     setShowAdditionalGuests(true);
@@ -119,16 +120,18 @@ export default function RSVPPage() {
 
   async function onSubmit(values: FormValues) {
     try {
+      setSubmitStatus('idle');
+      
       // Check if we have valid Supabase credentials
       if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
         console.error('Supabase credentials not found');
-        alert('Unable to submit form. Please contact the site administrator.');
+        setSubmitStatus('error');
         return;
       }
 
       // Validate that attending is selected
       if (values.attending === "") {
-        alert('Please select whether you are attending.');
+        setSubmitStatus('error');
         return;
       }
 
@@ -160,16 +163,16 @@ export default function RSVPPage() {
 
       if (error) {
         console.error('Error submitting RSVP:', error);
-        alert('Error submitting RSVP. Please try again.');
+        setSubmitStatus('error');
         return;
       }
 
-      alert('RSVP submitted successfully!');
+      setSubmitStatus('success');
       console.log('Submission successful:', data);
       
     } catch (error) {
       console.error('Error:', error);
-      alert('An unexpected error occurred. Please try again.');
+      setSubmitStatus('error');
     }
   }
 
@@ -252,6 +255,43 @@ export default function RSVPPage() {
             />
           </Button>
           {/* Future buttons can be added here */}
+        </div>
+
+        {/* Success Message */}
+        <div className={cn(
+          "fixed inset-0 flex items-center justify-center z-50 bg-black/40 backdrop-blur-sm transition-all duration-300",
+          submitStatus === 'success' ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        )}>
+          <div className="bg-white/90 backdrop-blur-md border-2 border-green rounded-2xl px-4 py-6 max-w-md mx-4 text-center transform transition-all duration-300 scale-100">
+            <PartyPopper className="w-16 h-16 text-green mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-blue mb-2">Merci beaucoup!</h2>
+            <p className="text-green font-medium mb-6">We've received your RSVP!</p>
+            <p className="text-blue mb-6 text-sm">Now, lets all do our part to spend our way out of this trade war so the stocks go back up</p>
+            <Button
+              onClick={() => window.location.href = 'https://themcdonuts.com'}
+              className="bg-green text-white hover:bg-blue"
+            >
+              Home
+            </Button>
+          </div>
+        </div>
+
+        {/* Error Message */}
+        <div className={cn(
+          "fixed inset-0 flex items-center justify-center z-50 bg-black/40 backdrop-blur-sm transition-all duration-300",
+          submitStatus === 'error' ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        )}>
+          <div className="bg-white/90 backdrop-blur-md border-2 border-pink rounded-2xl p-8 max-w-md mx-4 text-center transform transition-all duration-300 scale-100">
+            <X className="w-16 h-16 text-pink mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-blue mb-2">Oops!</h2>
+            <p className="text-blue/80 mb-6">Something went wrong. Please try again or contact us directly.</p>
+            <Button
+              onClick={() => setSubmitStatus('idle')}
+              className="bg-pink text-white hover:bg-blue"
+            >
+              Close
+            </Button>
+          </div>
         </div>
 
         {/* Form Section */}
@@ -340,7 +380,10 @@ export default function RSVPPage() {
                             type="button"
                             variant="ghost"
                             size="sm"
-                            className="text-blue/60 hover:text-blue border-blue/40 hover:border-green mt-1 [&_svg]:!size-5 !bg-transparent !gap-1"
+                            className={cn(
+                              "text-blue/60 hover:text-blue border-blue/40 hover:border-green mt-1 [&_svg]:!size-5 !bg-transparent !gap-1",
+                              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2"
+                            )}
                             onClick={addGuests}
                           >
                             <Plus />
@@ -414,57 +457,59 @@ export default function RSVPPage() {
                           name="attending"
                           render={({ field }: { field: FieldType }) => (
                             <FormItem className="space-y-3">
-                              <FormLabel className="text-lg text-blue tracking-wider font-bold">Attending?</FormLabel>
+                              <FormLabel className="text-lg text-blue tracking-wider font-bold">Response?</FormLabel>
                               <FormControl>
                                 <RadioGroup
                                   onValueChange={field.onChange}
                                   defaultValue={field.value}
-                                  className="flex flex-col space-y-2">
-
+                                  className="flex flex-col space-y-2"
+                                >
                                   <div className="flex flex-col md:flex-row gap-4 w-full justify-start mx-auto">
-                                      <div className={cn("group w-full order-2 md:order-1", field.value === "no" && "selected")}>
-                                        <Button
-                                          type="button"
-                                          variant="radneg" size="sm"
-                                          className={cn(
-                                            "w-full h-10",
-                                            field.value === "no" && "bg-pink border-pink text-white "
-                                          )}
-                                          onClick={() => field.onChange("no")}
-                                        >
-                                          <X className="mr-0" />
-                                          <div className="flex items-baseline">
-                                            <span className="font-bold text-lg tracking-widest">Non</span>&nbsp;&nbsp;
-                                            <span>I'm ok living a life of regret</span>
-                                          </div>
-                                        </Button>
-                                      </div>
-                                      <div className={cn("group w-full order-1 md:order-2", field.value === "yes" && "selected")}>
-                                        <Button
-                                          type="button"
-                                          variant="radpos" size="sm"
-                                          className={cn(
-                                            "w-full h-10",
-                                            field.value === "yes" && "bg-green border-green text-white"
-                                          )}
-                                          onClick={() => {
-                                            field.onChange("yes");
-                                            form.setValue('events.allEvents', true);
-                                            form.setValue('events.welcomeParty', true);
-                                            form.setValue('events.wedding', true);
-                                            form.setValue('events.beachDay', true);
-                                            // boatDay remains as per its independent checkbox state
-                                          }}
-                                        >
-                                          <Check className="mr-0" />
-                                          <div className="flex items-baseline">
-                                            <span className="font-bold text-lg tracking-widest">Oui!</span>&nbsp;&nbsp;
-                                            <span>Allons-y! YOLO! Can't Wait!</span>
-                                          </div>
-                                        </Button>
-                                      </div>
+                                    <div className={cn("group w-full order-2 md:order-1", field.value === "no" && "selected")}>
+                                      <Button
+                                        type="button"
+                                        variant="radneg"
+                                        size="sm"
+                                        className={cn(
+                                          "w-full h-10",
+                                          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2",
+                                          field.value === "no" && "bg-pink border-pink text-white"
+                                        )}
+                                        onClick={() => field.onChange("no")}
+                                      >
+                                        <X className="mr-0" />
+                                        <div className="flex items-baseline">
+                                          <span className="font-bold text-lg tracking-widest">Non</span>&nbsp;&nbsp;
+                                          <span >I'm ok living a life of regret</span>
+                                        </div>
+                                      </Button>
+                                    </div>
+                                    <div className={cn("group w-full order-1 md:order-2", field.value === "yes" && "selected")}>
+                                      <Button
+                                        type="button"
+                                        variant="radpos"
+                                        size="sm"
+                                        className={cn(
+                                          "w-full h-10",
+                                          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2",
+                                          field.value === "yes" && "bg-green border-green text-white"
+                                        )}
+                                        onClick={() => {
+                                          field.onChange("yes");
+                                          form.setValue('events.allEvents', true);
+                                          form.setValue('events.welcomeParty', true);
+                                          form.setValue('events.wedding', true);
+                                          form.setValue('events.beachDay', true);
+                                        }}
+                                      >
+                                        <Check className="mr-0" />
+                                        <div className="flex items-baseline">
+                                          <span className="font-bold text-lg tracking-widest">Oui!</span>&nbsp;&nbsp;
+                                          <span>Allons-y! YOLO! Can't Wait!</span>
+                                        </div>
+                                      </Button>
+                                    </div>
                                   </div>
-
                                 </RadioGroup>
                               </FormControl>
                               <FormMessage className="text-destructive" />
@@ -477,22 +522,22 @@ export default function RSVPPage() {
                       <div className={cn(
                         "transition-opacity duration-300",
                         !hasAnyNames && "opacity-0 pointer-events-none",
-                        hasAnyNames && attendingValue !== 'yes' && "opacity-15"
+                        hasAnyNames && attendingValue !== 'yes' && "opacity-40"
                       )}>
                         <FormField
                           control={form.control}
                           name="events.allEvents"
                           render={({ field }: { field: FieldType }) => (
                             <FormItem className="space-y-3">
-                              <FormLabel className="text-lg text-blue tracking-wider font-bold">Events?</FormLabel>
+                              {/* <FormLabel className="text-lg text-blue tracking-wider font-bold">Events?</FormLabel> */}
                               <div className="flex flex-col gap-4">
-                                <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
+                                <FormItem className="flex items-center justify-between w-full space-y-0 group hover:cursor-pointer">
                                   <div className="space-y-1 leading-none">
                                     <FormLabel className={cn(
-                                      "font-bold transition-colors",
+                                      "text-blue transition-colors group-hover:text-green",
                                       field.value && "text-green"
                                     )}>
-                                      All Events! Whooh!
+                                      <span className="font-bold text-xl">All Events! Whooh!</span>
                                     </FormLabel>
                                   </div>
                                   <FormControl>
@@ -502,6 +547,7 @@ export default function RSVPPage() {
                                         field.onChange(checked);
                                         handleAllEventsChange(Boolean(checked));
                                       }}
+                                      className="group-hover:border-green"
                                     />
                                   </FormControl>
                                 </FormItem>
@@ -510,10 +556,10 @@ export default function RSVPPage() {
                                   control={form.control}
                                   name="events.welcomeParty"
                                   render={({ field }: { field: FieldType }) => (
-                                    <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
+                                    <FormItem className="flex items-center justify-between w-full space-y-0 group hover:cursor-pointer">
                                       <div className="space-y-1 leading-none">
                                         <FormLabel className={cn(
-                                          "transition-colors",
+                                          "text-blue transition-colors group-hover:text-green",
                                           field.value && "text-green"
                                         )}>
                                           <span className="font-bold">Welcome Party</span> &nbsp;Thurs 6/19
@@ -526,6 +572,7 @@ export default function RSVPPage() {
                                             field.onChange(checked);
                                             updateAllEventsState();
                                           }}
+                                          className="group-hover:border-green"
                                         />
                                       </FormControl>
                                     </FormItem>
@@ -536,10 +583,10 @@ export default function RSVPPage() {
                                   control={form.control}
                                   name="events.wedding"
                                   render={({ field }: { field: FieldType }) => (
-                                    <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
+                                    <FormItem className="flex items-center justify-between w-full space-y-0 group hover:cursor-pointer">
                                       <div className="space-y-1 leading-none">
                                         <FormLabel className={cn(
-                                          "transition-colors",
+                                          "text-blue transition-colors group-hover:text-green",
                                           field.value && "text-green"
                                         )}>
                                           <span className="font-bold">Wedding</span> &nbsp;Fri 6/20
@@ -552,6 +599,7 @@ export default function RSVPPage() {
                                             field.onChange(checked);
                                             updateAllEventsState();
                                           }}
+                                          className="group-hover:border-green"
                                         />
                                       </FormControl>
                                     </FormItem>
@@ -562,13 +610,13 @@ export default function RSVPPage() {
                                   control={form.control}
                                   name="events.beachDay"
                                   render={({ field }: { field: FieldType }) => (
-                                    <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
+                                    <FormItem className="flex items-center justify-between w-full space-y-0 group hover:cursor-pointer">
                                       <div className="space-y-1 leading-none">
                                         <FormLabel className={cn(
-                                          "transition-colors",
+                                          "text-blue transition-colors group-hover:text-green",
                                           field.value && "text-green"
                                         )}>
-                                          <span className="font-bold">La Vie en Rose Beach Club</span> &nbsp;Sat 6/21
+                                          <span className="font-bold">La Vie en Rosé - Beach Clüb</span> &nbsp;Sat 6/21
                                         </FormLabel>
                                       </div>
                                       <FormControl>
@@ -578,27 +626,28 @@ export default function RSVPPage() {
                                             field.onChange(checked);
                                             updateAllEventsState();
                                           }}
+                                          className="group-hover:border-green"
                                         />
                                       </FormControl>
                                     </FormItem>
                                   )}
                                 />
 
-                                <div className="text-sm text-green mt-0 italic">
-                                 Optional Add-Ons
+                                <div className="text-sm text-green font-normal pt-5 italic">
+                                  Optional Add-Ons
                                 </div>
 
                                 <FormField
                                   control={form.control}
                                   name="events.boatDay"
                                   render={({ field }: { field: FieldType }) => (
-                                    <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
+                                    <FormItem className="flex items-center justify-between w-full space-y-0 group hover:cursor-pointer">
                                       <div className="space-y-1 leading-none">
                                         <FormLabel className={cn(
-                                          "transition-colors",
+                                          "text-blue transition-colors group-hover:text-green",
                                           field.value && "text-green"
                                         )}>
-                                          <span className="font-bold">I'm in for Sunday boat to St Tropez</span>
+                                          <span className="font-bold">Sunday boat to St Tropez? Heck Oui!</span>
                                         </FormLabel>
                                       </div>
                                       <FormControl>
@@ -607,6 +656,7 @@ export default function RSVPPage() {
                                           onCheckedChange={(checked: boolean) => {
                                             field.onChange(checked);
                                           }}
+                                          className="group-hover:border-green"
                                         />
                                       </FormControl>
                                     </FormItem>
@@ -617,23 +667,29 @@ export default function RSVPPage() {
                                   control={form.control}
                                   name="events.babysitting"
                                   render={({ field }: { field: FieldType }) => (
-                                    <FormItem className="flex items-center justify-between w-full space-y-0 hover:text-green hover:cursor-pointer transition-colors">
-                                      <div className="space-y-1 leading-none">
-                                        <FormLabel className={cn(
-                                          "transition-colors",
-                                          field.value && "text-green"
-                                        )}>
-                                          <span className="font-bold">Yes, we'd love childcare help</span>
-                                        </FormLabel>
+                                    <FormItem className="space-y-2">
+                                      <div className="flex items-center justify-between w-full group hover:cursor-pointer">
+                                        <div className="space-y-1 leading-none">
+                                          <FormLabel className={cn(
+                                            "text-blue transition-colors group-hover:text-green",
+                                            field.value && "text-green"
+                                          )}>
+                                            <span className="font-bold">Childcare help Fri/Sat? Oui!</span>
+                                          </FormLabel>
+                                        </div>
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={(checked: boolean) => {
+                                              field.onChange(checked);
+                                            }}
+                                            className="group-hover:border-green"
+                                          />
+                                        </FormControl>
                                       </div>
-                                      <FormControl>
-                                        <Checkbox
-                                          checked={field.value}
-                                          onCheckedChange={(checked: boolean) => {
-                                            field.onChange(checked);
-                                          }}
-                                        />
-                                      </FormControl>
+                                      <FormDescription className="text-sm font-normal text-blue italic pl-0 pt-2 pr-0 md:pr-8">
+                                        <span className="font-bold text-pink">NOTE: </span> We've hired a professional babysitting service for Friday & Saturday if it helps ppl with kids. They can handle all ages, including boomers.
+                                      </FormDescription>
                                     </FormItem>
                                   )}
                                 />
@@ -646,8 +702,8 @@ export default function RSVPPage() {
                       {/* Travel Logistics Section */}
                       <div className={cn(
                         "transition-opacity duration-300",
-                        !hasAnyNames && "opacity-0 pointer-events-none",
-                        hasAnyNames && attendingValue !== 'yes' && "opacity-30"
+                        !hasAnyNames && "opacity-0 pointer-events-none tabindex-[-1]",
+                        hasAnyNames && attendingValue !== 'yes' && "opacity-0"
                       )}>
                         <div className="space-y-6">
                           <FormField
@@ -655,17 +711,14 @@ export default function RSVPPage() {
                             name="staying"
                             render={({ field }: { field: FieldType }) => (
                               <FormItem className="space-y-3">
-                                <FormLabel className="text-lg text-blue tracking-wider font-bold">Logistics</FormLabel>
-                                <FormDescription className="text-xs font-light text-blue/80 italic">
-                                  Let us know where you're staying and how you're getting there.
-                                </FormDescription>
+                                <FormLabel className="text-lg text-blue tracking-wider font-bold">Staying?</FormLabel>
                                 <FormControl>
                                   <RadioGroup
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
                                     className="flex flex-col gap-2"
                                   >
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full justify-items-start md:justify-items-stretch">
                                       {[
                                         "Royal Riviera",
                                         "Hotel Carlton",
@@ -678,13 +731,14 @@ export default function RSVPPage() {
                                         "AirBnB",
                                         "Haven't booked yet"
                                       ].map((hotel) => (
-                                        <div key={hotel} className={cn("group w-full", field.value === hotel && "selected")}>
+                                        <div key={hotel} className={cn("group w-fit md:w-full", field.value === hotel && "selected")}>
                                           <Button
                                             type="button"
                                             variant="outline"
                                             size="sm"
                                             className={cn(
-                                              "w-full h-10 border-blue/30 text-blue/80 hover:bg-blue/10 hover:text-blue hover:border-blue",
+                                              "w-auto md:w-full h-8 border-blue/30 text-blue/80 hover:bg-blue/10 hover:text-blue hover:border-blue px-4",
+                                              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2",
                                               field.value === hotel && "bg-green border-green text-white hover:bg-green hover:text-white hover:border-green"
                                             )}
                                             onClick={() => field.onChange(hotel)}
@@ -695,7 +749,7 @@ export default function RSVPPage() {
                                       ))}
                                     </div>
                                     <Input
-                                      placeholder="other lodging"
+                                      placeholder="Other (family estate, megayacht, etc)"
                                       variant="form"
                                       className="col-span-full mt-1"
                                       value={!field.value || field.value.startsWith("other:") ? field.value?.replace("other:", "") : ""}
@@ -703,6 +757,9 @@ export default function RSVPPage() {
                                     />
                                   </RadioGroup>
                                 </FormControl>
+                                <FormDescription className="text-sm font-normal text-blue italic pt-4">
+                                  <span className="font-bold text-pink">NOTE: </span> We have several hotel rooms and Airbnbs available, let us know if you'd like to claim one. There's nothing wrong with doing things last minute!
+                                </FormDescription>
                               </FormItem>
                             )}
                           />
@@ -730,8 +787,8 @@ export default function RSVPPage() {
                       {/* Allergies Section */}
                       <div className={cn(
                         "transition-opacity duration-300",
-                        !hasAnyNames && "opacity-0 pointer-events-none",
-                        hasAnyNames && attendingValue !== 'yes' && "opacity-30"
+                        !hasAnyNames && "opacity-0 pointer-events-none tabindex-[-1]",
+                        hasAnyNames && attendingValue !== 'yes' && "opacity-0"
                       )}>
                         <div className="space-y-6">
                           <FormField
