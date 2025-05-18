@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Check, X, Plus, PartyPopper, ChevronDown, ArrowDown } from "lucide-react";
+import { Check, X, Plus, PartyPopper, ChevronDown, ArrowDown, ChevronUp } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -59,6 +59,7 @@ export default function RSVPPage() {
   const [showResponse, setShowResponse] = React.useState(false);
   const [nextClicked, setNextClicked] = React.useState(false);
   const [submitStatus, setSubmitStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
+  const [showBabysittingInfo, setShowBabysittingInfo] = React.useState(false);
 
   const addGuests = () => {
     setShowAdditionalGuests(true);
@@ -549,7 +550,7 @@ export default function RSVPPage() {
                                     setTimeout(() => {
                                       console.log('Setting showResponse after calculated scroll (2nd button)');
                                       setShowResponse(true);
-                                    }, 800); // Content reveal after scroll logic
+                                    }, 500); // Content reveal after scroll logic
                                   }, 100); // Delay after click
                                 }}
                               >
@@ -567,7 +568,7 @@ export default function RSVPPage() {
                         className={cn(
                           "transition-all duration-500 pt-4 md:pt-0",
                           !showResponse && "opacity-0 pointer-events-none",
-                          showResponse && "opacity-100 translate-y-4"
+                          showResponse && "opacity-100 translate-y-0"
                         )}
                       >
                         <FormField
@@ -639,7 +640,7 @@ export default function RSVPPage() {
                       {/* Events Section */}
                       <div className={cn(
                         "transition-all duration-500",
-                        !showResponse && "opacity-0 pointer-events-none translate-y-4",
+                        !showResponse && "opacity-0 pointer-events-none",
                         showResponse && attendingValue !== 'yes' && "opacity-40"
                       )}>
                         <FormField
@@ -792,7 +793,7 @@ export default function RSVPPage() {
                                             "text-blue transition-colors group-hover:text-green",
                                             field.value && "text-green"
                                           )}>
-                                            <span className="font-bold">Childcare help Fri/Sat? Oui!</span>
+                                            <span className="font-bold">Yes, we'd love childcare help</span>
                                           </FormLabel>
                                         </div>
                                         <FormControl>
@@ -805,9 +806,27 @@ export default function RSVPPage() {
                                           />
                                         </FormControl>
                                       </div>
-                                      <FormDescription className="text-sm font-normal text-blue italic pl-0 pt-2 pr-0 md:pr-8">
-                                        <span className="font-bold text-pink">NOTE: </span> We've hired a professional babysitting service for Friday & Saturday if it helps ppl with kids. They can handle all ages, including boomers.
-                                      </FormDescription>
+                                      {/* Babysitting Info Toggle Button */}
+                                      <Button
+                                        type="button"
+                                        variant="link"
+                                        onClick={() => setShowBabysittingInfo(!showBabysittingInfo)}
+                                        className="text-pink hover:text-green px-0 h-auto py-1 text-sm flex items-center gap-1 no-underline hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0"
+                                      >
+                                        Babysitting info
+                                        {showBabysittingInfo ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                                      </Button>
+                                      {/* Babysitting Description - Conditional with Transition */}
+                                      <div
+                                        className={cn(
+                                          "transition-all duration-500 ease-out overflow-hidden",
+                                          showBabysittingInfo ? "max-h-40 opacity-100 mt-1" : "max-h-0 opacity-0 mt-0"
+                                        )}
+                                      >
+                                        <FormDescription className="text-sm font-normal text-blue italic pl-0 pr-0 md:pr-0">
+                                          We've hired a professional babysitting agency from Paris to be onsite Friday & Saturday if it makes things easier for parents. The agency is <a href="https://www.baby-prestige.com/en" target="_blank" className="text-pink font-semibold underline hover:text-green">Baby Prestige</a> and is very highly recommended. They handle all ages, including boomers, and your babies will be fluent in French by the flight home.
+                                        </FormDescription>
+                                      </div>
                                     </FormItem>
                                   )}
                                 />
