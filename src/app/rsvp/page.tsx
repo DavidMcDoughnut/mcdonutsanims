@@ -100,6 +100,9 @@ export default function RSVPPage() {
   // Watch the attending field value for opacity changes
   const attendingValue = form.watch('attending');
 
+  // Check if any names have been entered
+  const hasAnyNames = !!(name1Value || name2Value || name3Value || name4Value || name5Value);
+
   // Handle allEvents changes
   const handleAllEventsChange = (checked: boolean) => {
     form.setValue('events.welcomeParty', checked);
@@ -402,71 +405,80 @@ export default function RSVPPage() {
                       </div>
 
                       {/* Attending Section */}
-                      <FormField
-                        control={form.control}
-                        name="attending"
-                        render={({ field }: { field: FieldType }) => (
-                          <FormItem className="space-y-3">
-                            <FormLabel className="text-lg text-blue tracking-wider font-bold">Attending?</FormLabel>
-                            <FormControl>
-                              <RadioGroup
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                                className="flex flex-col space-y-2">
+                      <div className={cn(
+                        "transition-opacity duration-300",
+                        !hasAnyNames && "opacity-0 pointer-events-none"
+                      )}>
+                        <FormField
+                          control={form.control}
+                          name="attending"
+                          render={({ field }: { field: FieldType }) => (
+                            <FormItem className="space-y-3">
+                              <FormLabel className="text-lg text-blue tracking-wider font-bold">Attending?</FormLabel>
+                              <FormControl>
+                                <RadioGroup
+                                  onValueChange={field.onChange}
+                                  defaultValue={field.value}
+                                  className="flex flex-col space-y-2">
 
-                                <div className="flex flex-col md:flex-row gap-4 w-full justify-start mx-auto">
-                                    <div className={cn("group w-full order-2 md:order-1", field.value === "no" && "selected")}>
-                                      <Button
-                                        type="button"
-                                        variant="radneg" size="sm"
-                                        className={cn(
-                                          "w-full h-10",
-                                          field.value === "no" && "bg-pink border-pink text-white "
-                                        )}
-                                        onClick={() => field.onChange("no")}
-                                      >
-                                        <X className="mr-0" />
-                                        <div className="flex items-baseline">
-                                          <span className="font-bold text-lg tracking-widest">Non</span>&nbsp;&nbsp;
-                                          <span>I'm ok living a life of regret</span>
-                                        </div>
-                                      </Button>
-                                    </div>
-                                    <div className={cn("group w-full order-1 md:order-2", field.value === "yes" && "selected")}>
-                                      <Button
-                                        type="button"
-                                        variant="radpos" size="sm"
-                                        className={cn(
-                                          "w-full h-10",
-                                          field.value === "yes" && "bg-green border-green text-white"
-                                        )}
-                                        onClick={() => {
-                                          field.onChange("yes");
-                                          form.setValue('events.allEvents', true);
-                                          form.setValue('events.welcomeParty', true);
-                                          form.setValue('events.wedding', true);
-                                          form.setValue('events.beachDay', true);
-                                          // boatDay remains as per its independent checkbox state
-                                        }}
-                                      >
-                                        <Check className="mr-0" />
-                                        <div className="flex items-baseline">
-                                          <span className="font-bold text-lg tracking-widest">Oui!</span>&nbsp;&nbsp;
-                                          <span>Allons-y! YOLO! Can't Wait!</span>
-                                        </div>
-                                      </Button>
-                                    </div>
-                                </div>
+                                  <div className="flex flex-col md:flex-row gap-4 w-full justify-start mx-auto">
+                                      <div className={cn("group w-full order-2 md:order-1", field.value === "no" && "selected")}>
+                                        <Button
+                                          type="button"
+                                          variant="radneg" size="sm"
+                                          className={cn(
+                                            "w-full h-10",
+                                            field.value === "no" && "bg-pink border-pink text-white "
+                                          )}
+                                          onClick={() => field.onChange("no")}
+                                        >
+                                          <X className="mr-0" />
+                                          <div className="flex items-baseline">
+                                            <span className="font-bold text-lg tracking-widest">Non</span>&nbsp;&nbsp;
+                                            <span>I'm ok living a life of regret</span>
+                                          </div>
+                                        </Button>
+                                      </div>
+                                      <div className={cn("group w-full order-1 md:order-2", field.value === "yes" && "selected")}>
+                                        <Button
+                                          type="button"
+                                          variant="radpos" size="sm"
+                                          className={cn(
+                                            "w-full h-10",
+                                            field.value === "yes" && "bg-green border-green text-white"
+                                          )}
+                                          onClick={() => {
+                                            field.onChange("yes");
+                                            form.setValue('events.allEvents', true);
+                                            form.setValue('events.welcomeParty', true);
+                                            form.setValue('events.wedding', true);
+                                            form.setValue('events.beachDay', true);
+                                            // boatDay remains as per its independent checkbox state
+                                          }}
+                                        >
+                                          <Check className="mr-0" />
+                                          <div className="flex items-baseline">
+                                            <span className="font-bold text-lg tracking-widest">Oui!</span>&nbsp;&nbsp;
+                                            <span>Allons-y! YOLO! Can't Wait!</span>
+                                          </div>
+                                        </Button>
+                                      </div>
+                                  </div>
 
-                              </RadioGroup>
-                            </FormControl>
-                            <FormMessage className="text-destructive" />
-                          </FormItem>
-                        )}
-                      />
+                                </RadioGroup>
+                              </FormControl>
+                              <FormMessage className="text-destructive" />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
 
                       {/* Events Section */}
-                      <div className={cn("transition-opacity duration-300", attendingValue !== 'yes' && "opacity-15")}>
+                      <div className={cn(
+                        "transition-opacity duration-300",
+                        !hasAnyNames && "opacity-0 pointer-events-none",
+                        hasAnyNames && attendingValue !== 'yes' && "opacity-15"
+                      )}>
                         <FormField
                           control={form.control}
                           name="events.allEvents"
@@ -632,7 +644,11 @@ export default function RSVPPage() {
                       </div>
 
                       {/* Travel Logistics Section */}
-                      <div className={cn("transition-opacity duration-300", attendingValue !== 'yes' && "opacity-30")}>
+                      <div className={cn(
+                        "transition-opacity duration-300",
+                        !hasAnyNames && "opacity-0 pointer-events-none",
+                        hasAnyNames && attendingValue !== 'yes' && "opacity-30"
+                      )}>
                         <div className="space-y-6">
                           <FormField
                             control={form.control}
@@ -712,7 +728,11 @@ export default function RSVPPage() {
                       </div>
 
                       {/* Allergies Section */}
-                      <div className={cn("transition-opacity duration-300", attendingValue !== 'yes' && "opacity-30")}>
+                      <div className={cn(
+                        "transition-opacity duration-300",
+                        !hasAnyNames && "opacity-0 pointer-events-none",
+                        hasAnyNames && attendingValue !== 'yes' && "opacity-30"
+                      )}>
                         <div className="space-y-6">
                           <FormField
                             control={form.control}
