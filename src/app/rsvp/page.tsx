@@ -567,7 +567,7 @@ export default function RSVPPage() {
                         className={cn(
                           "transition-all duration-500 pt-4 md:pt-0",
                           !showResponse && "opacity-0 pointer-events-none",
-                          showResponse && "opacity-100 translate-y-0"
+                          showResponse && "opacity-100 translate-y-4"
                         )}
                       >
                         <FormField
@@ -639,7 +639,7 @@ export default function RSVPPage() {
                       {/* Events Section */}
                       <div className={cn(
                         "transition-all duration-500",
-                        !showResponse && "opacity-0 pointer-events-none translate-y-2",
+                        !showResponse && "opacity-0 pointer-events-none translate-y-4",
                         showResponse && attendingValue !== 'yes' && "opacity-40"
                       )}>
                         <FormField
