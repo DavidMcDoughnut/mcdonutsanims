@@ -338,7 +338,16 @@ export default function RSVPPage() {
                 </div>
                 <div className="rounded-lg isolate">
                   <Form {...form}>
-                    <form id="rsvp-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
+                    <form 
+                      id="rsvp-form" 
+                      onSubmit={form.handleSubmit(onSubmit)}
+                      className="space-y-12"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                        }
+                      }}
+                    >
                       {/* Names Section */}
                       <div className="space-y-6">
                         <FormField
@@ -356,6 +365,11 @@ export default function RSVPPage() {
                                   {...field}
                                   variant="form"
                                   hasValue={!!name1Value}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                               </FormControl>
                               <FormMessage className="text-destructive" />
@@ -374,6 +388,11 @@ export default function RSVPPage() {
                                   {...field} 
                                   variant="form"
                                   hasValue={!!name2Value}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                               </FormControl>
                             </FormItem>
@@ -440,6 +459,11 @@ export default function RSVPPage() {
                                       {...field} 
                                       variant="form"
                                       hasValue={!!name3Value}
+                                      onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                          e.preventDefault();
+                                        }
+                                      }}
                                     />
                                   </FormControl>
                                 </FormItem>
@@ -457,6 +481,11 @@ export default function RSVPPage() {
                                       {...field} 
                                       variant="form"
                                       hasValue={!!name4Value}
+                                      onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                          e.preventDefault();
+                                        }
+                                      }}
                                     />
                                   </FormControl>
                                 </FormItem>
@@ -474,6 +503,11 @@ export default function RSVPPage() {
                                       {...field} 
                                       variant="form"
                                       hasValue={!!name5Value}
+                                      onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                          e.preventDefault();
+                                        }
+                                      }}
                                     />
                                   </FormControl>
                                 </FormItem>
