@@ -1,11 +1,11 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'RSVP to L + D',
-  description: 'RSVP to Lauren and David\'s Wedding in Saint-Jean-Cap-Ferrat',
+  title: 'RSVP for McDonutLols',
+  description: 'RSVP for Lauren and David\'s Wedding in Saint-Jean-Cap-Ferrat',
   openGraph: {
-    title: 'RSVP to L + D',
-    description: 'RSVP to Lauren and David\'s Wedding in Saint-Jean-Cap-Ferrat',
+    title: 'RSVP for McDonutLols',
+    description: 'RSVP for Lauren and David\'s Wedding in Saint-Jean-Cap-Ferrat',
     images: [
       {
         url: '/optimized/formbgarr2-og.webp', // We'll create this optimized version
