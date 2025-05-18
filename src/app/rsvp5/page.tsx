@@ -21,6 +21,7 @@ import {
 import { cn } from "@/lib/utils";
 import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
+import { SelectHotel } from '@/components/ui/select-hotel';
 
 // Update form schema to match database
 const formSchema = z.object({
@@ -634,11 +635,14 @@ export default function RSVPPage() {
                             render={({ field }: { field: FieldType }) => (
                               <FormItem>
                                 <FormLabel className="text-lg text-blue tracking-wider font-bold">Logistics</FormLabel>
+                                <FormDescription className="text-xs font-light text-blue/80 italic">
+                                  Let us know where you're staying and how you're getting there.
+                                </FormDescription>
                                 <FormControl>
-                                  <Input 
-                                    placeholder="Other" 
-                                    {...field} 
-                                    variant="form"
+                                  <SelectHotel
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    disabled={field.disabled}
                                   />
                                 </FormControl>
                               </FormItem>
