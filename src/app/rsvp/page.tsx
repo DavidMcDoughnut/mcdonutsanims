@@ -495,14 +495,14 @@ export default function RSVPPage() {
                                   setTimeout(() => {
                                     const attendingSection = document.getElementById('attending-section');
                                     if (attendingSection) {
-                                      attendingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                      attendingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                       setTimeout(() => {
                                         const viewportHeight = (window.visualViewport?.height || window.innerHeight);
                                         const offset = Math.floor(viewportHeight * 0.2);
                                         window.scrollBy({ top: -offset, behavior: 'smooth' });
                                       }, 50);
                                     }
-                                    setTimeout(() => setShowResponse(true), 600);
+                                    setTimeout(() => setShowResponse(true), 400);
                                   }, 100);
                                 }}
                               >
@@ -518,7 +518,7 @@ export default function RSVPPage() {
                       <div 
                         id="attending-section"
                         className={cn(
-                          "transition-all duration-500 pt-12 md:pt-0",
+                          "transition-all duration-500 pt-4 md:pt-0",
                           !showResponse && "opacity-0 pointer-events-none",
                           showResponse && "opacity-100 translate-y-0"
                         )}
