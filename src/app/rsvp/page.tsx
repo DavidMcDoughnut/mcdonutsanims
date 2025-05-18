@@ -385,9 +385,9 @@ export default function RSVPPage() {
                               <Button
                                 type="button"
                                 variant="ghost"
-                                size="md"
+                                size="default"
                                 className={cn(
-                                  "text-blue/60 hover:text-blue border-blue/40 hover:border-green [&_svg]:!size-5 !bg-transparent !gap-1",
+                                  "text-blue/60 hover:text-blue border-blue/40 hover:border-green [&_svg]:!size-5 !bg-transparent !gap-1 px-0",
                                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2"
                                 )}
                                 onClick={addGuests}
