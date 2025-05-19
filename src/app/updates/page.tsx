@@ -61,7 +61,7 @@ export default function UpdatePage() {
                 {/* Title Section */}
                 <div className="text-start mb-12">
                   <div className="flex items-baseline gap-3">
-                    <p className="text-2xl font-semibold tracking-wider">May 19: <span className="text-green font-semibold tracking-wider">1 Month To Go!</span></p>
+                    <p className="text-2xl font-semibold tracking-wider">May 19: <span className="text-green font-semibold tracking-wider">1 Month Out!</span></p>
                   </div>
                   <div className="flex flex-col gap-3 mt-4">
                     <p className="text-sm tracking-wider leading-relaxed">Vendors are confirmed, temperatures are rising and The Great Trade War is (hopefully) ending... <span className="font-bold">Let's celebrate!</span></p>
