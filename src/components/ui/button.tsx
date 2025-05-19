@@ -24,7 +24,7 @@ const buttonVariants = cva(
         radpos:
           "!border-1.5 !border-green text-green group-[&:not(.selected)]:hover:bg-green/15 group-[&:not(.selected)]:hover:text-green active:bg-green active:text-white transition-colors",
         radneg:
-          "!border-1.5 !border-pink text-pink group-[&:not(.selected)]:hover:bg-pink/15 group-[&:not(.selected)]:hover:text-pink active:bg-pink active:text-white transition-colors",
+          "!border-1.5 !border-orange text-orange group-[&:not(.selected)]:hover:bg-orange/15 group-[&:not(.selected)]:hover:text-orange active:bg-orange active:text-white transition-colors",
 
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",

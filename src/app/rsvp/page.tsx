@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Check, X, Plus, PartyPopper, ChevronDown, ArrowDown, ChevronUp } from "lucide-react";
+import { Check, X, Plus, PartyPopper, ChevronDown, ArrowDown, ChevronUp, HeartCrack, Frown, ThumbsDown } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -567,7 +567,7 @@ export default function RSVPPage() {
                         id="attending-section"
                         className={cn(
                           "transition-all duration-500 pt-4 md:pt-0",
-                          !showResponse && "opacity-0 pointer-events-none",
+                          !showResponse && "opacity-0 pointer-events-none translate-y-2",
                           showResponse && "opacity-100 translate-y-0"
                         )}
                       >
@@ -592,7 +592,7 @@ export default function RSVPPage() {
                                         className={cn(
                                           "w-full h-10",
                                           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2",
-                                          field.value === "no" && "bg-pink border-pink text-white"
+                                          field.value === "no" && "bg-orange border-orange text-white"
                                         )}
                                         onClick={() => field.onChange("no")}
                                       >
@@ -637,11 +637,81 @@ export default function RSVPPage() {
                         />
                       </div>
 
+                      {/* Reaction Icons and Text for "Non" response */}
+                      {showResponse && attendingValue === 'no' && (
+                        <div className="flex flex-col items-center w-full">
+                          <div className="flex flex-col items-center gap-y-4 py-4 px-0">
+                            <div className="text-center text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[150ms]">
+                              It looks like you're trying to RSVP "Non" &nbsp;...are you sure?!?!
+                            </div>
+                          </div>
+                          <div className="flex flex-row flex-wrap items-center justify-center gap-x-4 gap-y-2 py-4 px-0">
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[150ms]">
+                              <HeartCrack className="w-6 h-6" />
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[850ms]">
+                              <span className="text-3xl">😱</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[250ms]">
+                              <span className="text-xl">Sacrébleu!</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[1050ms]">
+                              <span className="text-3xl">🫣</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[350ms]">
+                              <Frown className="w-6 h-6" />
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[950ms]">
+                              <span className="text-3xl">😭</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[650ms]">
+                              <span className="text-2xl font-bold">NON!</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[550ms]">
+                              <ThumbsDown className="w-6 h-6" />
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[950ms]">
+                              <span className="text-3xl">🤮</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[750ms]">
+                              <span className="text-lg">Mon Dieu!</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[950ms]">
+                              <span className="text-3xl">😢</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[450ms]">
+                              <span className="text-xl pl-1">C'est la vie...</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[950ms]">
+                              <span className="text-3xl">💔</span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Message for "Non" response */}
+                      {showResponse && attendingValue === 'no' && (
+                        <div className="text-center py-4 transition-opacity duration-500 ease-in-out opacity-100">
+                          <p className="text-lg text-blue font-semibold">On a serious note, we're so sorry to hear you can't make it</p>
+                          <p className="mt-3 text-md text-blue">
+                            Your presence would mean the world to us, but of course we understand the size of the ask. 
+                          </p>
+                          <p className="mt-3 text-md text-blue">
+                            Still, as a last-ditch effort, please know we would LOVE to provide free hotel/AirBnB and we'll book your flights for you if it would make things easier <span className="italic text-sm">(we get very cheap flights via status and tons of miles we HAVE to use)</span></p>
+                          <p className="mt-3 text-sm text-blue">
+                            Don't hesitate to reach out to us directly. If there's anything we can do to be able to celebrate with you, we will make it happen!
+                          </p>
+                        </div>
+                      )}
+
                       {/* Events Section */}
                       <div className={cn(
                         "transition-all duration-500",
-                        !showResponse && "opacity-0 pointer-events-none",
-                        showResponse && attendingValue !== 'yes' && "opacity-40"
+                        {
+                          "opacity-0 pointer-events-none translate-y-2": !showResponse || (showResponse && attendingValue === 'no'),
+                          "opacity-40": showResponse && attendingValue === "",
+                          "opacity-100": showResponse && attendingValue === 'yes'
+                        }
                       )}>
                         <FormField
                           control={form.control}
@@ -839,8 +909,10 @@ export default function RSVPPage() {
                       {/* Travel Logistics Section */}
                       <div className={cn(
                         "transition-all duration-500",
-                        !showResponse && "opacity-0 pointer-events-none translate-y-2",
-                        showResponse && attendingValue !== 'yes' && "opacity-0"
+                        {
+                          "opacity-0 pointer-events-none translate-y-2": !showResponse || attendingValue !== 'yes',
+                          "opacity-100 translate-y-0": showResponse && attendingValue === 'yes'
+                        }
                       )}>
                         <div className="space-y-6">
                           <FormField
@@ -924,8 +996,10 @@ export default function RSVPPage() {
                       {/* Allergies Section */}
                       <div className={cn(
                         "transition-all duration-500",
-                        !showResponse && "opacity-0 pointer-events-none translate-y-2",
-                        showResponse && attendingValue !== 'yes' && "opacity-0"
+                        {
+                          "opacity-0 pointer-events-none translate-y-2": !showResponse || attendingValue !== 'yes',
+                          "opacity-100 translate-y-0": showResponse && attendingValue === 'yes'
+                        }
                       )}>
                         <div className="space-y-6">
                           <FormField
@@ -1021,7 +1095,7 @@ export default function RSVPPage() {
                   <Button 
                     type="submit"
                     form="rsvp-form"
-                    className="w-full bg-blue hover:bg-green text-white font-bold py-4 px-4 text-lg tracking-wider"
+                    className="w-full bg-blue hover:bg-green text-white font-bold py-4 px-4 text-lg tracking-wider rounded-lg"
                   >
                     Submit RSVP
                   </Button>
