@@ -61,7 +61,7 @@ export default function UpdatePage() {
                 {/* Title Section */}
                 <div className="text-start mb-12">
                   <div className="flex items-baseline gap-3">
-                    <p className="text-2xl font-semibold tracking-wider">May 19: <span className="text-green font-semibold tracking-wider">1 Month To Go!</span></p>
+                    <p className="text-xl md:text-2xl font-semibold tracking-wider">May 19: <span className="text-green font-semibold tracking-wider">1 Month To Go!</span></p>
                   </div>
                   <div className="flex flex-col gap-3 mt-4">
                     <p className="text-sm tracking-wider leading-relaxed">Vendors are confirmed, temperatures are rising and The Great Trade War is (hopefully) ending... <span className="font-bold">Let's celebrate!</span></p>
@@ -72,7 +72,7 @@ export default function UpdatePage() {
 
                 {/* Band Update Section */}
                 <div className="mb-16">
-                  <h2 className="text-2xl font-semibold tracking-wider mb-4">Favorite Band: <span className="text-green">Confirmed!</span></h2>
+                  <h2 className="text-xl md:text-2xl font-semibold tracking-wider mb-4">Favorite Band: <span className="text-green">Confirmed!</span></h2>
                   <div className="space-y-4 text-default">
                     <p className="text-sm tracking-wider leading-relaxed">We landed our favorite DJ duo to jam with us Saturday!</p>
                     <p className="text-sm tracking-wider leading-relaxed"><a href="https://www.instagram.com/bon_entendeur" target="_blank" rel="noopener noreferrer" className="text-pink font-bold hover:text-green">Bon Entendeur</a> is a French-Disco-Tropical-Electro-Duo that we absolutely LOVE and they're starting to explode. You might not know them (yet) but you'll recognize their songs and will become new megafans like us.</p>
@@ -124,7 +124,7 @@ export default function UpdatePage() {
 
                 {/* Welcome Party Section */}
                 <div className="mb-16">
-                  <h2 className="text-2xl font-semibold tracking-wider mb-4">Welcome Party: <span className="text-green">Hot New Spot!</span></h2>
+                  <h2 className="text-xl md:text-2xl font-semibold tracking-wider mb-4">Welcome Party: <span className="text-green">Hot New Spot!</span></h2>
                   <div className="space-y-4 text-default">
                     <p className="text-sm tracking-wider leading-relaxed">We moved the welcome party to <a href="https://edmundsocialclub.com/" target="_blank" rel="noopener noreferrer" className="underline font-bold text-pink hover:text-green">Edmunds Social Club</a> in the heart of the Cap Ferrat Marina</p>
                     <p className="text-sm tracking-wider leading-relaxed">We wanted to optimize for convenience given the travel. Edmunds is a ~10min walk from most of the hotels & Airbnbs</p>
@@ -145,7 +145,7 @@ export default function UpdatePage() {
 
                 {/* Dress Code Section */}
                 <div className="mb-16">
-                  <h2 className="text-2xl font-semibold tracking-wider mb-4">Dress Code: <span className="text-green">Info + Inspo!</span><span className="text-orange"> (LB WIP)</span></h2>
+                  <h2 className="text-xl md:text-2xl font-semibold tracking-wider mb-4">Dress Code: <span className="text-green">Info + Inspo!</span><span className="text-orange"> (LB WIP)</span></h2>
                   <div className="space-y-4 text-default">
                     <p className="text-sm tracking-wider leading-relaxed">Thurs Welcome party: Riviera Casual</p>
                     <p className="text-sm tracking-wider leading-relaxed">Fri Wedding: Riviera Formal</p>
@@ -158,7 +158,7 @@ export default function UpdatePage() {
 
                 {/* Travel Section */}
                 <div className="mb-16">
-                  <h2 className="text-2xl font-semibold tracking-wider mb-4">Travel: <span className="text-green">Best Prices in 6 Months!</span></h2>
+                  <h2 className="text-xl md:text-2xl font-semibold tracking-wider mb-4">Travel: <span className="text-green">Best Prices in 6 Months!</span></h2>
                   <div className="space-y-4 text-default">
                     <p className="text-sm tracking-wider leading-relaxed"><strong>It's not too late to book: </strong>Prices are at their lowest right now since I started tracking in Sept. The Great Trade War is sub-optimal timing, but one benefit is that flight prices have gone down a lot.</p>
                     <p className="text-sm tracking-wider leading-relaxed"><strong>Flights: </strong> The Trade War and Newark chaos aren't great for wedding planning but the benefit is that ticket prices have gone way down</p>
@@ -170,7 +170,7 @@ export default function UpdatePage() {
 
                 {/* Childcare Section */}
                 <div className="mb-16">
-                  <h2 className="text-2xl font-semibold tracking-wider mb-4">Childcare: <span className="text-green">Available!</span></h2>
+                  <h2 className="text-xl md:text-2xl font-semibold tracking-wider mb-4">Childcare: <span className="text-green">Available!</span></h2>
                   <div className="space-y-4 text-default">
                     <p className="text-sm tracking-wider leading-relaxed">We've hired a professional babysitting agency from Paris to be onsite Friday & Saturday if it makes things easier for parents.</p>
                     <p className="text-sm tracking-wider leading-relaxed">The agency is <a href="https://www.baby-prestige.com/en" target="_blank" rel="noopener noreferrer" className="text-pink font-semibold underline hover:text-green">Baby Prestige</a> and is very highly recommended.</p>
