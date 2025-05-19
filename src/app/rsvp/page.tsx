@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Check, X, Plus, PartyPopper, ChevronDown, ArrowDown } from "lucide-react";
+import { Check, X, Plus, PartyPopper, ChevronDown, ArrowDown, ChevronUp, HeartCrack, Frown, ThumbsDown } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -59,6 +59,7 @@ export default function RSVPPage() {
   const [showResponse, setShowResponse] = React.useState(false);
   const [nextClicked, setNextClicked] = React.useState(false);
   const [submitStatus, setSubmitStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
+  const [showBabysittingInfo, setShowBabysittingInfo] = React.useState(false);
 
   const addGuests = () => {
     setShowAdditionalGuests(true);
@@ -549,7 +550,7 @@ export default function RSVPPage() {
                                     setTimeout(() => {
                                       console.log('Setting showResponse after calculated scroll (2nd button)');
                                       setShowResponse(true);
-                                    }, 800); // Content reveal after scroll logic
+                                    }, 500); // Content reveal after scroll logic
                                   }, 100); // Delay after click
                                 }}
                               >
@@ -566,8 +567,8 @@ export default function RSVPPage() {
                         id="attending-section"
                         className={cn(
                           "transition-all duration-500 pt-4 md:pt-0",
-                          !showResponse && "opacity-0 pointer-events-none",
-                          showResponse && "opacity-100 translate-y-4"
+                          !showResponse && "opacity-0 pointer-events-none translate-y-2",
+                          showResponse && "opacity-100 translate-y-0"
                         )}
                       >
                         <FormField
@@ -591,7 +592,7 @@ export default function RSVPPage() {
                                         className={cn(
                                           "w-full h-10",
                                           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2",
-                                          field.value === "no" && "bg-pink border-pink text-white"
+                                          field.value === "no" && "bg-orange border-orange text-white"
                                         )}
                                         onClick={() => field.onChange("no")}
                                       >
@@ -636,11 +637,93 @@ export default function RSVPPage() {
                         />
                       </div>
 
+                      {/* Reaction Icons and Text for "Non" response */}
+                      {showResponse && attendingValue === 'no' && (
+                        <div className="flex flex-col items-center w-full">
+                          <div className="flex flex-col items-center gap-y-4 py-4 px-0">
+                            <div className="text-center text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[150ms]">
+                              It looks like you're trying to RSVP "Non" &nbsp;...are you sure?!?!
+                            </div>
+                          </div>
+                          <div className="flex flex-row flex-wrap items-center justify-center gap-x-4 gap-y-2 py-4 px-0">
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[150ms]">
+                              <HeartCrack className="w-6 h-6" />
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[850ms]">
+                              <span className="text-3xl">😱</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[250ms]">
+                              <span className="text-xl">Sacrébleu!</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[1050ms]">
+                              <span className="text-3xl">🫣</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[350ms]">
+                              <Frown className="w-6 h-6" />
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[950ms]">
+                              <span className="text-3xl">😭</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[650ms]">
+                              <span className="text-2xl font-bold">NON!</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[550ms]">
+                              <ThumbsDown className="w-6 h-6" />
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[950ms]">
+                              <span className="text-3xl">🤮</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[750ms]">
+                              <span className="text-lg">Mon Dieu!</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[950ms]">
+                              <span className="text-3xl">😢</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[450ms]">
+                              <span className="text-xl pl-1">C'est la vie...</span>
+                            </div>
+                            <div className="text-orange font-semibold animate-in fade-in-0 zoom-in-95 duration-400 ease-out delay-[950ms]">
+                              <span className="text-3xl">💔</span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Message for "Non" response */}
+                      {showResponse && attendingValue === 'no' && (
+                        <>
+                          <div className="text-center py-4 transition-opacity duration-500 ease-in-out opacity-100">
+                            <p className="text-lg text-blue font-semibold">On a serious note, we're so sorry to hear you can't make it</p>
+                            <p className="mt-3 text-md text-blue">
+                              Your presence would mean the world to us, but of course we understand the size of the ask. 
+                            </p>
+                            <p className="mt-3 text-md text-blue">
+                              Still, as a last-ditch effort if logistics are keeping you away, please know we've pre-booked Airbnbs to make things as easy as possible <span className="italic text-sm font-semibold">(our treat!) </span> and we are masters with miles <span className="italic text-sm font-semibold">(which we have to use anyways!)</span></p>
+                            <p className="mt-3 text-sm text-blue">
+                              Don't hesitate to reach out to us directly. If there's anything we can do to be able to celebrate with you, we will make it happen!
+                            </p>
+                          </div>
+                          {/* Submit button for 'no' case */}
+                          <div className="mt-8">
+                            <Button
+                              type="submit"
+                              form="rsvp-form"
+                              className="w-full bg-blue hover:bg-green text-white font-bold py-4 px-4 text-lg tracking-wider rounded-lg"
+                            >
+                              Submit RSVP
+                            </Button>
+                          </div>
+                        </>
+                      )}
+
                       {/* Events Section */}
                       <div className={cn(
                         "transition-all duration-500",
-                        !showResponse && "opacity-0 pointer-events-none translate-y-4",
-                        showResponse && attendingValue !== 'yes' && "opacity-40"
+                        {
+                          "opacity-0 pointer-events-none translate-y-2": !showResponse || (showResponse && attendingValue === 'no'),
+                          "opacity-40": showResponse && attendingValue === "",
+                          "opacity-100": showResponse && attendingValue === 'yes'
+                        }
                       )}>
                         <FormField
                           control={form.control}
@@ -792,7 +875,7 @@ export default function RSVPPage() {
                                             "text-blue transition-colors group-hover:text-green",
                                             field.value && "text-green"
                                           )}>
-                                            <span className="font-bold">Childcare help Fri/Sat? Oui!</span>
+                                            <span className="font-bold">Yes, we'd love childcare help</span>
                                           </FormLabel>
                                         </div>
                                         <FormControl>
@@ -805,9 +888,27 @@ export default function RSVPPage() {
                                           />
                                         </FormControl>
                                       </div>
-                                      <FormDescription className="text-sm font-normal text-blue italic pl-0 pt-2 pr-0 md:pr-8">
-                                        <span className="font-bold text-pink">NOTE: </span> We've hired a professional babysitting service for Friday & Saturday if it helps ppl with kids. They can handle all ages, including boomers.
-                                      </FormDescription>
+                                      {/* Babysitting Info Toggle Button */}
+                                      <Button
+                                        type="button"
+                                        variant="link"
+                                        onClick={() => setShowBabysittingInfo(!showBabysittingInfo)}
+                                        className="text-pink hover:text-green px-0 h-auto py-1 text-sm flex items-center gap-1 no-underline hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0"
+                                      >
+                                        Babysitting info
+                                        {showBabysittingInfo ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                                      </Button>
+                                      {/* Babysitting Description - Conditional with Transition */}
+                                      <div
+                                        className={cn(
+                                          "transition-all duration-500 ease-out overflow-hidden",
+                                          showBabysittingInfo ? "max-h-40 opacity-100 mt-1" : "max-h-0 opacity-0 mt-0"
+                                        )}
+                                      >
+                                        <FormDescription className="text-sm font-normal text-blue italic pl-0 pr-0 md:pr-0">
+                                          We've hired a professional babysitting agency from Paris to be onsite Friday & Saturday if it makes things easier for parents. The agency is <a href="https://www.baby-prestige.com/en" target="_blank" className="text-pink font-semibold underline hover:text-green">Baby Prestige</a> and is very highly recommended. They handle all ages, including boomers, and your babies will be fluent in French by the flight home.
+                                        </FormDescription>
+                                      </div>
                                     </FormItem>
                                   )}
                                 />
@@ -820,8 +921,10 @@ export default function RSVPPage() {
                       {/* Travel Logistics Section */}
                       <div className={cn(
                         "transition-all duration-500",
-                        !showResponse && "opacity-0 pointer-events-none translate-y-2",
-                        showResponse && attendingValue !== 'yes' && "opacity-0"
+                        {
+                          "opacity-0 pointer-events-none translate-y-2": !showResponse || attendingValue !== 'yes',
+                          "opacity-100 translate-y-0": showResponse && attendingValue === 'yes'
+                        }
                       )}>
                         <div className="space-y-6">
                           <FormField
@@ -905,8 +1008,10 @@ export default function RSVPPage() {
                       {/* Allergies Section */}
                       <div className={cn(
                         "transition-all duration-500",
-                        !showResponse && "opacity-0 pointer-events-none translate-y-2",
-                        showResponse && attendingValue !== 'yes' && "opacity-0"
+                        {
+                          "opacity-0 pointer-events-none translate-y-2": !showResponse || attendingValue !== 'yes',
+                          "opacity-100 translate-y-0": showResponse && attendingValue === 'yes'
+                        }
                       )}>
                         <div className="space-y-6">
                           <FormField
@@ -998,15 +1103,18 @@ export default function RSVPPage() {
                     </form>
                   </Form>
                 </div>
-                <div className="mt-12">
-                  <Button 
-                    type="submit"
-                    form="rsvp-form"
-                    className="w-full bg-blue hover:bg-green text-white font-bold py-4 px-4 text-lg tracking-wider"
-                  >
-                    Submit RSVP
-                  </Button>
-                </div>
+                {/* Conditional rendering for submit button if NOT 'no' */}
+                {attendingValue !== 'no' && (
+                  <div className="mt-12">
+                    <Button
+                      type="submit"
+                      form="rsvp-form"
+                      className="w-full bg-blue hover:bg-green text-white font-bold py-6 px-4 text-xl tracking-wider rounded-lg"
+                    >
+                      Submit RSVP
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
