@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { cn } from "@/lib/utils";
+import { ArrowRight } from "lucide-react";
 
 export default function UpdatePage() {
   return (
@@ -60,18 +61,22 @@ export default function UpdatePage() {
                 {/* Title Section */}
                 <div className="text-start mb-12">
                   <div className="flex items-baseline gap-3">
-                    <h1 className="text-2xl font-bold">May 19</h1>
-                    <h2 className="text-lg">1 Month Out!</h2>
+                    <p className="text-xl font-semibold tracking-wider">May 19: <span className="text-green font-semibold tracking-wider">1 Month Out!</span></p>
+                  </div>
+                  <div className="flex flex-col gap-3 mt-4">
+                    <p className="text-sm tracking-wider">Vendors are confirmed, temperatures are rising and The Great Trade War is (hopefully) ending... Let's celebrate!</p>
+                    <p className="text-sm tracking-wide">We've been busy planning what we think will be a truly epic weekend and we can't wait to enjoy it with everyone.</p>
+                    <p className="text-sm">If you haven't already, <a href="https://themcdonuts.com/rsvp" target="_blank" rel="noopener noreferrer" className="font-bold text-pink hover:text-green inline-flex items-center gap-1">confirm RSVP details here<ArrowRight className="w-4 h-4" /></a></p>
                   </div>
                 </div>
 
                 {/* Band Update Section */}
                 <div className="mb-16">
-                  <h2 className="text-xl font-semibold mb-4">Favorite New Band: <span className="text-green">Confirmed</span></h2>
+                  <h2 className="text-xl font-semibold mb-4">Favorite Band: <span className="text-green">Confirmed</span></h2>
                   <div className="space-y-4 text-default">
-                    <p>Our favorite tropical Band/DJ duo is jamming with us Saturday!</p>
-                    <p className="text-sm">Bon Entendeur, a French-Tropical-Electro-Duo, has been exploding recently and they're our favorite new group. You won't recognize the name (yet) but you'll probably recognize their songs and become a megafan like us</p>
-                    <p className="text-sm">Their vibes are immaculate, not to mention PERFECT for this exact occasion. We can't wait to jam together with everyone</p>
+                    <p className="text-sm">We somehow landed our favorite tropical Band/DJ duo to jam with us on Saturday!</p>
+                    <p className="text-sm">Bon Entendeur, a French-Tropical-Electro-Duo, has been exploding recently and they're our favorite new group. You won't recognize the name (yet) but you'll probably recognize their songs and become a megafan like us.</p>
+                    <p className="text-sm">Their vibes are immaculate, and they couldn't be a more PERFECT fit for this exact occasion. We can't wait to jam together with everyone</p>
                   </div>
                   <div className="mt-6">
                     {/* Band Images Placeholder */}
@@ -93,20 +98,28 @@ export default function UpdatePage() {
 
                 {/* Welcome Party Section */}
                 <div className="mb-16">
-                  <h2 className="text-2xl font-semibold mb-4">Welcome Party: New Location</h2>
+                  <h2 className="text-2xl font-semibold mb-4">Welcome Party: <span className="text-green">Hot New Spot</span></h2>
                   <div className="space-y-4 text-default">
-                    <p>We've moved the welcome party to Edmunds, right in the middle of the Cap Ferrat Marina</p>
-                    <p>We wanted to optimize for convenience since people are traveling so far, and this is <em>much</em> closer to where most guests are staying, ~10min walk for most.</p>
-                    <p>Not to mention, Cap Ferrat Marina is one of our favorite places in the world, we can't wait to share.</p>
+                    <p>We moved the welcome party to <a href="https://edmundsocialclub.com/" target="_blank" rel="noopener noreferrer" className="underline font-bold text-pink hover:text-green">Edmunds Social Club</a> in the heart of the Cap Ferrat Marina</p>
+                    <p className="text-sm">We wanted to optimize for convenience given the travel. Edmunds is a ~10min walk from most of the hotels & Airbnbs</p>
+                    <p className="text-sm">Not to mention, the Cap Ferrat Marina is one of our favorite places in the world, we can't wait to share.</p>
                   </div>
                   <div className="mt-6">
-                    {/* Welcome Party Images Placeholder */}
+                    {/* Welcome Party Images */}
+                    <Image
+                      src="/optimized/map-updated.webp"
+                      alt="Map showing location of Edmunds Social Club in Cap Ferrat Marina"
+                      width={3200}
+                      height={2400}
+                      className="w-full h-auto rounded-xl"
+                      priority
+                    />
                   </div>
                 </div>
 
                 {/* Dress Code Section */}
                 <div className="mb-16">
-                  <h2 className="text-2xl font-semibold mb-4">Dress Code: More Info + Inspo</h2>
+                  <h2 className="text-2xl font-semibold mb-4">Dress Code: <span className="text-green">More Info + Inspo</span></h2>
                   <div className="space-y-4 text-default">
                     <p>Thurs Welcome party: Riviera Casual</p>
                     <p>Fri Wedding: Riviera Formal</p>
@@ -119,12 +132,12 @@ export default function UpdatePage() {
 
                 {/* Travel Section */}
                 <div className="mb-16">
-                  <h2 className="text-2xl font-semibold mb-4">Flights and Lodging: Best Time to Book!</h2>
+                  <h2 className="text-2xl font-semibold mb-4">Flights and Lodging: <span className="text-green">Best Time to Book!</span></h2>
                   <div className="space-y-4 text-default">
-                    <p><strong>Flights:</strong> It's not too late to book, in fact best prices are now! The Great Trade War is sub-optimal timing, but one benefit is that flight prices have gone down a lot.</p>
-                    <p><strong>Lodging:</strong> We still have plenty of Hotel rooms and AirBnBs held for guests that are already paid for, please reach out if interested!</p>
-                    <p>We hope you won't let the travel logistics get in the way of joining us and we're here to help.</p>
-                    <p>If you're still on the fence, please know we've pre-booked Airbnbs to make things as easy as possible <strong>(our treat!)</strong> and we are masters with miles <strong>(which we have to use anyways!)</strong></p>
+                    <p className="text-sm"><strong>Flights:</strong> It's not too late to book, in fact best prices are now! The Great Trade War is sub-optimal timing, but one benefit is that flight prices have gone down a lot.</p>
+                    <p className="text-sm"><strong>Lodging:</strong> We still have plenty of Hotel rooms and AirBnBs held for guests that are already paid for, please reach out if interested!</p>
+                    <p className="text-sm">We hope you won't let the travel logistics get in the way of joining us and we're here to help.</p>
+                    <p className="text-sm">If you're still on the fence, please know we've pre-booked Airbnbs to make things as easy as possible <strong>(our treat!)</strong> and we are masters with miles <strong>(which we have to use anyways!)</strong></p>
                   </div>
                   <div className="mt-6">
                     {/* Travel Images Placeholder */}
@@ -133,9 +146,12 @@ export default function UpdatePage() {
 
                 {/* RSVP Section */}
                 <div className="mb-16">
-                  <h2 className="text-2xl font-semibold mb-4">RSVP</h2>
+                  <h2 className="text-2xl font-semibold mb-4">RSVP: <span className="text-green">Allons-Y!</span></h2>
                   <div className="space-y-4 text-default">
-                    {/* RSVP form or content will go here */}
+                    <button className="w-full bg-blue hover:bg-blue/90 text-white py-4 px-6 rounded-xl flex items-center justify-center gap-2 text-lg font-semibold transition-colors">
+                      RSVP
+                      <ArrowRight className="w-5 h-5" />
+                    </button>
                   </div>
                   <div className="mt-6">
                     {/* RSVP Images Placeholder */}
