@@ -32,7 +32,6 @@ const formSchema = z.object({
   name5: z.string().optional(),
   attending: z.enum(["yes", "no", ""] as const),
   events: z.object({
-    allEvents: z.boolean().optional(),
     welcomeParty: z.boolean(),
     wedding: z.boolean(),
     beachDay: z.boolean(),
@@ -77,7 +76,6 @@ export default function RSVPPage() {
       name5: "",
       attending: "",
       events: {
-        allEvents: false,
         welcomeParty: false,
         wedding: false,
         beachDay: false,
@@ -106,20 +104,6 @@ export default function RSVPPage() {
 
   // Check if any names have been entered
   const hasAnyNames = !!(name1Value || name2Value || name3Value || name4Value || name5Value);
-
-  // Handle allEvents changes
-  const handleAllEventsChange = (checked: boolean) => {
-    form.setValue('events.welcomeParty', checked);
-    form.setValue('events.wedding', checked);
-    form.setValue('events.beachDay', checked);
-  };
-
-  // Handle individual event changes
-  const updateAllEventsState = () => {
-    const values = form.getValues('events');
-    const allChecked = values.welcomeParty && values.wedding && values.beachDay;
-    form.setValue('events.allEvents', allChecked);
-  };
 
   async function onSubmit(values: FormValues) {
     try {
@@ -615,7 +599,6 @@ export default function RSVPPage() {
                                         )}
                                         onClick={() => {
                                           field.onChange("yes");
-                                          form.setValue('events.allEvents', true);
                                           form.setValue('events.welcomeParty', true);
                                           form.setValue('events.wedding', true);
                                           form.setValue('events.beachDay', true);
@@ -725,20 +708,19 @@ export default function RSVPPage() {
                           "opacity-100": showResponse && attendingValue === 'yes'
                         }
                       )}>
-                        <FormField
-                          control={form.control}
-                          name="events.allEvents"
-                          render={({ field }: { field: FieldType }) => (
-                            <FormItem className="space-y-3">
-                              {/* <FormLabel className="text-lg text-blue tracking-wider font-bold">Events?</FormLabel> */}
-                              <div className="flex flex-col gap-4">
+                        <FormItem className="space-y-3">
+                          <div className="flex flex-col gap-4">
+                            <FormField
+                              control={form.control}
+                              name="events.welcomeParty"
+                              render={({ field }: { field: FieldType }) => (
                                 <FormItem className="flex items-center justify-between w-full space-y-0 group hover:cursor-pointer">
                                   <div className="space-y-1 leading-none">
                                     <FormLabel className={cn(
                                       "text-blue transition-colors group-hover:text-green",
                                       field.value && "text-green"
                                     )}>
-                                      <span className="font-bold text-xl">All Events! Whooh!</span>
+                                      <span className="font-bold">Welcome Party</span> &nbsp;Thurs 6/19
                                     </FormLabel>
                                   </div>
                                   <FormControl>
@@ -746,176 +728,146 @@ export default function RSVPPage() {
                                       checked={field.value}
                                       onCheckedChange={(checked: boolean) => {
                                         field.onChange(checked);
-                                        handleAllEventsChange(Boolean(checked));
                                       }}
                                       className="group-hover:border-green"
                                     />
                                   </FormControl>
                                 </FormItem>
+                              )}
+                            />
 
-                                <FormField
-                                  control={form.control}
-                                  name="events.welcomeParty"
-                                  render={({ field }: { field: FieldType }) => (
-                                    <FormItem className="flex items-center justify-between w-full space-y-0 group hover:cursor-pointer">
-                                      <div className="space-y-1 leading-none">
-                                        <FormLabel className={cn(
-                                          "text-blue transition-colors group-hover:text-green",
-                                          field.value && "text-green"
-                                        )}>
-                                          <span className="font-bold">Welcome Party</span> &nbsp;Thurs 6/19
-                                        </FormLabel>
-                                      </div>
-                                      <FormControl>
-                                        <Checkbox
-                                          checked={field.value}
-                                          onCheckedChange={(checked: boolean) => {
-                                            field.onChange(checked);
-                                            updateAllEventsState();
-                                          }}
-                                          className="group-hover:border-green"
-                                        />
-                                      </FormControl>
-                                    </FormItem>
-                                  )}
-                                />
+                            <FormField
+                              control={form.control}
+                              name="events.wedding"
+                              render={({ field }: { field: FieldType }) => (
+                                <FormItem className="flex items-center justify-between w-full space-y-0 group hover:cursor-pointer">
+                                  <div className="space-y-1 leading-none">
+                                    <FormLabel className={cn(
+                                      "text-blue transition-colors group-hover:text-green",
+                                      field.value && "text-green"
+                                    )}>
+                                      <span className="font-bold">Wedding</span> &nbsp;Fri 6/20
+                                    </FormLabel>
+                                  </div>
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value}
+                                      onCheckedChange={(checked: boolean) => {
+                                        field.onChange(checked);
+                                      }}
+                                      className="group-hover:border-green"
+                                    />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
 
-                                <FormField
-                                  control={form.control}
-                                  name="events.wedding"
-                                  render={({ field }: { field: FieldType }) => (
-                                    <FormItem className="flex items-center justify-between w-full space-y-0 group hover:cursor-pointer">
-                                      <div className="space-y-1 leading-none">
-                                        <FormLabel className={cn(
-                                          "text-blue transition-colors group-hover:text-green",
-                                          field.value && "text-green"
-                                        )}>
-                                          <span className="font-bold">Wedding</span> &nbsp;Fri 6/20
-                                        </FormLabel>
-                                      </div>
-                                      <FormControl>
-                                        <Checkbox
-                                          checked={field.value}
-                                          onCheckedChange={(checked: boolean) => {
-                                            field.onChange(checked);
-                                            updateAllEventsState();
-                                          }}
-                                          className="group-hover:border-green"
-                                        />
-                                      </FormControl>
-                                    </FormItem>
-                                  )}
-                                />
+                            <FormField
+                              control={form.control}
+                              name="events.beachDay"
+                              render={({ field }: { field: FieldType }) => (
+                                <FormItem className="flex items-center justify-between w-full space-y-0 group hover:cursor-pointer">
+                                  <div className="space-y-1 leading-none">
+                                    <FormLabel className={cn(
+                                      "text-blue transition-colors group-hover:text-green",
+                                      field.value && "text-green"
+                                    )}>
+                                      <span className="font-bold">La Vie en Rosé - Beach Clüb</span> &nbsp;Sat 6/21
+                                    </FormLabel>
+                                  </div>
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value}
+                                      onCheckedChange={(checked: boolean) => {
+                                        field.onChange(checked);
+                                      }}
+                                      className="group-hover:border-green"
+                                    />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
 
-                                <FormField
-                                  control={form.control}
-                                  name="events.beachDay"
-                                  render={({ field }: { field: FieldType }) => (
-                                    <FormItem className="flex items-center justify-between w-full space-y-0 group hover:cursor-pointer">
-                                      <div className="space-y-1 leading-none">
-                                        <FormLabel className={cn(
-                                          "text-blue transition-colors group-hover:text-green",
-                                          field.value && "text-green"
-                                        )}>
-                                          <span className="font-bold">La Vie en Rosé - Beach Clüb</span> &nbsp;Sat 6/21
-                                        </FormLabel>
-                                      </div>
-                                      <FormControl>
-                                        <Checkbox
-                                          checked={field.value}
-                                          onCheckedChange={(checked: boolean) => {
-                                            field.onChange(checked);
-                                            updateAllEventsState();
-                                          }}
-                                          className="group-hover:border-green"
-                                        />
-                                      </FormControl>
-                                    </FormItem>
-                                  )}
-                                />
+                            <div className="text-sm text-pink font-medium pt-5">
+                              Optional Add-Ons:
+                            </div>
 
-                                <div className="text-sm text-green font-normal pt-5 italic">
-                                  Optional Add-Ons
-                                </div>
+                            <FormField
+                              control={form.control}
+                              name="events.boatDay"
+                              render={({ field }: { field: FieldType }) => (
+                                <FormItem className="flex items-center justify-between w-full space-y-0 group hover:cursor-pointer">
+                                  <div className="space-y-1 leading-none">
+                                    <FormLabel className={cn(
+                                      "text-blue transition-colors group-hover:text-green",
+                                      field.value && "text-green"
+                                    )}>
+                                      <span className="font-bold">Sunday boat to St Tropez? Heck Oui!</span>
+                                    </FormLabel>
+                                  </div>
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value}
+                                      onCheckedChange={(checked: boolean) => {
+                                        field.onChange(checked);
+                                      }}
+                                      className="group-hover:border-green"
+                                    />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
 
-                                <FormField
-                                  control={form.control}
-                                  name="events.boatDay"
-                                  render={({ field }: { field: FieldType }) => (
-                                    <FormItem className="flex items-center justify-between w-full space-y-0 group hover:cursor-pointer">
-                                      <div className="space-y-1 leading-none">
-                                        <FormLabel className={cn(
-                                          "text-blue transition-colors group-hover:text-green",
-                                          field.value && "text-green"
-                                        )}>
-                                          <span className="font-bold">Sunday boat to St Tropez? Heck Oui!</span>
-                                        </FormLabel>
-                                      </div>
-                                      <FormControl>
-                                        <Checkbox
-                                          checked={field.value}
-                                          onCheckedChange={(checked: boolean) => {
-                                            field.onChange(checked);
-                                          }}
-                                          className="group-hover:border-green"
-                                        />
-                                      </FormControl>
-                                    </FormItem>
-                                  )}
-                                />
-
-                                <FormField
-                                  control={form.control}
-                                  name="events.babysitting"
-                                  render={({ field }: { field: FieldType }) => (
-                                    <FormItem className="space-y-2">
-                                      <div className="flex items-center justify-between w-full group hover:cursor-pointer">
-                                        <div className="space-y-1 leading-none">
-                                          <FormLabel className={cn(
-                                            "text-blue transition-colors group-hover:text-green",
-                                            field.value && "text-green"
-                                          )}>
-                                            <span className="font-bold">Yes, we'd love childcare help</span>
-                                          </FormLabel>
-                                        </div>
-                                        <FormControl>
-                                          <Checkbox
-                                            checked={field.value}
-                                            onCheckedChange={(checked: boolean) => {
-                                              field.onChange(checked);
-                                            }}
-                                            className="group-hover:border-green"
-                                          />
-                                        </FormControl>
-                                      </div>
-                                      {/* Babysitting Info Toggle Button */}
-                                      <Button
-                                        type="button"
-                                        variant="link"
-                                        onClick={() => setShowBabysittingInfo(!showBabysittingInfo)}
-                                        className="text-pink hover:text-green px-0 h-auto py-1 text-sm flex items-center gap-1 no-underline hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0"
-                                      >
-                                        Babysitting info
-                                        {showBabysittingInfo ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                                      </Button>
-                                      {/* Babysitting Description - Conditional with Transition */}
-                                      <div
-                                        className={cn(
-                                          "transition-all duration-500 ease-out overflow-hidden",
-                                          showBabysittingInfo ? "max-h-40 opacity-100 mt-1" : "max-h-0 opacity-0 mt-0"
-                                        )}
-                                      >
-                                        <FormDescription className="text-sm font-normal text-blue italic pl-0 pr-0 md:pr-0">
-                                          We've hired a professional babysitting agency from Paris to be onsite Friday & Saturday if it makes things easier for parents. The agency is <a href="https://www.baby-prestige.com/en" target="_blank" className="text-pink font-semibold underline hover:text-green">Baby Prestige</a> and is very highly recommended. They handle all ages, including boomers, and your babies will be fluent in French by the flight home.
-                                        </FormDescription>
-                                      </div>
-                                    </FormItem>
-                                  )}
-                                />
-                              </div>
-                            </FormItem>
-                          )}
-                        />
+                            <FormField
+                              control={form.control}
+                              name="events.babysitting"
+                              render={({ field }: { field: FieldType }) => (
+                                <FormItem className="space-y-2">
+                                  <div className="flex items-center justify-between w-full group hover:cursor-pointer">
+                                    <div className="space-y-1 leading-none">
+                                      <FormLabel className={cn(
+                                        "text-blue transition-colors group-hover:text-green",
+                                        field.value && "text-green"
+                                      )}>
+                                        <span className="font-bold">Childcare help? Oui Oui!</span>
+                                      </FormLabel>
+                                    </div>
+                                    <FormControl>
+                                      <Checkbox
+                                        checked={field.value}
+                                        onCheckedChange={(checked: boolean) => {
+                                          field.onChange(checked);
+                                        }}
+                                        className="group-hover:border-green"
+                                      />
+                                    </FormControl>
+                                  </div>
+                                  {/* Babysitting Info Toggle Button */}
+                                  <Button
+                                    type="button"
+                                    variant="link"
+                                    onClick={() => setShowBabysittingInfo(!showBabysittingInfo)}
+                                    className="text-pink hover:text-green px-0 h-auto py-1 text-sm flex items-center gap-1 no-underline hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0"
+                                  >
+                                    Babysitting info
+                                    {showBabysittingInfo ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                                  </Button>
+                                  {/* Babysitting Description - Conditional with Transition */}
+                                  <div
+                                    className={cn(
+                                      "transition-all duration-500 ease-out overflow-hidden",
+                                      showBabysittingInfo ? "max-h-40 opacity-100 mt-1" : "max-h-0 opacity-0 mt-0"
+                                    )}
+                                  >
+                                    <FormDescription className="text-sm font-normal text-blue italic pl-0 pr-0 md:pr-0">
+                                      We've hired a professional babysitting agency from Paris to be onsite Friday & Saturday if it makes things easier for parents. The agency is <a href="https://www.baby-prestige.com/en" target="_blank" className="text-pink font-semibold underline hover:text-green">Baby Prestige</a> and is very highly recommended. They handle all ages, including boomers, and your babies will be fluent in French by the flight home.
+                                    </FormDescription>
+                                  </div>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        </FormItem>
                       </div>
 
                       {/* Travel Logistics Section */}
