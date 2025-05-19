@@ -698,7 +698,7 @@ export default function RSVPPage() {
                               Your presence would mean the world to us, but of course we understand the size of the ask. 
                             </p>
                             <p className="mt-3 text-md text-blue">
-                              Still, as a last-ditch effort if logistics are keeping you away, please know we’ve pre-booked Airbnbs to make things as easy as possible (our treat!) and we are masters with miles which we have to use.</span></p>
+                              Still, as a last-ditch effort if logistics are keeping you away, please know we've pre-booked Airbnbs to make things as easy as possible <span className="italic text-sm font-semibold">(our treat!) </span> and we are masters with miles <span className="italic text-sm font-semibold">(which we have to use anyways!)</span></p>
                             <p className="mt-3 text-sm text-blue">
                               Don't hesitate to reach out to us directly. If there's anything we can do to be able to celebrate with you, we will make it happen!
                             </p>
