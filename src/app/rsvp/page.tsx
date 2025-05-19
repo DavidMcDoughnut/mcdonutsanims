@@ -691,17 +691,29 @@ export default function RSVPPage() {
 
                       {/* Message for "Non" response */}
                       {showResponse && attendingValue === 'no' && (
-                        <div className="text-center py-4 transition-opacity duration-500 ease-in-out opacity-100">
-                          <p className="text-lg text-blue font-semibold">On a serious note, we're so sorry to hear you can't make it</p>
-                          <p className="mt-3 text-md text-blue">
-                            Your presence would mean the world to us, but of course we understand the size of the ask. 
-                          </p>
-                          <p className="mt-3 text-md text-blue">
-                            Still, as a last-ditch effort, please know we would LOVE to provide free hotel/AirBnB and we'll book your flights for you if it would make things easier <span className="italic text-sm">(we get very cheap flights via status and tons of miles we HAVE to use)</span></p>
-                          <p className="mt-3 text-sm text-blue">
-                            Don't hesitate to reach out to us directly. If there's anything we can do to be able to celebrate with you, we will make it happen!
-                          </p>
-                        </div>
+                        <>
+                          <div className="text-center py-4 transition-opacity duration-500 ease-in-out opacity-100">
+                            <p className="text-lg text-blue font-semibold">On a serious note, we're so sorry to hear you can't make it</p>
+                            <p className="mt-3 text-md text-blue">
+                              Your presence would mean the world to us, but of course we understand the size of the ask. 
+                            </p>
+                            <p className="mt-3 text-md text-blue">
+                              Still, as a last-ditch effort if logistics are keeping you away, please know we’ve pre-booked Airbnbs to make things as easy as possible (our treat!) and we are masters with miles which we have to use.</span></p>
+                            <p className="mt-3 text-sm text-blue">
+                              Don't hesitate to reach out to us directly. If there's anything we can do to be able to celebrate with you, we will make it happen!
+                            </p>
+                          </div>
+                          {/* Submit button for 'no' case */}
+                          <div className="mt-8">
+                            <Button
+                              type="submit"
+                              form="rsvp-form"
+                              className="w-full bg-blue hover:bg-green text-white font-bold py-4 px-4 text-lg tracking-wider rounded-lg"
+                            >
+                              Submit RSVP
+                            </Button>
+                          </div>
+                        </>
                       )}
 
                       {/* Events Section */}
@@ -1091,15 +1103,18 @@ export default function RSVPPage() {
                     </form>
                   </Form>
                 </div>
-                <div className="mt-12">
-                  <Button 
-                    type="submit"
-                    form="rsvp-form"
-                    className="w-full bg-blue hover:bg-green text-white font-bold py-4 px-4 text-lg tracking-wider rounded-lg"
-                  >
-                    Submit RSVP
-                  </Button>
-                </div>
+                {/* Conditional rendering for submit button if NOT 'no' */}
+                {attendingValue !== 'no' && (
+                  <div className="mt-12">
+                    <Button
+                      type="submit"
+                      form="rsvp-form"
+                      className="w-full bg-blue hover:bg-green text-white font-bold py-6 px-4 text-xl tracking-wider rounded-lg"
+                    >
+                      Submit RSVP
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
