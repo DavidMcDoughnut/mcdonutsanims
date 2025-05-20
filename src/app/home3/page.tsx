@@ -262,7 +262,7 @@ export default function Home() {
           setTimeout(() => reject(new Error('Animation load timeout')), 10000);
         });
 
-        const fetchPromise = fetch('/anim4k.json');
+        const fetchPromise = fetch('/anim4k-opt.json');
         const response = await Promise.race([fetchPromise, timeoutPromise]) as Response;
 
         if (!response || !response.ok) {
