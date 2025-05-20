@@ -34,7 +34,7 @@ export default function UpdatePage() {
           <div className="relative flex min-h-full justify-center">
             <div 
               id="formcard" 
-              className="w-full max-w-2xl p-4 md:px-12 md:pb-12 md:pt-6 border-2 border-blue rounded-3xl shadow-paper bg-white/80 backdrop-blur-md opacity-0 animate-fade-in-up relative overflow-hidden"
+              className="w-full max-w-2xl p-4 md:px-12 md:pb-12 md:pt-0 border-2 border-blue rounded-3xl shadow-paper bg-white/80 backdrop-blur-md opacity-0 animate-fade-in-up relative overflow-hidden"
             >
               {/* Paper texture overlay */}
               <div 
@@ -47,15 +47,46 @@ export default function UpdatePage() {
               />
               {/* Content container */}
               <div className="relative z-10 text-blue">
-                <div className="w-full mb-8">
-                  <Image
-                    src="/update-head.png"
-                    alt="RSVP for Lauren & David"
-                    width={800}
-                    height={100}
-                    className="w-full h-auto"
-                    priority
-                  />
+                <div className="w-full mb-8 flex items-center justify-between">
+                  {/* Home Button */}
+                  <div className="flex flex-col items-center cursor-pointer group/btn">
+                    <Image
+                      src="/villa-icon-1k.png"
+                      alt="Home"
+                      width={80}
+                      height={80}
+                      className="w-20 h-20 transform-gpu origin-center transition-transform duration-300 ease-out group-hover/btn:scale-[1.15]"
+                    />
+                    <span className="text-blue group-hover/btn:text-green text-default tracking-widest group-hover/btn:tracking-[.25em] font-semibold uppercase transition-all duration-300 ease-out">
+                      Home
+                    </span>
+                  </div>
+
+                  {/* Center Image */}
+                  <div className="flex-1 mx-8 flex justify-center">
+                    <Image
+                      src="/update-head-clean.png"
+                      alt="Updates"
+                      width={500}
+                      height={67}
+                      className="h-auto"
+                      priority
+                    />
+                  </div>
+
+                  {/* RSVP Button */}
+                  <div className="flex flex-col items-center cursor-pointer group/btn">
+                    <Image
+                      src="/brella-icon-1k.png"
+                      alt="RSVP"
+                      width={80}
+                      height={80}
+                      className="w-20 h-20 transform-gpu origin-center transition-transform duration-300 ease-out group-hover/btn:scale-[1.15]"
+                    />
+                    <span className="text-blue group-hover/btn:text-green text-default tracking-widest group-hover/btn:tracking-[.25em] font-semibold uppercase transition-all duration-300 ease-out">
+                      RSVP
+                    </span>
+                  </div>
                 </div>
 
                 {/* Title Section */}
