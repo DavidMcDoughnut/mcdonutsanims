@@ -323,22 +323,28 @@ export default function Home() {
     if (!isChrome && videoRef.current) {
       const video = videoRef.current;
       
-      // Optimize mobile video playback
+      // Force video attributes that help with mobile playback
+      video.playsInline = true;
+      video.muted = true;
       video.setAttribute('playsinline', '');
-      video.setAttribute('preload', 'auto');
-      video.setAttribute('muted', 'true');
+      video.setAttribute('muted', '');
       
-      // Lower quality for mobile
-      if (window.innerWidth <= 768) {
-        video.setAttribute('data-quality', 'low');
-      }
-      
-      // Handle video loading and set playback speed
+      // Set playback speed and ensure it plays
       const handleCanPlay = () => {
-        video.playbackRate = 1.5;  // Set 1.5x playback speed
-        video.play().catch(err => {
-          console.error('Video autoplay failed:', err);
-        });
+        video.playbackRate = 1.5;
+        const playPromise = video.play();
+        
+        if (playPromise !== undefined) {
+          playPromise.catch(err => {
+            console.error('Video autoplay failed:', err);
+            // Try playing again after user interaction
+            const playVideo = () => {
+              video.play();
+              document.removeEventListener('touchstart', playVideo);
+            };
+            document.addEventListener('touchstart', playVideo);
+          });
+        }
       };
       
       video.addEventListener('canplay', handleCanPlay);
@@ -347,26 +353,22 @@ export default function Home() {
   }, [isChrome]);
 
   // Update video component with ref and optimizations
-  const renderVideo = () => {
-    const isMobile = window.innerWidth <= 768;
-    const videoSrc = isMobile ? '/anim4k-vid-hb3.mp4' : '/anim4k-vid-hb2.mp4';
-    
-    return (
-      <video 
-        ref={videoRef}
-        className="absolute inset-x-0 top-0 h-screen w-full object-cover object-top z-0"
-        playsInline
-        muted
-        preload="auto"
-        style={{ 
-          transform: 'translate3d(0,0,0)',
-          backfaceVisibility: 'hidden'
-        }}
-      >
-        <source src={videoSrc} type="video/mp4" />
-      </video>
-    );
-  };
+  const renderVideo = () => (
+    <video 
+      ref={videoRef}
+      className="absolute inset-x-0 top-0 h-screen w-full object-cover object-top z-0"
+      playsInline
+      muted
+      autoPlay
+      preload="auto"
+      style={{ 
+        transform: 'translate3d(0,0,0)',
+        backfaceVisibility: 'hidden'
+      }}
+    >
+      <source src="/anim4k-vid-hb3.mp4" type="video/mp4" />
+    </video>
+  );
 
   const toggleLayer = (
     layer: keyof CapFerratLayers | keyof RivieraLayers,
