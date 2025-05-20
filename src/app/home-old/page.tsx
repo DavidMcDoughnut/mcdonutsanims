@@ -76,50 +76,6 @@ const LazySpotifyEmbed = () => {
   );
 };
 
-// Add this new function at the top level, after the existing imports
-const useImagePreloader = (imagePaths: string[]) => {
-  useEffect(() => {
-    imagePaths.forEach((path) => {
-      const img = new (window.Image || Image)();
-      img.src = path;
-    });
-  }, [imagePaths]);
-};
-
-// Add a new hook for lazy loading images
-const useLazyLoadImages = () => {
-  useEffect(() => {
-    const imageObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const img = entry.target as HTMLImageElement;
-            const dataSrc = img.getAttribute('data-src');
-            if (dataSrc) {
-              img.src = dataSrc;
-              img.removeAttribute('data-src');
-              imageObserver.unobserve(img);
-            }
-          }
-        });
-      },
-      {
-        rootMargin: '50px 0px', // Start loading 50px before the image enters viewport
-        threshold: 0.01
-      }
-    );
-
-    // Find all images with data-src attribute
-    document.querySelectorAll('img[data-src]').forEach((img) => {
-      imageObserver.observe(img);
-    });
-
-    return () => {
-      imageObserver.disconnect();
-    };
-  }, []);
-};
-
 export default function Home() {
   const [animationData, setAnimationData] = useState<any>(null);
   const [error, setError] = useState<string>('');
@@ -151,48 +107,7 @@ export default function Home() {
     googleMap: false
   });
 
-  // Add new state for video readiness
-  const [videoReady, setVideoReady] = useState(false);
-
   const router = useRouter();
-
-  // Add preloading for critical images
-  const criticalImages = [
-    '/optimized/vebg-static.webp', // Only preload the hero image
-  ];
-  useImagePreloader(criticalImages);
-
-  // Add new state for tracking viewport
-  const [visibleSection, setVisibleSection] = useState('hero');
-  const sectionRefs = {
-    events: useRef<HTMLElement>(null),
-    area: useRef<HTMLElement>(null),
-    stay: useRef<HTMLElement>(null)
-  };
-
-  // Add intersection observer for sections
-  useEffect(() => {
-    const observerOptions = {
-      rootMargin: '500px 0px', // Increased from 100px to 500px to start loading much earlier
-      threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setVisibleSection(entry.target.id);
-        }
-      });
-    }, observerOptions);
-
-    Object.values(sectionRefs).forEach((ref) => {
-      if (ref.current) {
-        observer.observe(ref.current);
-      }
-    });
-
-    return () => observer.disconnect();
-  }, []);
 
   // Add this effect to handle Vercel Vitals reporting
   useEffect(() => {
@@ -267,30 +182,12 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // More precise browser detection
+    // Browser detection
     const detectBrowser = () => {
       const userAgent = window.navigator.userAgent.toLowerCase();
       const isMobile = /iphone|ipad|ipod|android/.test(userAgent);
-      const isIOS = /iphone|ipad|ipod/.test(userAgent);
-      const isAndroid = /android/.test(userAgent);
       const isChromeBrowser = /chrome/.test(userAgent) && !/edge|opr|opera/.test(userAgent);
-      
-      // Only use Lottie on desktop Chrome
-      const shouldUseLottie = !isMobile && isChromeBrowser;
-      
-      // Set state for conditional rendering
-      setIsChrome(shouldUseLottie);
-      
-      // Log device info in development
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Device detection:', {
-          isMobile,
-          isIOS,
-          isAndroid,
-          isChromeBrowser,
-          shouldUseLottie
-        });
-      }
+      setIsChrome(!isMobile && isChromeBrowser);
     };
 
     detectBrowser();
@@ -357,19 +254,15 @@ export default function Home() {
         return;
       }
       
-      // Don't even attempt to load animation if not Chrome desktop
-      if (!isChrome) {
-        return;
-      }
-      
       animationLoadAttempted.current = true;
       
       try {
+        // Add basic error handling and timeout
         const timeoutPromise = new Promise((_, reject) => {
           setTimeout(() => reject(new Error('Animation load timeout')), 10000);
         });
 
-        const fetchPromise = fetch('/anim4k-opt.json');
+        const fetchPromise = fetch('/anim4k-opt3.json');
         const response = await Promise.race([fetchPromise, timeoutPromise]) as Response;
 
         if (!response || !response.ok) {
@@ -400,90 +293,6 @@ export default function Home() {
     
     loadAnimation();
   }, [isChrome]);
-
-  // Optimize video loading for mobile
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (!isChrome && videoRef.current) {
-      const video = videoRef.current;
-      
-      // Force video attributes that help with mobile playback
-      video.playsInline = true;
-      video.muted = true;
-      video.setAttribute('playsinline', '');
-      video.setAttribute('muted', '');
-      
-      // Set playback speed and ensure it plays
-      const handleCanPlay = () => {
-        video.playbackRate = 1.5;
-        const playPromise = video.play();
-        
-        if (playPromise !== undefined) {
-          playPromise.catch(err => {
-            console.error('Video autoplay failed:', err);
-            // Try playing again after user interaction
-            const playVideo = () => {
-              video.play();
-              document.removeEventListener('touchstart', playVideo);
-            };
-            document.addEventListener('touchstart', playVideo);
-          });
-        }
-      };
-      
-      video.addEventListener('canplay', handleCanPlay);
-      return () => video.removeEventListener('canplay', handleCanPlay);
-    }
-  }, [isChrome]);
-
-  // Update video component with ref and optimizations
-  const renderVideo = () => (
-    <div className="absolute inset-0">
-      {/* Static background image that shows immediately */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/optimized/vebg-static.webp"
-          alt="Background"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-top"
-          style={{ 
-            transform: 'translate3d(0,0,0)',
-            backfaceVisibility: 'hidden'
-          }}
-        />
-      </div>
-      
-      {/* Video that fades in once it starts playing */}
-      <video 
-        ref={videoRef}
-        className="absolute inset-x-0 top-0 h-screen w-full object-cover object-top z-[1] opacity-0 transition-opacity duration-500"
-        playsInline
-        muted
-        autoPlay
-        preload="auto"
-        poster="/optimized/vebg-static.webp"
-        style={{ 
-          transform: 'translate3d(0,0,0)',
-          backfaceVisibility: 'hidden'
-        }}
-        onPlay={() => {
-          const video = videoRef.current;
-          if (video) {
-            // Fade in the video
-            video.classList.remove('opacity-0');
-            video.classList.add('opacity-100');
-            // Set video ready state immediately when playback starts
-            setVideoReady(true);
-          }
-        }}
-      >
-        <source src="/anim4k-vid-hb3.mp4" type="video/mp4" />
-      </video>
-    </div>
-  );
 
   const toggleLayer = (
     layer: keyof CapFerratLayers | keyof RivieraLayers,
@@ -563,52 +372,6 @@ export default function Home() {
   //   });
   // }, [initialAnimationComplete, hasPlayedThroughOnce]);
 
-  // HeroBottom animations with CSS transitions and delays
-  const getHeroItemClass = (delay: number) => `
-    w-[90vw] sm:w-[80vw] md:w-[600px] 
-    flex justify-center mt-0 
-    transition-all duration-1000 ease-out
-    ${videoReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
-    ${videoReady ? `transition-delay-[${delay}ms]` : ''}
-  `;
-
-  const [isMobile, setIsMobile] = useState(false);
-  
-  // Update browser detection to set mobile state
-  useEffect(() => {
-    const detectDevice = () => {
-      const userAgent = window.navigator.userAgent.toLowerCase();
-      const mobile = /iphone|ipad|ipod|android/.test(userAgent);
-      setIsMobile(mobile);
-    };
-
-    detectDevice();
-    window.addEventListener('resize', detectDevice);
-    return () => window.removeEventListener('resize', detectDevice);
-  }, []);
-
-  // Use the lazy loading hook
-  useLazyLoadImages();
-
-  // Update image quality based on device
-  const imageQuality = isMobile ? 60 : 75;
-
-  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
-  const [isMapLoading, setIsMapLoading] = useState(true);
-
-  // Function to handle image load completion
-  const handleImageLoad = (src: string) => {
-    setLoadedImages(prev => new Set(prev).add(src));
-  };
-
-  // Effect to track map loading state - update the logic to show map sooner
-  useEffect(() => {
-    // Show map as soon as the base layer (paint or google) is loaded
-    if (loadedImages.has('paint') || loadedImages.has('google')) {
-      setIsMapLoading(false);
-    }
-  }, [loadedImages]);
-
   return (
     <main className="relative min-h-[200vh] w-full overflow-x-hidden">
       {/* SVG Filter Definition - Moved to top level */}
@@ -679,7 +442,7 @@ export default function Home() {
           {/* Static Background Image - Fallback and Initial Load */}
           <div className="absolute inset-0 [&>div]:w-full [&>div]:h-full z-[1]">
             <Image
-              src="/optimized/vebg-static.webp"
+              src="/vebg-static.png"
               alt="Background"
               fill
               priority
@@ -696,7 +459,7 @@ export default function Home() {
           <div 
             className="absolute inset-x-0 top-0 h-screen bg-cover bg-top bg-no-repeat z-0"
             style={{
-              backgroundImage: 'url("/optimized/vebg-static.webp")',
+              backgroundImage: 'url("/vebg-static.png")',
               position: scrollVh >= 1.3 ? 'absolute' : 'fixed',
               opacity: Math.max(0, Math.min(1, 1 - ((scrollVh - 0.4) / 0.2))) // Transition from 100% to 0% between 0.4vh and 0.6vh
             }}
@@ -787,7 +550,25 @@ export default function Home() {
           }}
         >
           {/* Background Video */}
-          {renderVideo()}
+          <video 
+            className="absolute inset-x-0 top-0 h-screen w-full object-cover object-top z-0"
+            playsInline
+            muted
+            ref={(videoElement) => {
+              if (videoElement && !videoElement.hasAttribute('data-init')) {
+                videoElement.setAttribute('data-init', 'true');
+                videoElement.addEventListener('loadedmetadata', () => {
+                  videoElement.playbackRate = 1.5;
+                  videoElement.play();
+                });
+                videoElement.addEventListener('ended', () => {
+                  videoElement.currentTime = videoElement.duration;
+                });
+              }
+            }}
+          >
+            <source src="/anim4k-vid.webm" type="video/webm" />
+          </video>
 
           {/* Bottom Gradient Overlay */}
           <div 
@@ -798,15 +579,14 @@ export default function Home() {
           />
 
           {/* HeroBottom Container */}
-          <div className="absolute bottom-0 left-0 right-0 h-[54vh] sm:h-[50vh] md:h-[46vh] flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-4 z-50">
+          <div 
+            className="absolute bottom-0 left-0 right-0 h-[54vh] sm:h-[50vh] md:h-[46vh] flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-4 z-50"
+          >
             {/* Lauren & David SVG */}
-            <div style={{ transitionDelay: videoReady ? '6000ms' : '0ms' }}
-              className={`w-[90vw] sm:w-[80vw] md:w-[600px] 
-                flex justify-center mt-0 
-                transition-all duration-1000 ease-out
-                ${videoReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
-                ${videoReady ? `transition-delay-[6000ms]` : ''}
-              `}
+            <div 
+              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center mt-0 transition-all duration-1000 ease-out delay-[6000] ${
+                pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
             >
               <Image
                 src="/lauren david hero.svg"
@@ -818,9 +598,9 @@ export default function Home() {
             </div>
 
             {/* Date */}
-            <div style={{ transitionDelay: videoReady ? '6200ms' : '0ms' }}
-              className={`w-[90vw] sm:w-[80vw] md:w-[800px] flex justify-center transition-all duration-1000 ease-out ${
-                videoReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            <div 
+              className={`w-[90vw] sm:w-[80vw] md:w-[800px] flex justify-center transition-all duration-1000 ease-out delay-[6200] ${
+                pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
               <p className="wedding-text text-2xl sm:text-3xl md:text-4xl leading-[200%]">
@@ -829,9 +609,9 @@ export default function Home() {
             </div>
 
             {/* Villa SVG */}
-            <div style={{ transitionDelay: videoReady ? '6400ms' : '0ms' }}
-              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center transition-all duration-1000 ease-out ${
-                videoReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            <div 
+              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center transition-all duration-1000 ease-out delay-[6400] ${
+                pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
               <Image
@@ -844,9 +624,9 @@ export default function Home() {
             </div>
 
             {/* Location */}
-            <div style={{ transitionDelay: videoReady ? '6600ms' : '0ms' }}
-              className={`w-[90vw] sm:w-[80vw] md:w-[800px] flex justify-center transition-all duration-1000 ease-out ${
-                videoReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            <div 
+              className={`w-[90vw] sm:w-[80vw] md:w-[800px] flex justify-center transition-all duration-1000 ease-out delay-[6600] ${
+                pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
               <p className="wedding-text text-base sm:text-lg md:text-xl leading-[200%] text-center">
@@ -878,66 +658,52 @@ export default function Home() {
         />
  */}
         {/* Events Section */}
-        <section ref={sectionRefs.events} id="events" className="min-h-screen py-12 sm:py-16 flex flex-col items-center">
+        <section id="events" className="relative min-h-screen py-2 sm:py-16 flex flex-col items-center">
           {/* Events Section Title */}
           <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-4 mt-8 sm:mb-16 sm:mt-24 relative overflow-visible">
             <div className="relative w-full">
               <Image
-                src="/optimized/events title mobile.webp"
+                src="/events title mobile.png"
                 alt="Events"
                 width={2000}
                 height={100}
                 className="w-full h-auto md:hidden"
-                loading="lazy" // Changed from priority to lazy
-                sizes="100vw"
               />
               <Image
-                src="/optimized/events title.webp"
+                src="/events title.png"
                 alt="Events"
                 width={2000}
                 height={100}
                 className="w-full h-auto hidden md:block"
-                loading="lazy" // Changed from priority to lazy
-                sizes="100vw"
               />
             </div>
           </div>
 
           {/* Event Cards */}
-          <div className="w-full max-w-[1200px] px-5 sm:px-4">
+          <div className="w-full text-[#4B6CFF]">
             {/* Welcome Drinks */}
             <div className="w-full py-2 group">
               <div className="w-[1200px] max-w-full px-5 sm:px-4 mx-auto flex flex-col-reverse md:flex-row gap-1 md:gap-8">
-                <a href="https://www.edmundsocialclub.com/" target="_blank" rel="noopener noreferrer" className="block w-full md:w-1/2 cursor-pointer">
+                <a href="https://www.mayssabeach.fr/en/restaurant" target="_blank" rel="noopener noreferrer" className="block w-full md:w-1/2 cursor-pointer">
                   <div className="relative aspect-[4/3]">
                     <Image
-                      src="/optimized/edmunds masked bw40.webp"
+                      src="/welcome drinks.png"
                       alt="Welcome Drinks B&W"
                       fill
-                      loading="lazy" // Changed from eager to lazy
-                      priority={false} // Remove priority
                       className="object-contain rounded-lg md:block hidden"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                     />
                     <Image
-                      src="/optimized/edmunds masked color.webp"
+                      src="/welcome drinks color.png"
                       alt="Welcome Drinks Color"
                       fill
-                      loading="eager" // Changed from lazy to eager
-                      priority={visibleSection === 'events'}
                       className="object-contain rounded-lg md:opacity-0 md:transition-opacity md:duration-300 md:ease-linear md:group-hover:opacity-100 block md:block"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                     />
                   </div>
                 </a>
                 <div className="w-full md:w-1/2 flex flex-col justify-center space-y-2 md:space-y-6">
                   <h3 className="text-[#FF7DC5] text-lg sm:text-xl font-extralight tracking-widest">Thursday June 19</h3>
-                  <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest text-[#4B6CFF]">WELCOME DRINKS</h2>
-                  <div className="grid grid-cols-[52px_1fr] sm:grid-cols-[72px_1fr] gap-x-2 sm:gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base text-[#4B6CFF]">
+                  <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest">WELCOME DRINKS</h2>
+                  <div className="grid grid-cols-[52px_1fr] sm:grid-cols-[72px_1fr] gap-x-2 sm:gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base">
                     <div className="contents">
                       <span className="font-light">When</span>
                       <span className="font-bold">8pm onwards</span>
@@ -945,7 +711,7 @@ export default function Home() {
                     <div className="contents">
                       <span className="font-light">Where</span>
                       <div>
-                        <a href="https://www.edmundsocialclub.com/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5] font-bold">Edmunds Social Club</a>
+                        <a href="https://www.mayssabeach.fr/en/restaurant" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5] font-bold">Mayssa Beach</a>
                         <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5] ml-1">(map)</a>
                       </div>
                     </div>
@@ -964,33 +730,23 @@ export default function Home() {
                 <a href="https://www.villa-ephrussi.com/en" target="_blank" rel="noopener noreferrer" className="block w-full md:w-1/2 cursor-pointer">
                   <div className="relative aspect-[4/3]">
                     <Image
-                      src="/optimized/main event.webp"
+                      src="/main event.png"
                       alt="Main Event B&W"
                       fill
-                      loading="eager" // Changed from lazy to eager
-                      priority={visibleSection === 'events'}
                       className="object-contain rounded-lg md:block hidden"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                     />
                     <Image
-                      src="/optimized/main event color.webp"
+                      src="/main event color.png"
                       alt="Main Event Color"
                       fill
-                      loading="eager" // Changed from lazy to eager
-                      priority={visibleSection === 'events'}
                       className="object-contain rounded-lg md:opacity-0 md:transition-opacity md:duration-300 md:ease-linear md:group-hover:opacity-100 block md:block"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                     />
                   </div>
                 </a>
                 <div className="w-full md:w-1/2 flex flex-col justify-center space-y-2 md:space-y-6">
                   <h3 className="text-[#FF7DC5] text-lg sm:text-xl font-extralight tracking-widest">Friday June 20</h3>
-                  <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest text-[#4B6CFF]">MAIN EVENT</h2>
-                  <div className="grid grid-cols-[52px_1fr] sm:grid-cols-[72px_1fr] gap-x-2 sm:gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base text-[#4B6CFF]">
+                  <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest">MAIN EVENT</h2>
+                  <div className="grid grid-cols-[52px_1fr] sm:grid-cols-[72px_1fr] gap-x-2 sm:gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base">
                     <div className="contents">
                       <span className="font-light">When</span>
                       <span className="font-bold">5pm Onwards</span>
@@ -1017,36 +773,26 @@ export default function Home() {
                 <a href="https://www.plage-de-passable.fr/" target="_blank" rel="noopener noreferrer" className="block w-full md:w-1/2 cursor-pointer">
                   <div className="relative aspect-[4/3]">
                     <Image
-                      src="/optimized/la vie en rose.webp"
+                      src="/la vie en rose.png"
                       alt="La Vie en Rosé B&W"
                       fill
-                      loading="eager" // Changed from lazy to eager
-                      priority={visibleSection === 'events'}
                       className="object-contain rounded-lg md:block hidden"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                     />
                     <Image
-                      src="/optimized/la vie en color.webp"
+                      src="/la vie en color.png"
                       alt="La Vie en Rosé Color"
                       fill
-                      loading="eager" // Changed from lazy to eager
-                      priority={visibleSection === 'events'}
                       className="object-contain rounded-lg md:opacity-0 md:transition-opacity md:duration-300 md:ease-linear md:group-hover:opacity-100 block md:block"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                     />
                   </div>
                 </a>
                 <div className="w-full md:w-1/2 flex flex-col justify-center space-y-2 md:space-y-6">
                   <h3 className="text-[#FF7DC5] text-lg sm:text-xl font-extralight tracking-widest">Saturday June 21</h3>
                   <div className="space-y-1">
-                    <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest text-[#4B6CFF]">LA VIE EN ROSÉ</h2>
-                    <h3 className="text-lg sm:text-xl font-extralight tracking-widest text-[#4B6CFF]">BEACH CLUB RECOVERY LOUNGE</h3>
+                    <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest">LA VIE EN ROSÉ</h2>
+                    <h3 className="text-lg sm:text-xl font-extralight tracking-widest">BEACH CLUB RECOVERY LOUNGE</h3>
                   </div>
-                  <div className="grid grid-cols-[52px_1fr] sm:grid-cols-[72px_1fr] gap-x-2 sm:gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base text-[#4B6CFF]">
+                  <div className="grid grid-cols-[52px_1fr] sm:grid-cols-[72px_1fr] gap-x-2 sm:gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base">
                     <div className="contents">
                       <span className="font-light">When</span>
                       <span className="font-bold">2pm-ish Onwards</span>
@@ -1075,19 +821,19 @@ export default function Home() {
         </section>
 
         {/* Area Section */}
-        <section ref={sectionRefs.area} id="area" className="min-h-screen py-12 sm:py-16 flex flex-col items-center">
+        <section id="area" className="min-h-screen py-12 sm:py-16 flex flex-col items-center">
           {/* Area Section Title */}
           <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-4 sm:mb-16 relative overflow-visible">
             <div className="relative w-full">
               <Image
-                src="/optimized/area title mobile.webp"
+                src="/area title mobile.png"
                 alt="Area"
                 width={2000}
                 height={100}
                 className="w-full h-auto md:hidden"
               />
               <Image
-                src="/optimized/area title.webp"
+                src="/area title.png"
                 alt="Area"
                 width={2000}
                 height={100}
@@ -1153,7 +899,7 @@ export default function Home() {
                   >
                     <div className="relative w-full h-full">
                       <Image
-                        src="/optimized/paint btn.webp"
+                        src="/paint btn.png"
                         alt="Paint Map Toggle"
                         fill
                         className="object-contain"
@@ -1170,7 +916,7 @@ export default function Home() {
                   >
                     <div className="relative w-full h-full">
                       <Image
-                        src="/optimized/goog btn.webp"
+                        src="/goog btn.png"
                         alt="Google Map Toggle"
                         fill
                         className="object-contain"
@@ -1182,94 +928,86 @@ export default function Home() {
 
               {/* Map Layers Container */}
               <div className="relative w-full">
-                      {isMapLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg min-h-[400px]">
-          <div className="text-[#4B6CFF] text-lg">Loading map...</div>
-        </div>
-      )}
-                <div className={`relative w-full transition-opacity duration-300 ${isMapLoading ? 'opacity-0' : 'opacity-100'}`}>
-                  {/* Only load visible layers to improve performance */}
-                  {mapLayers.walkTime && (
-                    <Image
-                      src={isMobile ? "/optimized/cf walk layer sm.webp" : "/optimized/cf walk layer.webp"}
-                      alt="Walk Times"
-                      width={isMobile ? 800 : 1600}
-                      height={isMobile ? 600 : 1200}
-                      loading="lazy"
-                      quality={imageQuality}
-                      onLoad={() => handleImageLoad('walk')}
-                      placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,..."
-                      className="w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[50]"
-                      sizes={isMobile ? "100vw" : "(max-width: 1200px) 100vw, 1200px"}
-                    />
-                  )}
-                  
-                  {mapLayers.hotels && (
-                    <Image
-                      src={isMobile ? "/optimized/cf hotel layer sm.webp" : "/optimized/cf hotel layer.webp"}
-                      alt="Hotels"
-                      width={isMobile ? 800 : 1600}
-                      height={isMobile ? 600 : 1200}
-                      loading="lazy"
-                      quality={imageQuality}
-                      onLoad={() => handleImageLoad('hotels')}
-                      placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,..."
-                      className="w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[40]"
-                      sizes={isMobile ? "100vw" : "(max-width: 1200px) 100vw, 1200px"}
-                    />
-                  )}
-                  
-                  {/* Base layers always load first */}
+                <div className="relative w-full">
+                  {/* Walk Layer - Top (z-index: 50) */}
                   <Image
-                    src="/optimized/cf paint map updated sm.webp"
-                    alt="Painted Map"
-                    width={800}
-                    height={600}
+                    src="/cf walk layer.png"
+                    alt="Walk Times"
+                    width={1200}
+                    height={675}
                     loading="lazy"
-                    quality={isMobile ? 50 : 60}
-                    onLoad={() => handleImageLoad('paint')}
+                    quality={75}
                     placeholder="blur"
-                    blurDataURL="data:image/jpeg;base64,..."
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[50] ${
+                      mapLayers.walkTime ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                  
+                  {/* Hotel Layer (z-index: 40) */}
+                  <Image
+                    src="/cf hotel layer.png"
+                    alt="Hotels"
+                    width={1200}
+                    height={675}
+                    loading="lazy"
+                    quality={75}
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[40] ${
+                      mapLayers.hotels ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                  
+                  {/* Event Layer (z-index: 30) */}
+                  <Image
+                    src="/cf event layer.png"
+                    alt="Events"
+                    width={1200}
+                    height={675}
+                    loading="lazy"
+                    quality={75}
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[30] ${
+                      mapLayers.events ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                  
+                  {/* Paint Map Layer (z-index: 20) */}
+                  <Image
+                    src="/cf paint map.png"
+                    alt="Painted Map"
+                    width={1200}
+                    height={675}
+                    loading="eager" // Change from lazy to eager for important maps
+                    quality={60}
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                    sizes="(max-width: 1200px) 100vw, 1200px"
                     className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[20] ${
                       mapLayers.paintMap ? 'opacity-100' : 'opacity-0'
                     }`}
-                    sizes="100vw"
                   />
                   
+                  {/* Google Layer - Bottom (z-index: 10) */}
                   <Image
-                    src="/optimized/cf goog map sm.webp"
+                    src="/cf goog map.png"
                     alt="Google Map"
-                    width={800}
-                    height={600}
+                    width={1200}
+                    height={675}
                     loading="lazy"
-                    quality={isMobile ? 50 : 60}
-                    onLoad={() => handleImageLoad('google')}
+                    quality={60}
                     placeholder="blur"
-                    blurDataURL="data:image/jpeg;base64,..."
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                     className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 relative z-[10] ${
                       mapLayers.googleMap ? 'opacity-100' : 'opacity-0'
                     }`}
-                    sizes="100vw"
+                    sizes="(max-width: 1200px) 100vw, 1200px"
                   />
-
-                  {/* Overlay layers load after */}
-                  {mapLayers.events && (
-                    <Image
-                      src="/optimized/cf event layer updated sm.webp"
-                      alt="Events"
-                      width={800}
-                      height={600}
-                      loading="lazy"
-                      quality={imageQuality}
-                      onLoad={() => handleImageLoad('events')}
-                      placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,..."
-                      className="w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[30]"
-                      sizes="100vw"
-                    />
-                  )}
                 </div>
               </div>
             </div>
@@ -1282,11 +1020,11 @@ export default function Home() {
                   <div className="relative w-full">
                     {/* Reference Layer - Top (z-index: 50) */}
                     <Image
-                      src="/optimized/riv ref layer.webp"
+                      src="/riv ref layer.png"
                       alt="Reference Layer"
-                      width={1600}
-                      height={1511}
-                      loading="eager"
+                      width={1200}
+                      height={800}
+                      loading="lazy"
                       quality={75}
                       placeholder="blur"
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
@@ -1298,11 +1036,11 @@ export default function Home() {
                     
                     {/* Drive Layer (z-index: 40) */}
                     <Image
-                      src="/optimized/riv drive layer sm.webp"
+                      src="/riv drive layer.png"
                       alt="Drive Times"
-                      width={1600}
-                      height={1511}
-                      loading="eager"
+                      width={1200}
+                      height={800}
+                      loading="lazy"
                       quality={75}
                       placeholder="blur"
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
@@ -1314,11 +1052,11 @@ export default function Home() {
                     
                     {/* Florida Layer (z-index: 30) */}
                     <Image
-                      src="/optimized/riv fla layer sm.webp"
+                      src="/riv fla layer.png"
                       alt="Florida Translation"
-                      width={1600}
-                      height={1511}
-                      loading="eager"
+                      width={1200}
+                      height={800}
+                      loading="lazy"
                       quality={75}
                       placeholder="blur"
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
@@ -1330,11 +1068,11 @@ export default function Home() {
                     
                     {/* Paint Map Layer (z-index: 20) */}
                     <Image
-                      src="/optimized/riv paint map sm.webp"
+                      src="/riv paint map.png"
                       alt="Painted Map"
-                      width={1600}
-                      height={1511}
-                      loading="eager"
+                      width={1200}
+                      height={800}
+                      loading="lazy"
                       quality={60}
                       placeholder="blur"
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
@@ -1346,11 +1084,11 @@ export default function Home() {
                     
                     {/* Google Layer - Bottom (z-index: 10) */}
                     <Image
-                      src="/optimized/riv goog map sm.webp"
+                      src="/riv goog map.png"
                       alt="Google Map"
-                      width={1600}
-                      height={1511}
-                      loading="eager"
+                      width={1200}
+                      height={800}
+                      loading="lazy"
                       quality={60}
                       placeholder="blur"
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
@@ -1405,7 +1143,7 @@ export default function Home() {
                       >
                         <div className="relative w-full h-full">
                           <Image
-                            src="/optimized/paint btn.webp"
+                            src="/paint btn.png"
                             alt="Paint Map Toggle"
                             fill
                             className="object-contain"
@@ -1422,7 +1160,7 @@ export default function Home() {
                       >
                         <div className="relative w-full h-full">
                           <Image
-                            src="/optimized/goog btn.webp"
+                            src="/goog btn.png"
                             alt="Google Map Toggle"
                             fill
                             className="object-contain"
@@ -1443,19 +1181,19 @@ export default function Home() {
         </section>
 
         {/* Stay Section */}
-        <section ref={sectionRefs.stay} id="stay" className="min-h-screen py-2 sm:py-16 flex flex-col items-center">
+        <section id="stay" className="min-h-screen py-2 sm:py-16 flex flex-col items-center">
           {/* Stay Section Title */}
           <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-4 sm:mb-16 relative overflow-visible">
             <div className="relative w-full">
               <Image
-                src="/optimized/stay title mobile.webp"
+                src="/stay title mobile.png"
                 alt="Stay"
                 width={2000}
                 height={100}
                 className="w-full h-auto md:hidden"
               />
               <Image
-                src="/optimized/stay title.webp"
+                src="/stay title.png"
                 alt="Stay"
                 width={2000}
                 height={100}
@@ -1527,14 +1265,14 @@ export default function Home() {
           <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-12 sm:mb-16 relative overflow-visible">
             <div className="relative w-full">
               <Image
-                src="/optimized/travel title mobile.webp"
+                src="/travel title mobile.png"
                 alt="Travel"
                 width={2000}
                 height={100}
                 className="w-full h-auto md:hidden"
               />
               <Image
-                src="/optimized/travel title.webp"
+                src="/travel title.png"
                 alt="Travel"
                 width={2000}
                 height={100}
@@ -1623,14 +1361,14 @@ export default function Home() {
           <div className="w-full max-w-[2000px] px-5 sm:px-4 mb-12 sm:mb-16 relative overflow-visible">
             <div className="relative w-full">
               <Image
-                src="/optimized/faq title mobile.webp"
+                src="/faq title mobile.png"
                 alt="FAQ"
                 width={2000}
                 height={100}
                 className="w-full h-auto md:hidden"
               />
               <Image
-                src="/optimized/faq title.webp"
+                src="/faq title.png"
                 alt="FAQ"
                 width={2000}
                 height={100}
@@ -1678,7 +1416,7 @@ export default function Home() {
         <div className="w-full relative">
           <div className="w-full relative">
             <Image
-              src="/optimized/ld sheep txt.webp"
+              src="/ld sheep txt.png"
               alt="Footer Decoration"
               width={2000}
               height={667}
