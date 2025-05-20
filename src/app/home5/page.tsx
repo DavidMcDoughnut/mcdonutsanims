@@ -348,7 +348,7 @@ export default function Home() {
   // Update video component with ref and optimizations
   const renderVideo = () => {
     const isMobile = window.innerWidth <= 768;
-    const videoSrc = isMobile ? '/anim4k-vid-sm.webm' : '/anim4k-vid.webm';
+    const videoSrc = isMobile ? '/anim4k-vid-hb3.mp4' : '/anim4k-vid-hb2.mp4';
     
     return (
       <video 
@@ -362,7 +362,7 @@ export default function Home() {
           backfaceVisibility: 'hidden'
         }}
       >
-        <source src={videoSrc} type="video/webm" />
+        <source src={videoSrc} type="video/mp4" />
       </video>
     );
   };

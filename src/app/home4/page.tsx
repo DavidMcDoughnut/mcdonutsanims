@@ -348,7 +348,7 @@ export default function Home() {
   // Update video component with ref and optimizations
   const renderVideo = () => {
     const isMobile = window.innerWidth <= 768;
-    const videoSrc = isMobile ? '/anim4k-vid-sm.webm' : '/anim4k-vid.webm';
+    const videoSrc = isMobile ? '/anim4k-vid-sm.webm' : '/anim4k-vid-hb.webm';
     
     return (
       <video 
