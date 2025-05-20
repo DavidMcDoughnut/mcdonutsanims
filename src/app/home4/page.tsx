@@ -346,21 +346,26 @@ export default function Home() {
   }, [isChrome]);
 
   // Update video component with ref and optimizations
-  const renderVideo = () => (
-    <video 
-      ref={videoRef}
-      className="absolute inset-x-0 top-0 h-screen w-full object-cover object-top z-0"
-      playsInline
-      muted
-      preload="auto"
-      style={{ 
-        transform: 'translate3d(0,0,0)',
-        backfaceVisibility: 'hidden'
-      }}
-    >
-      <source src="/anim4k-vid.webm" type="video/webm" />
-    </video>
-  );
+  const renderVideo = () => {
+    const isMobile = window.innerWidth <= 768;
+    const videoSrc = isMobile ? '/anim4k-vid-sm.webm' : '/anim4k-vid.webm';
+    
+    return (
+      <video 
+        ref={videoRef}
+        className="absolute inset-x-0 top-0 h-screen w-full object-cover object-top z-0"
+        playsInline
+        muted
+        preload="auto"
+        style={{ 
+          transform: 'translate3d(0,0,0)',
+          backfaceVisibility: 'hidden'
+        }}
+      >
+        <source src={videoSrc} type="video/webm" />
+      </video>
+    );
+  };
 
   const toggleLayer = (
     layer: keyof CapFerratLayers | keyof RivieraLayers,
