@@ -107,6 +107,9 @@ export default function Home() {
     googleMap: false
   });
 
+  // Add new state for video readiness
+  const [videoReady, setVideoReady] = useState(false);
+
   const router = useRouter();
 
   // Add this effect to handle Vercel Vitals reporting
@@ -354,20 +357,50 @@ export default function Home() {
 
   // Update video component with ref and optimizations
   const renderVideo = () => (
-    <video 
-      ref={videoRef}
-      className="absolute inset-x-0 top-0 h-screen w-full object-cover object-top z-0"
-      playsInline
-      muted
-      autoPlay
-      preload="auto"
-      style={{ 
-        transform: 'translate3d(0,0,0)',
-        backfaceVisibility: 'hidden'
-      }}
-    >
-      <source src="/anim4k-vid-hb3.mp4" type="video/mp4" />
-    </video>
+    <div className="absolute inset-0">
+      {/* Static background image that shows immediately */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/optimized/vebg-static.webp"
+          alt="Background"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-top"
+          style={{ 
+            transform: 'translate3d(0,0,0)',
+            backfaceVisibility: 'hidden'
+          }}
+        />
+      </div>
+      
+      {/* Video that fades in once it starts playing */}
+      <video 
+        ref={videoRef}
+        className="absolute inset-x-0 top-0 h-screen w-full object-cover object-top z-[1] opacity-0 transition-opacity duration-500"
+        playsInline
+        muted
+        autoPlay
+        preload="auto"
+        poster="/optimized/vebg-static.webp"
+        style={{ 
+          transform: 'translate3d(0,0,0)',
+          backfaceVisibility: 'hidden'
+        }}
+        onPlay={() => {
+          const video = videoRef.current;
+          if (video) {
+            // Fade in the video
+            video.classList.remove('opacity-0');
+            video.classList.add('opacity-100');
+            // Set video ready state immediately when playback starts
+            setVideoReady(true);
+          }
+        }}
+      >
+        <source src="/anim4k-vid-hb3.mp4" type="video/mp4" />
+      </video>
+    </div>
   );
 
   const toggleLayer = (
@@ -447,6 +480,15 @@ export default function Home() {
   //     hasPlayedThroughOnce
   //   });
   // }, [initialAnimationComplete, hasPlayedThroughOnce]);
+
+  // HeroBottom animations with CSS transitions and delays
+  const getHeroItemClass = (delay: number) => `
+    w-[90vw] sm:w-[80vw] md:w-[600px] 
+    flex justify-center mt-0 
+    transition-all duration-1000 ease-out
+    ${videoReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
+    ${videoReady ? `transition-delay-[${delay}ms]` : ''}
+  `;
 
   return (
     <main className="relative min-h-[200vh] w-full overflow-x-hidden">
@@ -637,14 +679,15 @@ export default function Home() {
           />
 
           {/* HeroBottom Container */}
-          <div 
-            className="absolute bottom-0 left-0 right-0 h-[54vh] sm:h-[50vh] md:h-[46vh] flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-4 z-50"
-          >
+          <div className="absolute bottom-0 left-0 right-0 h-[54vh] sm:h-[50vh] md:h-[46vh] flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-4 z-50">
             {/* Lauren & David SVG */}
-            <div 
-              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center mt-0 transition-all duration-1000 ease-out delay-[6000] ${
-                pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
+            <div style={{ transitionDelay: videoReady ? '6000ms' : '0ms' }}
+              className={`w-[90vw] sm:w-[80vw] md:w-[600px] 
+                flex justify-center mt-0 
+                transition-all duration-1000 ease-out
+                ${videoReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
+                ${videoReady ? `transition-delay-[6000ms]` : ''}
+              `}
             >
               <Image
                 src="/lauren david hero.svg"
@@ -656,9 +699,9 @@ export default function Home() {
             </div>
 
             {/* Date */}
-            <div 
-              className={`w-[90vw] sm:w-[80vw] md:w-[800px] flex justify-center transition-all duration-1000 ease-out delay-[6200] ${
-                pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            <div style={{ transitionDelay: videoReady ? '6200ms' : '0ms' }}
+              className={`w-[90vw] sm:w-[80vw] md:w-[800px] flex justify-center transition-all duration-1000 ease-out ${
+                videoReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
               <p className="wedding-text text-2xl sm:text-3xl md:text-4xl leading-[200%]">
@@ -667,9 +710,9 @@ export default function Home() {
             </div>
 
             {/* Villa SVG */}
-            <div 
-              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center transition-all duration-1000 ease-out delay-[6400] ${
-                pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            <div style={{ transitionDelay: videoReady ? '6400ms' : '0ms' }}
+              className={`w-[90vw] sm:w-[80vw] md:w-[600px] flex justify-center transition-all duration-1000 ease-out ${
+                videoReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
               <Image
@@ -682,9 +725,9 @@ export default function Home() {
             </div>
 
             {/* Location */}
-            <div 
-              className={`w-[90vw] sm:w-[80vw] md:w-[800px] flex justify-center transition-all duration-1000 ease-out delay-[6600] ${
-                pageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            <div style={{ transitionDelay: videoReady ? '6600ms' : '0ms' }}
+              className={`w-[90vw] sm:w-[80vw] md:w-[800px] flex justify-center transition-all duration-1000 ease-out ${
+                videoReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
               <p className="wedding-text text-base sm:text-lg md:text-xl leading-[200%] text-center">
