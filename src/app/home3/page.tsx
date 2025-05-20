@@ -182,12 +182,30 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // Browser detection
+    // More precise browser detection
     const detectBrowser = () => {
       const userAgent = window.navigator.userAgent.toLowerCase();
       const isMobile = /iphone|ipad|ipod|android/.test(userAgent);
+      const isIOS = /iphone|ipad|ipod/.test(userAgent);
+      const isAndroid = /android/.test(userAgent);
       const isChromeBrowser = /chrome/.test(userAgent) && !/edge|opr|opera/.test(userAgent);
-      setIsChrome(!isMobile && isChromeBrowser);
+      
+      // Only use Lottie on desktop Chrome
+      const shouldUseLottie = !isMobile && isChromeBrowser;
+      
+      // Set state for conditional rendering
+      setIsChrome(shouldUseLottie);
+      
+      // Log device info in development
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Device detection:', {
+          isMobile,
+          isIOS,
+          isAndroid,
+          isChromeBrowser,
+          shouldUseLottie
+        });
+      }
     };
 
     detectBrowser();
@@ -254,10 +272,14 @@ export default function Home() {
         return;
       }
       
+      // Don't even attempt to load animation if not Chrome desktop
+      if (!isChrome) {
+        return;
+      }
+      
       animationLoadAttempted.current = true;
       
       try {
-        // Add basic error handling and timeout
         const timeoutPromise = new Promise((_, reject) => {
           setTimeout(() => reject(new Error('Animation load timeout')), 10000);
         });
@@ -293,6 +315,52 @@ export default function Home() {
     
     loadAnimation();
   }, [isChrome]);
+
+  // Optimize video loading for mobile
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (!isChrome && videoRef.current) {
+      const video = videoRef.current;
+      
+      // Optimize mobile video playback
+      video.setAttribute('playsinline', '');
+      video.setAttribute('preload', 'auto');
+      video.setAttribute('muted', 'true');
+      
+      // Lower quality for mobile
+      if (window.innerWidth <= 768) {
+        video.setAttribute('data-quality', 'low');
+      }
+      
+      // Handle video loading
+      const handleCanPlay = () => {
+        video.play().catch(err => {
+          console.error('Video autoplay failed:', err);
+        });
+      };
+      
+      video.addEventListener('canplay', handleCanPlay);
+      return () => video.removeEventListener('canplay', handleCanPlay);
+    }
+  }, [isChrome]);
+
+  // Update video component with ref and optimizations
+  const renderVideo = () => (
+    <video 
+      ref={videoRef}
+      className="absolute inset-x-0 top-0 h-screen w-full object-cover object-top z-0"
+      playsInline
+      muted
+      preload="auto"
+      style={{ 
+        transform: 'translate3d(0,0,0)',
+        backfaceVisibility: 'hidden'
+      }}
+    >
+      <source src="/anim4k-vid.webm" type="video/webm" />
+    </video>
+  );
 
   const toggleLayer = (
     layer: keyof CapFerratLayers | keyof RivieraLayers,
@@ -550,25 +618,7 @@ export default function Home() {
           }}
         >
           {/* Background Video */}
-          <video 
-            className="absolute inset-x-0 top-0 h-screen w-full object-cover object-top z-0"
-            playsInline
-            muted
-            ref={(videoElement) => {
-              if (videoElement && !videoElement.hasAttribute('data-init')) {
-                videoElement.setAttribute('data-init', 'true');
-                videoElement.addEventListener('loadedmetadata', () => {
-                  videoElement.playbackRate = 1.5;
-                  videoElement.play();
-                });
-                videoElement.addEventListener('ended', () => {
-                  videoElement.currentTime = videoElement.duration;
-                });
-              }
-            }}
-          >
-            <source src="/anim4k-vid.webm" type="video/webm" />
-          </video>
+          {renderVideo()}
 
           {/* Bottom Gradient Overlay */}
           <div 
