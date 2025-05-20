@@ -129,7 +129,12 @@ export default function Home() {
     '/optimized/main event.webp',
     '/optimized/main event color.webp',
     '/optimized/la vie en rose.webp',
-    '/optimized/la vie en color.webp'
+    '/optimized/la vie en color.webp',
+    '/optimized/cf paint map updated.webp',
+    '/optimized/cf goog map.webp',
+    '/optimized/cf walk layer.webp',
+    '/optimized/cf hotel layer.webp',
+    '/optimized/cf event layer updated.webp'
   ];
   
   useImagePreloader(criticalImages);
@@ -145,7 +150,7 @@ export default function Home() {
   // Add intersection observer for sections
   useEffect(() => {
     const observerOptions = {
-      rootMargin: '100px 0px', // Start loading 100px before element enters viewport
+      rootMargin: '500px 0px', // Increased from 100px to 500px to start loading much earlier
       threshold: 0.1
     };
 
@@ -841,12 +846,13 @@ export default function Home() {
             {/* Welcome Drinks */}
             <div className="w-full py-2 group">
               <div className="w-[1200px] max-w-full px-5 sm:px-4 mx-auto flex flex-col-reverse md:flex-row gap-1 md:gap-8">
-                <a href="https://www.mayssabeach.fr/en/restaurant" target="_blank" rel="noopener noreferrer" className="block w-full md:w-1/2 cursor-pointer">
+                <a href="https://www.edmundsocialclub.com/" target="_blank" rel="noopener noreferrer" className="block w-full md:w-1/2 cursor-pointer">
                   <div className="relative aspect-[4/3]">
                     <Image
-                      src="/optimized/welcome drinks.webp"
+                      src="/optimized/edmunds masked bw40.webp"
                       alt="Welcome Drinks B&W"
                       fill
+                      loading="eager" // Changed from lazy to eager
                       priority={visibleSection === 'events'}
                       className="object-contain rounded-lg md:block hidden"
                       sizes="(max-width: 768px) 100vw, 50vw"
@@ -854,9 +860,10 @@ export default function Home() {
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                     />
                     <Image
-                      src="/optimized/welcome drinks color.webp"
+                      src="/optimized/edmunds masked color.webp"
                       alt="Welcome Drinks Color"
                       fill
+                      loading="eager" // Changed from lazy to eager
                       priority={visibleSection === 'events'}
                       className="object-contain rounded-lg md:opacity-0 md:transition-opacity md:duration-300 md:ease-linear md:group-hover:opacity-100 block md:block"
                       sizes="(max-width: 768px) 100vw, 50vw"
@@ -867,8 +874,8 @@ export default function Home() {
                 </a>
                 <div className="w-full md:w-1/2 flex flex-col justify-center space-y-2 md:space-y-6">
                   <h3 className="text-[#FF7DC5] text-lg sm:text-xl font-extralight tracking-widest">Thursday June 19</h3>
-                  <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest">WELCOME DRINKS</h2>
-                  <div className="grid grid-cols-[52px_1fr] sm:grid-cols-[72px_1fr] gap-x-2 sm:gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base">
+                  <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest text-[#4B6CFF]">WELCOME DRINKS</h2>
+                  <div className="grid grid-cols-[52px_1fr] sm:grid-cols-[72px_1fr] gap-x-2 sm:gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base text-[#4B6CFF]">
                     <div className="contents">
                       <span className="font-light">When</span>
                       <span className="font-bold">8pm onwards</span>
@@ -876,7 +883,7 @@ export default function Home() {
                     <div className="contents">
                       <span className="font-light">Where</span>
                       <div>
-                        <a href="https://www.mayssabeach.fr/en/restaurant" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5] font-bold">Edmunds Social Club</a>
+                        <a href="https://www.edmundsocialclub.com/" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5] font-bold">Edmunds Social Club</a>
                         <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00B4AC] transition-colors duration-150 hover:text-[#FF7DC5] ml-1">(map)</a>
                       </div>
                     </div>
@@ -898,6 +905,7 @@ export default function Home() {
                       src="/optimized/main event.webp"
                       alt="Main Event B&W"
                       fill
+                      loading="eager" // Changed from lazy to eager
                       priority={visibleSection === 'events'}
                       className="object-contain rounded-lg md:block hidden"
                       sizes="(max-width: 768px) 100vw, 50vw"
@@ -908,6 +916,7 @@ export default function Home() {
                       src="/optimized/main event color.webp"
                       alt="Main Event Color"
                       fill
+                      loading="eager" // Changed from lazy to eager
                       priority={visibleSection === 'events'}
                       className="object-contain rounded-lg md:opacity-0 md:transition-opacity md:duration-300 md:ease-linear md:group-hover:opacity-100 block md:block"
                       sizes="(max-width: 768px) 100vw, 50vw"
@@ -918,8 +927,8 @@ export default function Home() {
                 </a>
                 <div className="w-full md:w-1/2 flex flex-col justify-center space-y-2 md:space-y-6">
                   <h3 className="text-[#FF7DC5] text-lg sm:text-xl font-extralight tracking-widest">Friday June 20</h3>
-                  <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest">MAIN EVENT</h2>
-                  <div className="grid grid-cols-[52px_1fr] sm:grid-cols-[72px_1fr] gap-x-2 sm:gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base">
+                  <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest text-[#4B6CFF]">MAIN EVENT</h2>
+                  <div className="grid grid-cols-[52px_1fr] sm:grid-cols-[72px_1fr] gap-x-2 sm:gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base text-[#4B6CFF]">
                     <div className="contents">
                       <span className="font-light">When</span>
                       <span className="font-bold">5pm Onwards</span>
@@ -949,6 +958,7 @@ export default function Home() {
                       src="/optimized/la vie en rose.webp"
                       alt="La Vie en Rosé B&W"
                       fill
+                      loading="eager" // Changed from lazy to eager
                       priority={visibleSection === 'events'}
                       className="object-contain rounded-lg md:block hidden"
                       sizes="(max-width: 768px) 100vw, 50vw"
@@ -959,6 +969,7 @@ export default function Home() {
                       src="/optimized/la vie en color.webp"
                       alt="La Vie en Rosé Color"
                       fill
+                      loading="eager" // Changed from lazy to eager
                       priority={visibleSection === 'events'}
                       className="object-contain rounded-lg md:opacity-0 md:transition-opacity md:duration-300 md:ease-linear md:group-hover:opacity-100 block md:block"
                       sizes="(max-width: 768px) 100vw, 50vw"
@@ -970,10 +981,10 @@ export default function Home() {
                 <div className="w-full md:w-1/2 flex flex-col justify-center space-y-2 md:space-y-6">
                   <h3 className="text-[#FF7DC5] text-lg sm:text-xl font-extralight tracking-widest">Saturday June 21</h3>
                   <div className="space-y-1">
-                    <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest">LA VIE EN ROSÉ</h2>
-                    <h3 className="text-lg sm:text-xl font-extralight tracking-widest">BEACH CLUB RECOVERY LOUNGE</h3>
+                    <h2 className="text-2xl sm:text-3xl font-extralight tracking-widest text-[#4B6CFF]">LA VIE EN ROSÉ</h2>
+                    <h3 className="text-lg sm:text-xl font-extralight tracking-widest text-[#4B6CFF]">BEACH CLUB RECOVERY LOUNGE</h3>
                   </div>
-                  <div className="grid grid-cols-[52px_1fr] sm:grid-cols-[72px_1fr] gap-x-2 sm:gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base">
+                  <div className="grid grid-cols-[52px_1fr] sm:grid-cols-[72px_1fr] gap-x-2 sm:gap-x-4 gap-y-2 tracking-wider text-sm sm:text-base text-[#4B6CFF]">
                     <div className="contents">
                       <span className="font-light">When</span>
                       <span className="font-bold">2pm-ish Onwards</span>
@@ -1112,11 +1123,11 @@ export default function Home() {
                 <div className="relative w-full">
                   {/* Walk Layer - Top (z-index: 50) */}
                   <Image
-                    src="/optimized/cf walk layer.webp"
+                    src="/optimized/cf walk layer sm.webp"
                     alt="Walk Times"
-                    width={1200}
-                    height={675}
-                    loading="lazy"
+                    width={1600}
+                    height={1200}
+                    loading="eager"
                     quality={75}
                     placeholder="blur"
                     blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
@@ -1132,7 +1143,7 @@ export default function Home() {
                     alt="Hotels"
                     width={1200}
                     height={675}
-                    loading="lazy"
+                    loading="eager" // Changed from lazy to eager
                     quality={75}
                     placeholder="blur"
                     blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
@@ -1144,11 +1155,11 @@ export default function Home() {
                   
                   {/* Event Layer (z-index: 30) */}
                   <Image
-                    src="/optimized/cf event layer updated.webp"
+                    src="/optimized/cf event layer updated sm.webp"
                     alt="Events"
-                    width={1200}
-                    height={675}
-                    loading="lazy"
+                    width={1600}
+                    height={1200}
+                    loading="eager"
                     quality={75}
                     placeholder="blur"
                     blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
@@ -1160,10 +1171,10 @@ export default function Home() {
                   
                   {/* Paint Map Layer (z-index: 20) */}
                   <Image
-                    src="/optimized/cf paint map updated.webp"
+                    src="/optimized/cf paint map updated sm.webp"
                     alt="Painted Map"
-                    width={1200}
-                    height={675}
+                    width={1600}
+                    height={1200}
                     loading="eager"
                     quality={60}
                     placeholder="blur"
@@ -1176,16 +1187,32 @@ export default function Home() {
                   
                   {/* Google Layer - Bottom (z-index: 10) */}
                   <Image
-                    src="/optimized/cf goog map.webp"
+                    src="/optimized/cf goog map sm.webp"
                     alt="Google Map"
-                    width={1200}
-                    height={675}
-                    loading="lazy"
+                    width={1600}
+                    height={1200}
+                    loading="eager"
                     quality={60}
                     placeholder="blur"
                     blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                     className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 relative z-[10] ${
                       mapLayers.googleMap ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+
+                  {/* Hotel Layer (z-index: 40) */}
+                  <Image
+                    src="/optimized/cf hotel layer sm.webp"
+                    alt="Hotels"
+                    width={1600}
+                    height={1200}
+                    loading="eager"
+                    quality={75}
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                    className={`w-full h-auto object-contain rounded-lg transition-opacity duration-300 absolute top-0 left-0 z-[40] ${
+                      mapLayers.hotels ? 'opacity-100' : 'opacity-0'
                     }`}
                     sizes="(max-width: 1200px) 100vw, 1200px"
                   />
@@ -1203,9 +1230,9 @@ export default function Home() {
                     <Image
                       src="/optimized/riv ref layer.webp"
                       alt="Reference Layer"
-                      width={1200}
-                      height={800}
-                      loading="lazy"
+                      width={1600}
+                      height={1511}
+                      loading="eager"
                       quality={75}
                       placeholder="blur"
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
@@ -1217,11 +1244,11 @@ export default function Home() {
                     
                     {/* Drive Layer (z-index: 40) */}
                     <Image
-                      src="/optimized/riv drive layer.webp"
+                      src="/optimized/riv drive layer sm.webp"
                       alt="Drive Times"
-                      width={1200}
-                      height={800}
-                      loading="lazy"
+                      width={1600}
+                      height={1511}
+                      loading="eager"
                       quality={75}
                       placeholder="blur"
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
@@ -1233,11 +1260,11 @@ export default function Home() {
                     
                     {/* Florida Layer (z-index: 30) */}
                     <Image
-                      src="/optimized/riv fla layer.webp"
+                      src="/optimized/riv fla layer sm.webp"
                       alt="Florida Translation"
-                      width={1200}
-                      height={800}
-                      loading="lazy"
+                      width={1600}
+                      height={1511}
+                      loading="eager"
                       quality={75}
                       placeholder="blur"
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
@@ -1249,11 +1276,11 @@ export default function Home() {
                     
                     {/* Paint Map Layer (z-index: 20) */}
                     <Image
-                      src="/optimized/riv paint map.webp"
+                      src="/optimized/riv paint map sm.webp"
                       alt="Painted Map"
-                      width={1200}
-                      height={800}
-                      loading="lazy"
+                      width={1600}
+                      height={1511}
+                      loading="eager"
                       quality={60}
                       placeholder="blur"
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
@@ -1265,11 +1292,11 @@ export default function Home() {
                     
                     {/* Google Layer - Bottom (z-index: 10) */}
                     <Image
-                      src="/optimized/riv goog map.webp"
+                      src="/optimized/riv goog map sm.webp"
                       alt="Google Map"
-                      width={1200}
-                      height={800}
-                      loading="lazy"
+                      width={1600}
+                      height={1511}
+                      loading="eager"
                       quality={60}
                       placeholder="blur"
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEE4OD5BPjIuMT5RS1FIVUJLU0tLV2JYVVlR/2wBDARVFxceGh4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR4eHR7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
