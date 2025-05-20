@@ -163,8 +163,20 @@ export default function UpdatePage() {
                     <p className="text-sm tracking-wider leading-relaxed"><strong>It's not too late to book: </strong>Prices are at their lowest right now since I started tracking in Sept. The Great Trade War is sub-optimal timing, but one benefit is that flight prices have gone down a lot.</p>
                     <p className="text-sm tracking-wider leading-relaxed"><strong>Flights: </strong> The Trade War and Newark chaos aren't great for wedding planning but the benefit is that ticket prices have gone way down</p>
                     <p className="text-sm tracking-wider leading-relaxed"><strong>Lodging: </strong> We still have plenty of Hotel rooms and AirBnBs held for guests that are already paid for, please reach out if interested!</p>
+                    <p className="text-sm tracking-wider leading-relaxed"><strong>REMINDER: </strong> <span className="text-orange font-bold">Weds 6/18 is a Market Holiday in the US for Juneteenth </span> Many companies have the day off.</p>
                     <p className="text-sm tracking-wider leading-relaxed">We hope you won't let the travel logistics get in the way of joining us and we're here to help.</p>
                     <p className="text-sm tracking-wider leading-relaxed">If you're still on the fence, please know we've pre-booked Airbnbs to make things as easy as possible <strong>(our treat!)</strong> and we are masters with miles <strong>(which we have to use anyways!)</strong></p>
+                  </div>
+                  <div className="mt-6">
+                    <div className="border-2 border-white rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300">
+                      <Image
+                        src="/optimized/flightprices.webp"
+                        alt="Current flight prices trending lower"
+                        width={2032}
+                        height={796}
+                        className="w-full h-auto"
+                      />
+                    </div>
                   </div>
                 </div>
 
