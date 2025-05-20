@@ -12,12 +12,7 @@ if (!fs.existsSync(outputDir)) {
 
 // List of large images to optimize
 const imagesToOptimize = [
-  'cf paint map.png',
-  'cf goog map.png',
-  'riv paint map.png',
-  'riv goog map.png',
-  'ld sheep txt.png',
-  'vebg-static.png'
+  'cf event layer updated.png'
 ];
 
 async function optimizeImage(filename) {
