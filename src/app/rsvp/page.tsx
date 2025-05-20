@@ -293,7 +293,7 @@ export default function RSVPPage() {
             <div 
               id="formcard" 
               className={cn(
-                "w-full max-w-2xl p-4 md:px-12 md:pb-12 md:pt-6 border-2 border-blue rounded-3xl shadow-paper bg-white/80 backdrop-blur-md relative overflow-hidden my-auto transform-gpu",
+                "w-full max-w-2xl p-4 md:px-12 md:pb-12 md:pt-4 border-2 border-blue rounded-3xl shadow-paper bg-white/80 backdrop-blur-md relative overflow-hidden my-auto transform-gpu",
                 "transition-all duration-1000 ease-[cubic-bezier(0.2,0,0,1)]",
                 !showForm && "opacity-0 translate-y-40",
                 showForm && "opacity-100 translate-y-0"
@@ -310,16 +310,54 @@ export default function RSVPPage() {
               />
               {/* Content container */}
               <div className="relative z-10">
-                <div className="w-full mb-8">
-                  <Image
-                    src="/rsvp-head.png"
-                    alt="RSVP for Lauren & David"
-                    width={800}
-                    height={100}
-                    className="w-full h-auto"
-                    priority
-                  />
+                <div className="w-full mb-8 flex items-center justify-between">
+                  {/* Home Button */}
+                  <a 
+                    href="https://themcdonuts.com" 
+                    className="flex flex-col items-center cursor-pointer group/btn mb-12 w-24"
+                  >
+                    <Image
+                      src="/villa-icon-1k.png"
+                      alt="Home"
+                      width={80}
+                      height={80}
+                      className="w-20 h-20 transform-gpu origin-center transition-transform duration-300 ease-out group-hover/btn:scale-[1.15]"
+                    />
+                    <span className="text-blue group-hover/btn:text-green text-sm tracking-widest group-hover/btn:tracking-[.25em] font-semibold uppercase transition-all duration-300 ease-out text-center">
+                      Home
+                    </span>
+                  </a>
+
+                  {/* Center Image */}
+                  <div className="flex-1 mx-8 flex justify-center">
+                    <Image
+                      src="/rsvp-head-clean.png"
+                      alt="RSVP"
+                      width={450}
+                      height={60}
+                      className="h-auto"
+                      priority
+                    />
+                  </div>
+
+                  {/* Updates Button */}
+                  <a 
+                    href="/updates" 
+                    className="flex flex-col items-center cursor-pointer group/btn mb-12 w-24"
+                  >
+                    <Image
+                      src="/brella-icon-1k.png"
+                      alt="Updates"
+                      width={80}
+                      height={80}
+                      className="w-20 h-20 transform-gpu origin-center transition-transform duration-300 ease-out group-hover/btn:scale-[1.15]"
+                    />
+                    <span className="text-blue group-hover/btn:text-green text-sm tracking-widest group-hover/btn:tracking-[.25em] font-semibold uppercase transition-all duration-300 ease-out text-center">
+                      Updates
+                    </span>
+                  </a>
                 </div>
+
                 <div className="rounded-lg isolate">
                   <Form {...form}>
                     <form 
