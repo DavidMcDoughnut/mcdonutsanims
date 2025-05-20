@@ -64,28 +64,28 @@ export default function UpdatePage() {
                   {/* Home Button */}
                   <a 
                     href="https://themcdonuts.com" 
-                    className="flex flex-col items-center cursor-pointer group/btn"
+                    className="flex flex-col items-center cursor-pointer group/btn mb-24 md:mb-12"
                   >
                     <Image
                       src="/villa-icon-1k.png"
                       alt="Home"
                       width={80}
                       height={80}
-                      className="w-20 h-20 transform-gpu origin-center transition-transform duration-300 ease-out group-hover/btn:scale-[1.15]"
+                      className="w-16 md:w-20 h-16 md:h-20 transform-gpu origin-center transition-transform duration-300 ease-out group-hover/btn:scale-[1.15]"
                     />
-                    <span className="text-blue group-hover/btn:text-green text-sm tracking-widest group-hover/btn:tracking-[.25em] font-semibold uppercase transition-all duration-300 ease-out text-center">
+                    <span className="text-blue group-hover/btn:text-green text-xs md:text-sm tracking-widest group-hover/btn:tracking-[.25em] font-semibold uppercase transition-all duration-300 ease-out text-center">
                       Home
                     </span>
                   </a>
 
                   {/* Center Image */}
-                  <div className="flex-1 mx-8 flex justify-center">
+                  <div className="flex-1 mx-2 md:mx-8 flex justify-center">
                     <Image
                       src="/update-head-clean.png"
                       alt="Updates"
                       width={500}
                       height={67}
-                      className="h-auto"
+                      className="w-[320px] md:w-auto h-auto"
                       priority
                     />
                   </div>
@@ -93,16 +93,16 @@ export default function UpdatePage() {
                   {/* RSVP Button */}
                   <a 
                     href="/rsvp" 
-                    className="flex flex-col items-center cursor-pointer group/btn"
+                    className="flex flex-col items-center cursor-pointer group/btn mb-24 md:mb-12"
                   >
                     <Image
                       src="/brella-icon-1k.png"
                       alt="RSVP"
                       width={80}
                       height={80}
-                      className="w-20 h-20 transform-gpu origin-center transition-transform duration-300 ease-out group-hover/btn:scale-[1.15]"
+                      className="w-16 md:w-20 h-16 md:h-20 transform-gpu origin-center transition-transform duration-300 ease-out group-hover/btn:scale-[1.15]"
                     />
-                    <span className="text-blue group-hover/btn:text-green text-sm tracking-widest group-hover/btn:tracking-[.25em] font-semibold uppercase transition-all duration-300 ease-out text-center">
+                    <span className="text-blue group-hover/btn:text-green text-xs md:text-sm tracking-widest group-hover/btn:tracking-[.25em] font-semibold uppercase transition-all duration-300 ease-out text-center">
                       RSVP
                     </span>
                   </a>
