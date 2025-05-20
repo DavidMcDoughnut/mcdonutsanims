@@ -358,7 +358,7 @@ export default function Home() {
         backfaceVisibility: 'hidden'
       }}
     >
-      <source src="/anim4k-vid-hb3.mp4" type="video/anim4k-vid-hb3.mp4" />
+      <source src="/anim4k-vid.webm" type="video/webm" />
     </video>
   );
 
