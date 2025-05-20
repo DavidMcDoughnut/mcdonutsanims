@@ -202,7 +202,7 @@ export default function UpdatePage() {
                       <p className="text-default mb-2 tracking-wider leading-relaxed"><strong>Welcome Party: <span className="text-green">Riviera Chic</span></strong></p>
                       <p className="text-sm tracking-wider leading-relaxed">Think Cannes boat show meets Cap Ferrat sunset cocktails, effortless elegance with a touch of nautical glamour.{" "}
                         <a 
-                          href="https://pin.it/5FB6ElT4c" 
+                          href="https://pin.it/3Mr9gcskS" 
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-pink font-semibold underline hover:text-green inline-flex items-center gap-1"
@@ -269,7 +269,7 @@ export default function UpdatePage() {
                       <p className="text-default mb-2 tracking-wider leading-relaxed"><strong>La Vie en Rosé (Beach Party) <span className="text-green">Riviera Casual</span></strong></p>
                       <p className="text-sm tracking-wider leading-relaxed">For our beachside recovery lunch, we're dialing up the Riviera joie de vivre. Think Club 55 meets a Saint-Tropez daydream. It's a beach party, but make it couture.{" "}
                         <a 
-                          href="https://pin.it/42quh5sKF" 
+                          href="https://pin.it/2p6ZrlJqL" 
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-pink font-semibold underline hover:text-green inline-flex items-center gap-1"
