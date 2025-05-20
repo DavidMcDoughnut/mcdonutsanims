@@ -3,9 +3,22 @@
 import React from 'react';
 import Image from 'next/image';
 import { cn } from "@/lib/utils";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown, ArrowUpRight } from "lucide-react";
 
 export default function UpdatePage() {
+  const [expandedSections, setExpandedSections] = React.useState({
+    welcomeParty: false,
+    wedding: false,
+    beach: false
+  });
+
+  const toggleSection = (section: keyof typeof expandedSections) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
   return (
     <>
       {/* SVG Filter Definition */}
@@ -182,12 +195,107 @@ export default function UpdatePage() {
 
                 {/* Dress Code Section */}
                 <div className="mb-16">
-                  <h2 className="text-xl md:text-2xl font-semibold tracking-wider mb-4">Dress Code: <span className="text-green">Info + Inspo!</span><span className="text-orange"> (LB WIP)</span></h2>
-                  <div className="space-y-4 text-default">
-                    <p className="text-sm tracking-wider leading-relaxed">Welcome party: Riviera Casual</p>
-                    <p className="text-sm tracking-wider leading-relaxed">Welcome party: Riviera Casual</p>
-                    <p className="text-sm tracking-wider leading-relaxed">Fri Wedding: Riviera Formal</p>
-                    <p className="text-sm tracking-wider leading-relaxed">Sat Beach Club: Riviera Chic</p>
+                  <h2 className="text-xl md:text-2xl font-semibold tracking-wider mb-4">Dress Code: <span className="text-green">Info + Inspo!</span></h2>
+                  <div className="space-y-8 text-default">
+                    {/* Welcome Party */}
+                    <div>
+                      <p className="text-default mb-2 tracking-wider leading-relaxed"><strong>Welcome Party: <span className="text-green">Riviera Chic</span></strong></p>
+                      <p className="text-sm tracking-wider leading-relaxed">Think Cannes boat show meets Cap Ferrat sunset cocktails, effortless elegance with a touch of nautical glamour.{" "}
+                        <a 
+                          href="https://pin.it/5FB6ElT4c" 
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-pink font-semibold underline hover:text-green inline-flex items-center gap-1"
+                        >
+                          LB Lookbook
+                          <ArrowUpRight className="w-4 h-4" />
+                        </a>
+                      </p>
+                      <div className={cn(
+                        "space-y-4 overflow-hidden transition-all duration-500 ease-in-out max-h-0 opacity-0",
+                        expandedSections.welcomeParty && "max-h-[500px] opacity-100 mt-4"
+                      )}>
+                        <p className="text-sm tracking-wider leading-relaxed">We're kicking off the weekend with cocktails and canapés in the marina, so channel your inner French Riviera muse: breezy linen, crisp tailoring, silk dresses, sundowner heels, polished loafers, chic sunglasses (yes, even at dusk).</p>
+                        <p className="text-sm tracking-wider leading-relaxed">It's all about understated luxury, stylish but not stiff, elevated but not overdressed. Basically: look like you belong on a yacht, but don't need to say so. (AKA for Guys: shorts, nice shirt, casual loafers)</p>
+                      </div>
+                      <button 
+                        onClick={() => toggleSection('welcomeParty')}
+                        className="flex items-center gap-1 text-sm text-blue/60 hover:text-blue mt-2 transition-all duration-300"
+                      >
+                        See {expandedSections.welcomeParty ? 'less' : 'more'}
+                        <ChevronDown className={cn(
+                          "w-4 h-4 transition-transform duration-300 ease-in-out",
+                          expandedSections.welcomeParty && "transform rotate-180"
+                        )} />
+                      </button>
+                    </div>
+                    
+                    {/* Wedding */}
+                    <div>
+                      <p className="text-default mb-2 tracking-wider leading-relaxed"><strong>Wedding: <span className="text-green">Riviera Glamour </span> <span className="text-sm font-medium text-pink italic"> (Not Black Tie)</span></strong></p>
+                      <p className="text-sm tracking-wider leading-relaxed">Step into your main character moment. We invite you to dress like the backdrop: blush-pink façades, sweeping gardens, twinkling sunsets and old-world charm, straight out of a vintage Vogue editorial set on the Côte d'Azur.{" "}
+                        <a 
+                          href="https://pin.it/2bSPzVFT0" 
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-pink font-semibold underline hover:text-green inline-flex items-center gap-1"
+                        >
+                          LB Lookbook
+                          <ArrowUpRight className="w-4 h-4" />
+                        </a>
+                      </p>
+                      <div className={cn(
+                        "space-y-4 overflow-hidden transition-all duration-500 ease-in-out max-h-0 opacity-0",
+                        expandedSections.wedding && "max-h-[500px] opacity-100 mt-4"
+                      )}>
+                        <p className="text-sm tracking-wider leading-relaxed">Ladies: think flowing, floral, or printed dresses in bold or pastel hues, long and romantic is the mood, but most importantly: feel fabulous.</p>
+                        <p className="text-sm tracking-wider leading-relaxed">Gents: Lightweight, light-colored suits in linen, cotton, or seersucker, ideally in pastel tones, think Monaco meets Matisse. Loafers optional, joie de vivre required.</p>
+                        <p className="text-sm tracking-wider leading-relaxed">The evening will unfold with cocktails, fine dining by a Michelin-starred chef, and dancing under the stars, so dress to dazzle, but keep it cool. Old-school glamour, summer breeze ease.</p>
+                      </div>
+                      <button 
+                        onClick={() => toggleSection('wedding')}
+                        className="flex items-center gap-1 text-sm text-blue/60 hover:text-blue mt-2 transition-all duration-300"
+                      >
+                        See {expandedSections.wedding ? 'less' : 'more'}
+                        <ChevronDown className={cn(
+                          "w-4 h-4 transition-transform duration-300 ease-in-out",
+                          expandedSections.wedding && "transform rotate-180"
+                        )} />
+                      </button>
+                    </div>
+
+                    {/* Beach */}
+                    <div>
+                      <p className="text-default mb-2 tracking-wider leading-relaxed"><strong>La Vie en Rosé (Beach Party) <span className="text-green">Riviera Casual</span></strong></p>
+                      <p className="text-sm tracking-wider leading-relaxed">For our beachside recovery lunch, we're dialing up the Riviera joie de vivre. Think Club 55 meets a Saint-Tropez daydream. It's a beach party, but make it couture.{" "}
+                        <a 
+                          href="https://pin.it/42quh5sKF" 
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-pink font-semibold underline hover:text-green inline-flex items-center gap-1"
+                        >
+                          LB Lookbook
+                          <ArrowUpRight className="w-4 h-4" />
+                        </a>
+                      </p>
+                      <div className={cn(
+                        "space-y-4 overflow-hidden transition-all duration-500 ease-in-out max-h-0 opacity-0",
+                        expandedSections.beach && "max-h-[500px] opacity-100 mt-4"
+                      )}>
+                        <p className="text-sm tracking-wider leading-relaxed">Dress like you've just stepped off the yacht you casually moored nearby: effortless, sun-kissed, and subtly fabulous. Floaty dresses, linen sets, vintage sunglasses, printed shirts, headscarves, raffia, pastels, playful accessories... it's a day for colour, charm, and looking like you didn't try too hard (even if you did).</p>
+                        <p className="text-sm tracking-wider leading-relaxed">Chic sandals & espadrilles are great, but barefoot dancing is even better</p>
+                      </div>
+                      <button 
+                        onClick={() => toggleSection('beach')}
+                        className="flex items-center gap-1 text-sm text-blue/60 hover:text-blue mt-2 transition-all duration-300"
+                      >
+                        See {expandedSections.beach ? 'less' : 'more'}
+                        <ChevronDown className={cn(
+                          "w-4 h-4 transition-transform duration-300 ease-in-out",
+                          expandedSections.beach && "transform rotate-180"
+                        )} />
+                      </button>
+                    </div>
                   </div>
                   <div className="mt-6">
                     {/* Dress Code Images Placeholder */}
