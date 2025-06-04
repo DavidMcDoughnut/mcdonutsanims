@@ -83,12 +83,12 @@ const config: Config = {
             transform: 'translateY(0)'
           },
         },
-        'fade-to-dim': {
+        'fade-to-transparent': {
           '0%': {
             opacity: '1'
           },
           '100%': {
-            opacity: '0.4'
+            opacity: '0'
           }
         },
         'content-fade-in': {
@@ -108,7 +108,8 @@ const config: Config = {
       },
       animation: {
         'fade-in-up': 'fade-in-up 1.5s cubic-bezier(0.2, 0, 0, 1) 1s forwards',
-        'fade-to-dim': 'fade-to-dim 1.5s ease-out 1s forwards',
+        'fade-in-up-delayed': 'fade-in-up 1.5s cubic-bezier(0.2, 0, 0, 1) 1.2s forwards',
+        'fade-to-transparent': 'fade-to-transparent 1.5s ease-out 1s forwards',
         'content-fade-in': 'content-fade-in 2s ease-out forwards',
         'fade-out-up': 'fade-out-up 0.3s ease-out forwards'
       },
