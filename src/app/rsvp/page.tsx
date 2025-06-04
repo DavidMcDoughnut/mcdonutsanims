@@ -827,9 +827,10 @@ export default function RSVPPage() {
                             />
 
                             <div className="text-sm text-pink font-medium pt-5">
-                              Optional Add-Ons:
+                              Optional Add-On:
                             </div>
 
+                            {/* Commenting out boat day option temporarily
                             <FormField
                               control={form.control}
                               name="events.boatDay"
@@ -855,6 +856,7 @@ export default function RSVPPage() {
                                 </FormItem>
                               )}
                             />
+                            */}
 
                             <FormField
                               control={form.control}
