@@ -1011,7 +1011,8 @@ export default function RSVPPage() {
                             name="allergies1"
                             render={({ field }: { field: FieldType }) => (
                               <FormItem>
-                                <FormLabel className="text-lg text-blue tracking-wider">Allergies</FormLabel>
+                                <FormLabel className="text-lg text-blue tracking-wider">Allergies </FormLabel>
+                                <span className="text-sm text-blue/80 italic"> Skip if none</span>
                                 <FormControl>
                                   <Input 
                                     placeholder="Guest 1" 
@@ -1103,7 +1104,7 @@ export default function RSVPPage() {
                       form="rsvp-form"
                       className="w-full bg-blue hover:bg-green text-white font-bold py-6 px-4 text-xl tracking-wider rounded-lg"
                     >
-                      Submit RSVP
+                      Submit RSVP!
                     </Button>
                   </div>
                 )}
